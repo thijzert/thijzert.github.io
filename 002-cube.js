@@ -2,6 +2,8 @@
 var canvas, gl, shaderProgram, programInfo, buffers;
 var width = 800, height = 480;
 
+var squareRotation = 0.0;
+
 var setup = function()
 {
 	canvas = document.getElementById("canvas");
@@ -28,7 +30,7 @@ var setup = function()
 	buffers = initBuffers( gl );
 };
 
-var draw = function()
+var draw = function( deltaTime )
 {
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 	gl.clearDepth( 1.0 );
@@ -46,6 +48,7 @@ var draw = function()
 
 	const modelViewMatrix = mat4.create();
 	mat4.translate( modelViewMatrix, modelViewMatrix, [ 0.0, 0.0, -6.0 ] );
+	mat4.rotate( modelViewMatrix, modelViewMatrix, squareRotation, [ 0.0, 0.0, 1.0 ] );
 
 	{
 		const numComponents = 2;
@@ -81,6 +84,8 @@ var draw = function()
 		const vertexCount = 4;
 		gl.drawArrays( gl.TRIANGLE_STRIP, offset, vertexCount );
 	}
+
+	squareRotation += deltaTime;
 };
 
 
@@ -182,13 +187,17 @@ var initBuffers = function( gl )
 {
 	setup();
 	var nextFrame = null;
+	var then = 0;
 
-	nextFrame = function()
+	nextFrame = function( now )
 	{
-		draw();
-		window.setTimeout( nextFrame, 1000/100 );
+		var deltaT = (now - then) * 0.001;
+		draw( deltaT );
+		then = now;
+
+		requestAnimationFrame( nextFrame );
 	};
-	nextFrame();
+	requestAnimationFrame( nextFrame );
 })();
 
 
