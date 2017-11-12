@@ -159,44 +159,56 @@ var loadShader = function( gl, type, source )
 	return shader;
 };
 
+var decide = function( face, min, max )
+{
+	var rv = ( face % 2 ? min : max );
+	if ( face <= 1 )
+		return { a:0, b:1, x:2, v:rv };
+	if ( face <= 3 )
+		return { a:0, b:2, x:1, v:rv };
+
+	return { a:1, b:2, x:0, v:rv };
+};
+
+var cubemesh = function( offset, min, max )
+{
+	var points = Array(72), indices = Array(36);
+	var o = 0;
+	for ( var face = 0; face < 6; face++ )
+	{
+		var d = decide(face, min, max);
+
+		var io = offset + face * 4;
+		var oo = face * 6;
+		indices[oo+0] = io; indices[oo+1] = io + 1; indices[oo+2] = io + 3;
+		indices[oo+3] = io; indices[oo+4] = io + 2; indices[oo+5] = io + 3;
+
+		points[o+d.a] = min;  points[o+d.b] = min;  points[o+d.x] = d.v;  o += 3;
+		points[o+d.a] = max;  points[o+d.b] = min;  points[o+d.x] = d.v;  o += 3;
+		points[o+d.a] = min;  points[o+d.b] = max;  points[o+d.x] = d.v;  o += 3;
+		points[o+d.a] = max;  points[o+d.b] = max;  points[o+d.x] = d.v;  o += 3;
+	}
+
+	return { positions: points, indices: indices };
+};
+
 var initBuffers = function( gl )
 {
-	const positions = [
-		// Front face
-		-1.0, -1.0,  1.0,
-		 1.0, -1.0,  1.0,
-		 1.0,  1.0,  1.0,
-		-1.0,  1.0,  1.0,
-		// Back face
-		-1.0, -1.0, -1.0,
-		-1.0,  1.0, -1.0,
-		 1.0,  1.0, -1.0,
-		 1.0, -1.0, -1.0,
-		// Top face
-		-1.0,  1.0, -1.0,
-		-1.0,  1.0,  1.0,
-		 1.0,  1.0,  1.0,
-		 1.0,  1.0, -1.0,
-		// Bottom face
-		-1.0, -1.0, -1.0,
-		 1.0, -1.0, -1.0,
-		 1.0, -1.0,  1.0,
-		-1.0, -1.0,  1.0,
-		// Right face
-		 1.0, -1.0, -1.0,
-		 1.0,  1.0, -1.0,
-		 1.0,  1.0,  1.0,
-		 1.0, -1.0,  1.0,
-		// Left face
-		-1.0, -1.0, -1.0,
-		-1.0, -1.0,  1.0,
-		-1.0,  1.0,  1.0,
-		-1.0,  1.0, -1.0,
-	];
+	var positions = [];
+	var indices = [];
+
+	var mesh = cubemesh( 0, -1.0, 1.0 );
+	positions = positions.concat( mesh.positions );
+	indices = indices.concat( mesh.indices );
+
 
 	const positionBuffer = gl.createBuffer();
 	gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW );
+
+	const indexBuffer = gl.createBuffer();
+	gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, indexBuffer );
+	gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW );
 
 	const faceColours = [
 		[ 1.0, 1.0, 1.0, 1.0 ],
@@ -219,18 +231,6 @@ var initBuffers = function( gl )
 	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(colours), gl.STATIC_DRAW );
 
 
-	const indices = [
-		0,  1,  2,     0,  2,  3,
-		4,  5,  6,     4,  6,  7,
-		8,  9,  10,    8,  10, 11,
-		12, 13, 14,    12, 14, 15,
-		16, 17, 18,    16, 18, 19,
-		20, 21, 22,    20, 22, 23,
-	];
-
-	const indexBuffer = gl.createBuffer();
-	gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, indexBuffer );
-	gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW );
 
 	return {
 		position: positionBuffer,
