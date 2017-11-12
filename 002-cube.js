@@ -203,12 +203,12 @@ var cubemesh = function( size, position, indexOffset )
 var initBuffers = function( gl )
 {
 	const faceColours = [
-		[ 1.0, 1.0, 1.0, 1.0 ],
 		[ 1.0, 0.0, 0.0, 1.0 ],
+		[ 0.0, 1.0, 1.0, 1.0 ],
 		[ 0.0, 1.0, 0.0, 1.0 ],
+		[ 1.0, 0.0, 1.0, 1.0 ],
 		[ 0.0, 0.0, 1.0, 1.0 ],
 		[ 1.0, 1.0, 0.0, 1.0 ],
-		[ 1.0, 0.0, 1.0, 1.0 ],
 	];
 
 	var positions = [];
