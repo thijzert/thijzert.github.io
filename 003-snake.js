@@ -20,6 +20,21 @@ var setup = function()
 	ctx.fillRect( 0, 0, width, height );
 
 	snake = new Snake(new Grid(0,0), new Grid(1,0));
+
+	obstacles = [];
+	var x0 = width / (size*2);
+	var y0 = height / (size*2);
+
+	for ( var i = 0; (i*size) < width; i++ )
+	{
+		obstacles.push( new Obstacle( new Grid( i-x0, y0-1 ) ) );
+		obstacles.push( new Obstacle( new Grid( i-x0, -1*y0 ) ) );
+	}
+	for ( var i = 0; (i*size) < height; i++ )
+	{
+		obstacles.push( new Obstacle( new Grid( x0-1, i-y0 ) ) );
+		obstacles.push( new Obstacle( new Grid( -1*x0, i-y0 ) ) );
+	}
 };
 
 var draw = function( deltaT )
@@ -31,6 +46,11 @@ var draw = function( deltaT )
 	if ( currentTick >= gameTick )
 	{
 		update();
+	}
+
+	for ( var i = 0; i < obstacles.length; i++ )
+	{
+		obstacles[i].show();
 	}
 
 	snake.show();
@@ -83,6 +103,7 @@ class Snake
 		this.VelocityQueue = [];
 		this.Head = pos;
 		this.Tail = [ pos, pos ];
+		this.Dead = false;
 	}
 
 	update()
@@ -98,6 +119,20 @@ class Snake
 		}
 		var np = this.Head.add( this.Velocity );
 
+		for ( var i = 0; i < obstacles.length; i++ )
+		{
+			if ( obstacles[i].Position.eq( np ) )
+				this.Dead = true;
+		}
+		for ( var i = 0; i < this.Tail.length; i++ )
+		{
+			if ( this.Tail[i].eq( np ) )
+				this.Dead = true;
+		}
+
+		if ( this.Dead )
+			return;
+
 		for ( var i = this.Tail.length - 1; i >= 1; i-- )
 		{
 			this.Tail[i] = this.Tail[i-1];
@@ -108,7 +143,10 @@ class Snake
 
 	show()
 	{
-		ctx.fillStyle = "rgb( 214, 202, 163 )"
+		ctx.fillStyle = "rgb( 214, 202, 163 )";
+		if ( this.Dead )
+			ctx.fillStyle = "rgb( 188, 182, 164 )";
+
 		for ( var i = 0; i < this.Tail.length; i++ )
 		{
 			var c = this.Tail[i].absolute();
@@ -116,7 +154,24 @@ class Snake
 		}
 
 		ctx.fillStyle = "rgb( 216, 150, 85 )"
+		if ( this.Dead )
+			ctx.fillStyle = "rgb( 151, 124, 97 )";
 		var c = this.Head.absolute();
+		ctx.fillRect( c[0], c[1], size, size );
+	}
+}
+
+class Obstacle
+{
+	constructor( pos )
+	{
+		this.Position = pos;
+	}
+
+	show()
+	{
+		ctx.fillStyle = "rgb( 200, 200, 200 )"
+		var c = this.Position.absolute();
 		ctx.fillRect( c[0], c[1], size, size );
 	}
 }
