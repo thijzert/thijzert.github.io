@@ -86,10 +86,9 @@ var draw = function( deltaTime )
 
 	{
 		const offset = 0;
-		const vertexCount = 36;
+		const vertexCount = buffers.vertexCount;
 		const type = gl.UNSIGNED_SHORT;
 
-		//gl.drawArrays( gl.TRIANGLE_STRIP, offset, vertexCount );
 		gl.drawElements( gl.TRIANGLES, vertexCount, type, offset );
 	}
 
@@ -170,15 +169,16 @@ var decide = function( face, min, max )
 	return { a:1, b:2, x:0, v:rv };
 };
 
-var cubemesh = function( offset, min, max )
+var cubemesh = function( size, position, indexOffset )
 {
+	var min = -1.0 * size, max = size;
 	var points = Array(72), indices = Array(36);
 	var o = 0;
 	for ( var face = 0; face < 6; face++ )
 	{
 		var d = decide(face, min, max);
 
-		var io = offset + face * 4;
+		var io = indexOffset + face * 4;
 		var oo = face * 6;
 		indices[oo+0] = io; indices[oo+1] = io + 1; indices[oo+2] = io + 3;
 		indices[oo+3] = io; indices[oo+4] = io + 2; indices[oo+5] = io + 3;
@@ -189,27 +189,19 @@ var cubemesh = function( offset, min, max )
 		points[o+d.a] = max;  points[o+d.b] = max;  points[o+d.x] = d.v;  o += 3;
 	}
 
+	for ( var i = 0; i < 72; i+= 3 )
+	{
+		for ( var j = 0; j < 3; j++ )
+		{
+			points[i+j] += position[j];
+		}
+	}
+
 	return { positions: points, indices: indices };
 };
 
 var initBuffers = function( gl )
 {
-	var positions = [];
-	var indices = [];
-
-	var mesh = cubemesh( 0, -1.0, 1.0 );
-	positions = positions.concat( mesh.positions );
-	indices = indices.concat( mesh.indices );
-
-
-	const positionBuffer = gl.createBuffer();
-	gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
-	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW );
-
-	const indexBuffer = gl.createBuffer();
-	gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, indexBuffer );
-	gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW );
-
 	const faceColours = [
 		[ 1.0, 1.0, 1.0, 1.0 ],
 		[ 1.0, 0.0, 0.0, 1.0 ],
@@ -219,12 +211,42 @@ var initBuffers = function( gl )
 		[ 1.0, 0.0, 1.0, 1.0 ],
 	];
 
+	var positions = [];
+	var indices = [];
 	var colours = [];
-	for ( var j = 0; j < faceColours.length; j++ )
+
+	var x = 0.6, y = 0.6, z = 0.6;
+	for ( var i = 0; i < 2; i++ )
 	{
-		var c = faceColours[j];
-		colours = colours.concat( c, c, c, c );
+		for ( var j = 0; j < 2; j++ )
+		{
+			for ( var k = 0; k < 2; k++ )
+			{
+				var mesh = cubemesh( 0.3, [x, y, z], positions.length / 3 );
+				positions = positions.concat( mesh.positions );
+				indices = indices.concat( mesh.indices );
+
+				for ( var l = 0; l < faceColours.length; l++ )
+				{
+					var c = faceColours[l];
+					colours = colours.concat( c, c, c, c );
+				}
+
+				x *= -1.0;
+			}
+			y *= -1.0;
+		}
+		z *= -1.0;
 	}
+
+	const positionBuffer = gl.createBuffer();
+	gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
+	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW );
+
+	const indexBuffer = gl.createBuffer();
+	gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, indexBuffer );
+	gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW );
+
 
 	const colourBuffer = gl.createBuffer();
 	gl.bindBuffer( gl.ARRAY_BUFFER, colourBuffer );
@@ -236,6 +258,7 @@ var initBuffers = function( gl )
 		position: positionBuffer,
 		colour: colourBuffer,
 		indices: indexBuffer,
+		vertexCount: indices.length,
 	};
 };
 
