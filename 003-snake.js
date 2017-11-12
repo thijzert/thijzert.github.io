@@ -3,8 +3,10 @@ var canvas, ctx;
 var width = 800, height = 480;
 var size = 20;
 
-var gameTick = 0.2;
+var gameTick = 0.17;
 var currentTick = 0.0;
+
+var flashy;
 
 var snake;
 var obstacles;
@@ -19,6 +21,8 @@ var setup = function()
 	ctx = canvas.getContext("2d");
 	ctx.fillStyle = 'rgb( 20, 20, 20 )';
 	ctx.fillRect( 0, 0, width, height );
+
+	flashy = 0;
 
 	fruit = [];
 	obstacles = [];
@@ -42,6 +46,11 @@ var setup = function()
 var draw = function( deltaT )
 {
 	ctx.fillStyle = 'rgb( 20, 20, 20 )';
+
+	flashy *= -1;
+	if ( flashy == 1 )
+		ctx.fillStyle = 'rgb( 60, 60, 30 )';
+
 	ctx.fillRect( 0, 0, width, height );
 
 	currentTick += deltaT;
@@ -65,6 +74,7 @@ var draw = function( deltaT )
 
 var update = function()
 {
+	flashy = 0;
 	currentTick -= gameTick;
 
 	var prob = 0.001;
@@ -140,6 +150,9 @@ class Snake
 		{
 			if ( fruit[i].Position.eq(np) )
 			{
+				if ( fruit[i].SpecialK )
+					flashy = 1;
+
 				var tt = this.Tail[this.Tail.length - 1];
 				this.Tail.push(tt);
 				this.Tail.push(tt);
@@ -211,11 +224,15 @@ class Fruit
 	constructor( pos )
 	{
 		this.Position = pos;
+		this.SpecialK = ( Math.random() < 0.3 );
 	}
 
 	show()
 	{
 		ctx.fillStyle = "rgb( 212, 132, 200 )";
+		if ( this.SpecialK )
+			ctx.fillStyle = "rgb( 94, 231, 234 )";
+
 		var c = this.Position.absolute();
 		ctx.beginPath();
 		ctx.arc( c[0] + size*0.5, c[1] + size*0.6, size * 0.34, 0, 2*Math.PI, true );
