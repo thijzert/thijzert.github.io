@@ -49,9 +49,11 @@ var draw = function( deltaTime )
 	const modelViewMatrix = mat4.create();
 	mat4.translate( modelViewMatrix, modelViewMatrix, [ 0.0, 0.0, -6.0 ] );
 	mat4.rotate( modelViewMatrix, modelViewMatrix, squareRotation, [ 0.0, 0.0, 1.0 ] );
+	mat4.rotate( modelViewMatrix, modelViewMatrix, squareRotation * 0.7, [ 1.0, 0.0, 0.0 ] );
+	mat4.rotate( modelViewMatrix, modelViewMatrix, squareRotation * 0.2, [ 0.0, 1.0, 0.0 ] );
 
 	{
-		const numComponents = 2;
+		const numComponents = 3;
 		const type = gl.FLOAT;
 		const normalize = false;
 		const stride = 0;
@@ -79,10 +81,16 @@ var draw = function( deltaTime )
 
 	gl.uniformMatrix4fv( programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix );
 
+
+	gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, buffers.indices );
+
 	{
 		const offset = 0;
-		const vertexCount = 4;
-		gl.drawArrays( gl.TRIANGLE_STRIP, offset, vertexCount );
+		const vertexCount = 36;
+		const type = gl.UNSIGNED_SHORT;
+
+		//gl.drawArrays( gl.TRIANGLE_STRIP, offset, vertexCount );
+		gl.drawElements( gl.TRIANGLES, vertexCount, type, offset );
 	}
 
 	squareRotation += deltaTime;
@@ -154,30 +162,80 @@ var loadShader = function( gl, type, source )
 var initBuffers = function( gl )
 {
 	const positions = [
-		1.0, 1.0,
-		-1.0, 1.0,
-		1.0, -1.0,
-		-1.0, -1.0,
+		// Front face
+		-1.0, -1.0,  1.0,
+		 1.0, -1.0,  1.0,
+		 1.0,  1.0,  1.0,
+		-1.0,  1.0,  1.0,
+		// Back face
+		-1.0, -1.0, -1.0,
+		-1.0,  1.0, -1.0,
+		 1.0,  1.0, -1.0,
+		 1.0, -1.0, -1.0,
+		// Top face
+		-1.0,  1.0, -1.0,
+		-1.0,  1.0,  1.0,
+		 1.0,  1.0,  1.0,
+		 1.0,  1.0, -1.0,
+		// Bottom face
+		-1.0, -1.0, -1.0,
+		 1.0, -1.0, -1.0,
+		 1.0, -1.0,  1.0,
+		-1.0, -1.0,  1.0,
+		// Right face
+		 1.0, -1.0, -1.0,
+		 1.0,  1.0, -1.0,
+		 1.0,  1.0,  1.0,
+		 1.0, -1.0,  1.0,
+		// Left face
+		-1.0, -1.0, -1.0,
+		-1.0, -1.0,  1.0,
+		-1.0,  1.0,  1.0,
+		-1.0,  1.0, -1.0,
 	];
 
 	const positionBuffer = gl.createBuffer();
 	gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW );
 
-	const colours = [
-		1.0, 1.0, 1.0, 1.0,
-		1.0, 0.0, 0.0, 1.0,
-		0.0, 1.0, 0.0, 1.0,
-		0.0, 0.0, 1.0, 1.0,
+	const faceColours = [
+		[ 1.0, 1.0, 1.0, 1.0 ],
+		[ 1.0, 0.0, 0.0, 1.0 ],
+		[ 0.0, 1.0, 0.0, 1.0 ],
+		[ 0.0, 0.0, 1.0, 1.0 ],
+		[ 1.0, 1.0, 0.0, 1.0 ],
+		[ 1.0, 0.0, 1.0, 1.0 ],
 	];
+
+	var colours = [];
+	for ( var j = 0; j < faceColours.length; j++ )
+	{
+		var c = faceColours[j];
+		colours = colours.concat( c, c, c, c );
+	}
 
 	const colourBuffer = gl.createBuffer();
 	gl.bindBuffer( gl.ARRAY_BUFFER, colourBuffer );
 	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(colours), gl.STATIC_DRAW );
 
+
+	const indices = [
+		0,  1,  2,     0,  2,  3,
+		4,  5,  6,     4,  6,  7,
+		8,  9,  10,    8,  10, 11,
+		12, 13, 14,    12, 14, 15,
+		16, 17, 18,    16, 18, 19,
+		20, 21, 22,    20, 22, 23,
+	];
+
+	const indexBuffer = gl.createBuffer();
+	gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, indexBuffer );
+	gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW );
+
 	return {
 		position: positionBuffer,
 		colour: colourBuffer,
+		indices: indexBuffer,
 	};
 };
 
