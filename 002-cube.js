@@ -18,6 +18,7 @@ var setup = function()
 		program: shaderProgram,
 		attribLocations: {
 			vertexPosition: gl.getAttribLocation( shaderProgram, 'aVertexPosition' ),
+			vertexColour: gl.getAttribLocation( shaderProgram, 'aVertexColour' ),
 		},
 		uniformLocations: {
 			projectionMatrix: gl.getUniformLocation( shaderProgram, 'uProjectionMatrix' ),
@@ -57,6 +58,17 @@ var draw = function()
 		gl.vertexAttribPointer( programInfo.attribLocations.vertexPosition, numComponents, type, normalize, stride, offset );
 		gl.enableVertexAttribArray( programInfo.attribLocations.vertexPosition );
 	}
+	{
+		const numComponents = 4;
+		const type = gl.FLOAT;
+		const normalize = false;
+		const stride = 0;
+		const offset = 0;
+
+		gl.bindBuffer( gl.ARRAY_BUFFER, buffers.colour );
+		gl.vertexAttribPointer( programInfo.attribLocations.vertexColour, numComponents, type, normalize, stride, offset );
+		gl.enableVertexAttribArray( programInfo.attribLocations.vertexColour );
+	}
 
 	gl.useProgram( programInfo.program );
 
@@ -77,19 +89,25 @@ var draw = function()
 // Vertex shader
 const vsSource = `
 	attribute vec4 aVertexPosition;
+	attribute vec4 aVertexColour;
 
 	uniform mat4 uModelViewMatrix;
 	uniform mat4 uProjectionMatrix;
 
+	varying lowp vec4 vColour;
+
 	void main() {
 		gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+		vColour = aVertexColour;
 	}
 `;
 
 // Fragment shader
 const fsSource = `
+	varying lowp vec4 vColour;
+
 	void main() {
-		gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );
+		gl_FragColor = vColour;
 	}
 `;
 
@@ -130,10 +148,6 @@ var loadShader = function( gl, type, source )
 
 var initBuffers = function( gl )
 {
-	const positionBuffer = gl.createBuffer();
-
-	gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
-
 	const positions = [
 		1.0, 1.0,
 		-1.0, 1.0,
@@ -141,10 +155,24 @@ var initBuffers = function( gl )
 		-1.0, -1.0,
 	];
 
+	const positionBuffer = gl.createBuffer();
+	gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
 	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW );
+
+	const colours = [
+		1.0, 1.0, 1.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,
+		0.0, 1.0, 0.0, 1.0,
+		0.0, 0.0, 1.0, 1.0,
+	];
+
+	const colourBuffer = gl.createBuffer();
+	gl.bindBuffer( gl.ARRAY_BUFFER, colourBuffer );
+	gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(colours), gl.STATIC_DRAW );
 
 	return {
 		position: positionBuffer,
+		colour: colourBuffer,
 	};
 };
 
