@@ -3,6 +3,7 @@ var canvas, gl, shaderProgram, programInfo, buffers;
 var width = 800, height = 480;
 
 var squareRotation = 0.0;
+var mengerLevel;
 
 var setup = function()
 {
@@ -32,6 +33,13 @@ var setup = function()
 
 var draw = function( deltaTime )
 {
+	var newMengerLevel = Number.parseInt( document.getElementById("MengerLevel").value, 10 );
+	if ( newMengerLevel != mengerLevel )
+	{
+		mengerLevel = newMengerLevel;
+		buffers = initBuffers( gl );
+	}
+
 	gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 	gl.clearDepth( 1.0 );
 	gl.enable( gl.DEPTH_TEST );
@@ -171,8 +179,17 @@ var decide = function( face, min, max )
 
 var cubemesh = function( size, position, indexOffset )
 {
+	const faceColours = [
+		1.0, 0.0, 0.0, 1.0,
+		0.0, 1.0, 1.0, 1.0,
+		0.0, 1.0, 0.0, 1.0,
+		1.0, 0.0, 1.0, 1.0,
+		0.0, 0.0, 1.0, 1.0,
+		1.0, 1.0, 0.0, 1.0,
+	];
+
 	var min = -1.0 * size, max = size;
-	var points = Array(72), indices = Array(36);
+	var points = Array(72), indices = Array(36), colours = Array(96);
 	var o = 0;
 	for ( var face = 0; face < 6; face++ )
 	{
@@ -187,6 +204,14 @@ var cubemesh = function( size, position, indexOffset )
 		points[o+d.a] = max;  points[o+d.b] = min;  points[o+d.x] = d.v;  o += 3;
 		points[o+d.a] = min;  points[o+d.b] = max;  points[o+d.x] = d.v;  o += 3;
 		points[o+d.a] = max;  points[o+d.b] = max;  points[o+d.x] = d.v;  o += 3;
+
+		for ( var i = 0; i < 4; i++ )
+		{
+			for ( var j = 0; j < 4; j++ )
+			{
+				colours[16*face + 4*i + j] = faceColours[face*4 + j];
+			}
+		}
 	}
 
 	for ( var i = 0; i < 72; i+= 3 )
@@ -197,47 +222,60 @@ var cubemesh = function( size, position, indexOffset )
 		}
 	}
 
-	return { positions: points, indices: indices };
+	return { named: [ "a cube offset to " + indexOffset ], positions: points, indices: indices, colours: colours };
+};
+
+var mengermesh = function( level, size, position, indexOffset )
+{
+	if ( level <= 0 || isNaN(level) )
+	{
+		return cubemesh( size, position, indexOffset );
+	}
+
+	var named = [];
+	var points = [];
+	var indices = [];
+	var colours = [];
+
+	var newSize = size / 3.0;
+
+	for ( var i = -1; i < 2; i++ )
+	{
+		for ( var j = -1; j < 2; j++ )
+		{
+			for ( var k = -1; k < 2; k++ )
+			{
+				if (( i == 0 && j == 0 ) || ( i == 0 && k == 0 ) || ( j == 0 && k == 0 ))
+					continue;
+
+				var newpos = [
+					position[0] + 2*newSize*i,
+					position[1] + 2*newSize*j,
+					position[2] + 2*newSize*k,
+				]
+				newmesh = mengermesh( level - 1, newSize, newpos, indexOffset + (points.length/3) );
+
+				named = named.concat( newmesh.named );
+				points = points.concat( newmesh.positions );
+				indices = indices.concat( newmesh.indices );
+				colours = colours.concat( newmesh.colours );
+			}
+		}
+	}
+
+	return { named: named, positions: points, indices: indices, colours: colours };
 };
 
 var initBuffers = function( gl )
 {
-	const faceColours = [
-		[ 1.0, 0.0, 0.0, 1.0 ],
-		[ 0.0, 1.0, 1.0, 1.0 ],
-		[ 0.0, 1.0, 0.0, 1.0 ],
-		[ 1.0, 0.0, 1.0, 1.0 ],
-		[ 0.0, 0.0, 1.0, 1.0 ],
-		[ 1.0, 1.0, 0.0, 1.0 ],
-	];
-
 	var positions = [];
 	var indices = [];
 	var colours = [];
 
-	var x = 0.6, y = 0.6, z = 0.6;
-	for ( var i = 0; i < 2; i++ )
-	{
-		for ( var j = 0; j < 2; j++ )
-		{
-			for ( var k = 0; k < 2; k++ )
-			{
-				var mesh = cubemesh( 0.3, [x, y, z], positions.length / 3 );
-				positions = positions.concat( mesh.positions );
-				indices = indices.concat( mesh.indices );
-
-				for ( var l = 0; l < faceColours.length; l++ )
-				{
-					var c = faceColours[l];
-					colours = colours.concat( c, c, c, c );
-				}
-
-				x *= -1.0;
-			}
-			y *= -1.0;
-		}
-		z *= -1.0;
-	}
+	var mesh = mengermesh( mengerLevel, 1.0, [0.0, 0.0, 0.0], positions.length / 3 );
+	positions = positions.concat( mesh.positions );
+	indices = indices.concat( mesh.indices );
+	colours = colours.concat( mesh.colours );
 
 	const positionBuffer = gl.createBuffer();
 	gl.bindBuffer( gl.ARRAY_BUFFER, positionBuffer );
