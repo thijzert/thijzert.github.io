@@ -6,3 +6,6 @@ Remember the Windows 3.11 screen saver? Basically that, but now it requires a 3G
 
 ## 2. [Rotating cube](002-cube.html)
 Experiment in WebGL. Will I be able to follow the tutorial? Let's find out together.
+
+## 3. [Snake](003-snake.html)
+The 1970's arcade classic.
