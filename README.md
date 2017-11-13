@@ -9,3 +9,6 @@ Experiment in WebGL. Will I be able to follow the tutorial? Let's find out toget
 
 ## 3. [Snake](003-snake.html)
 The 1970's arcade classic.
+
+## 4. [Raindrops](004-raindrops.html)
+Roses, whiskers on kittens, bright copper kettles, warm woolen mittens, and brown paper packages tied up with strings to be added later.
