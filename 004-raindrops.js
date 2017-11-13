@@ -6,7 +6,7 @@ var skyColour = "rgb( 134, 146, 153 )";
 var dropColour = "rgb( 88, 117, 132 )";
 var dropsize = 15;
 
-var speed = height * 2.0;
+var speed = height * 10.0;
 
 
 var drops;
@@ -24,7 +24,9 @@ var setup = function()
 	drops = [];
 	for ( var i = 0; i < 500; i++ )
 	{
-		drops.push( new Drop() );
+		var d = new Drop();
+		d.Z *= Math.random();
+		drops.push( d );
 	}
 };
 
@@ -59,7 +61,7 @@ class Drop
 		this.scale = 1 / (this.Y + 1);
 
 		this.X = (Math.random() - 0.5) * width / this.scale;
-		this.Z = (5.0*Math.random()) * height;
+		this.Z = 16.0 * height;
 	}
 
 	update( deltaT )
