@@ -1,6 +1,7 @@
 
 var canvas, ctx;
 var width = 800, height = 480;
+var currentlyPressed;
 
 var enemySpeed = width / 10.0;
 var enemyStages = [ 0.8, 0.35 ];
@@ -26,6 +27,7 @@ var setup = function()
 	bullets = [];
 
 	waveCounter = waveTime - 2.5;
+	currentlyPressed = { h: false, l: false };
 };
 
 var draw = function( deltaT )
@@ -95,7 +97,19 @@ class Player
 
 	update( deltaT )
 	{
+		if ( currentlyPressed.h && !currentlyPressed.l )
+			this.Velocity = -1;
+		else if ( !currentlyPressed.h && currentlyPressed.l )
+			this.Velocity = 1;
+		else
+			this.Velocity = 0;
+
 		this.X += this.Velocity * playerSpeed * deltaT;
+
+		if ( this.X < 40 )
+			this.X = 40;
+		if ( this.X > (width-40) )
+			this.X = width-40;
 	}
 }
 
@@ -172,7 +186,8 @@ class Bullet
 	{
 		// todo
 		ctx.strokeStyle = "rgb(200, 200, 200)"
-		ctx.strokeWidth = 7
+		ctx.lineWidth = 7
+		ctx.lineCap = "round";
 		ctx.beginPath();
 		ctx.moveTo( this.X, this.Y );
 		ctx.lineTo( this.X, this.Y + 30 );
@@ -185,6 +200,36 @@ class Bullet
 	}
 }
 
+window.addEventListener( "keydown", function(event)
+{
+	if ( event.defaultPrevented )
+		return;
+
+	switch ( event.key )
+	{
+		case "h":
+		case "l":
+			currentlyPressed[event.key] = true;
+			break;
+		case " ":
+			bullets.push( new Bullet( player.X, player.Y ) );
+			break;
+	}
+} );
+
+window.addEventListener( "keyup", function(event)
+{
+	if ( event.defaultPrevented )
+		return;
+
+	switch ( event.key )
+	{
+		case "h":
+		case "l":
+			currentlyPressed[event.key] = false;
+			break;
+	}
+} );
 
 (function()
 {
