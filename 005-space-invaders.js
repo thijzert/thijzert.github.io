@@ -91,6 +91,8 @@ var draw = function( deltaT )
 		for ( var i = bullets.length - 1; i >= 0; i-- )
 		{
 			bullets[i].update( deltaT );
+			if ( bullets[i].Y < -20 )
+				bullets.splice( i, 1 );
 		}
 
 		player.update( deltaT );
