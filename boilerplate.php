@@ -10,7 +10,7 @@ if ( empty($title) )
 
 $title = ucfirst($title);
 $name = str_replace(" ", "-", strtolower($title));
-$nr = count(glob("*.html")) + 1;
+$nr = count(glob("*-*.html")) + 1;
 $id = sprintf("%03d", $nr);
 
 
@@ -65,6 +65,9 @@ var draw = function( deltaT )
 	nextFrame = function( now )
 	{
 		var deltaT = (now - then) * 0.001;
+		if ( deltaT > 1.0 )
+			deltaT = 1.0;
+
 		draw( deltaT );
 		then = now;
 
