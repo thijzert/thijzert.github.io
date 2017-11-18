@@ -6,6 +6,7 @@ var currentlyPressed;
 var enemies, bullets, particles;
 
 var enemySpeed = width / 10.0;
+var enemyAcceleration = width / 600.0;
 var enemyStages = [ 0.8, 0.15 ];
 
 var playerSpeed = width / 3.0;
@@ -86,6 +87,12 @@ var draw = function( deltaT )
 {
 	ctx.fillStyle = 'rgb( 20, 20, 20 )';
 	ctx.fillRect( 0, 0, width, height );
+
+	var newSpeed = enemySpeed + enemyAcceleration * deltaT;
+	var f = newSpeed / enemySpeed;
+	enemyStages[0] /= f;
+	enemyStages[1] /= f;
+	enemySpeed = newSpeed;
 
 	if ( !player.Dead )
 	{
