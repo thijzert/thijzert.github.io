@@ -84,6 +84,8 @@ var draw = function( deltaT )
 		for ( var i = enemies.length - 1; i >= 0; i-- )
 		{
 			enemies[i].update( deltaT );
+			if ( enemies[i].Dead )
+				enemies.splice( i, 1 );
 		}
 
 		for ( var i = bullets.length - 1; i >= 0; i-- )
@@ -192,6 +194,7 @@ class Enemy
 		this.Y = y;
 		this.stage = 0;
 		this.stageCounter = 0.0;
+		this.Dead = false;
 
 		if ( type == 2 )
 		{
@@ -238,10 +241,24 @@ class Enemy
 			return;
 		}
 
-		// TODO: handle collision
+		var off = [ this.X - this.off[0], this.Y - this.off[1] ];
+		for ( var i = bullets.length - 1; i >= 0; i-- )
+		{
+			if ( this.Sprite.inside( bullets[i].X - off[0], bullets[i].Y - off[1] ) )
+			{
+				bullets.splice( i, 1 );
+				this.die();
+				break;
+			}
+		}
 
 		if ( this.Y >= height )
 			player.Dead = true;
+	}
+
+	die()
+	{
+		this.Dead = true;
 	}
 
 	innerUpdate( deltaT )
@@ -324,6 +341,30 @@ class Sprite
 				}
 			}
 		}
+	}
+
+	inside( x, y )
+	{
+		var epsilon = 0.4;
+
+		for ( var i = 0; i < this.spriteData.length; i++ )
+		{
+			for ( var j = 0; j < this.spriteData[i].length; j++ )
+			{
+				if ( this.spriteData[i].substr(j,1) == "x" )
+				{
+					if ( x >= spriteSize*j - epsilon && x <= spriteSize*(j+1) + epsilon )
+					{
+						if ( y >= spriteSize*i - epsilon && y <= spriteSize*(i+1) + epsilon )
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }
 
