@@ -3,6 +3,8 @@ var canvas, ctx;
 var width = 800, height = 480;
 var currentlyPressed;
 
+var enemies, bullets, particles;
+
 var enemySpeed = width / 10.0;
 var enemyStages = [ 0.8, 0.15 ];
 
@@ -14,6 +16,11 @@ var waveCounter;
 
 var sprites;
 var spriteSize = 7;
+
+var explosionSpeed = 150.0;
+var explosionGravity = 80.0;
+var explosionDrag = 0.8;
+var explosionDecay = 0.6;
 
 
 var setup = function()
@@ -69,6 +76,7 @@ var setup = function()
 	player = new Player();
 	enemies = [];
 	bullets = [];
+	particles = [];
 
 	waveCounter = waveTime - 0.5;
 	currentlyPressed = { h: false, l: false };
@@ -81,6 +89,13 @@ var draw = function( deltaT )
 
 	if ( !player.Dead )
 	{
+		for ( var i = particles.length - 1; i >= 0; i-- )
+		{
+			particles[i].update( deltaT );
+			if ( particles[i].Intensity < -1 )
+				particles.splice( i, 1 );
+		}
+
 		for ( var i = enemies.length - 1; i >= 0; i-- )
 		{
 			enemies[i].update( deltaT );
@@ -105,6 +120,10 @@ var draw = function( deltaT )
 		}
 	}
 
+	for ( var i = particles.length - 1; i >= 0; i-- )
+	{
+		particles[i].draw();
+	}
 	for ( var i = enemies.length - 1; i >= 0; i-- )
 	{
 		enemies[i].draw();
@@ -261,6 +280,7 @@ class Enemy
 	die()
 	{
 		this.Dead = true;
+		this.Sprite.explode( this.X - this.off[0], this.Y - this.off[1] );
 	}
 
 	innerUpdate( deltaT )
@@ -345,6 +365,20 @@ class Sprite
 		}
 	}
 
+	explode( x, y )
+	{
+		for ( var i = 0; i < this.spriteData.length; i++ )
+		{
+			for ( var j = 0; j < this.spriteData[i].length; j++ )
+			{
+				if ( this.spriteData[i].substr(j,1) == "x" )
+				{
+					particles.push( new SmokeParticle( x + spriteSize*(j+0.5), y + spriteSize*(i+0.5), spriteSize ) );
+				}
+			}
+		}
+	}
+
 	inside( x, y )
 	{
 		var epsilon = 0.4;
@@ -367,6 +401,50 @@ class Sprite
 		}
 
 		return false;
+	}
+}
+
+
+class SmokeParticle
+{
+	constructor( x, y, size )
+	{
+		this.X = x;
+		this.Y = y;
+		this.S = size;
+
+		var v = (0.2 + 0.8*Math.random()) * explosionSpeed;
+		var θ = 360 * Math.random();
+
+		this.Intensity = (0.8 + 0.2*Math.random())
+		this.Decay = (0.3 + 0.7*Math.random()*Math.random()) * explosionDecay;
+
+		this.V = [ v * Math.sin(θ), v * Math.cos(θ) ];
+	}
+
+	draw()
+	{
+		var s = Math.round( 256 * this.Intensity );
+		if ( s < 0 )    s = 0
+		if ( s > 255 )  s = 255;
+
+		ctx.fillStyle = "rgb("+s+","+s+","+s+")";
+		ctx.fillRect( this.X - this.S/2, this.Y - this.S/2, this.S, this.S );
+	}
+
+	update( deltaT )
+	{
+		var acc = [ 0, explosionGravity ];
+		acc[0] += this.V[0] * explosionDrag * -1;
+		acc[1] += this.V[1] * explosionDrag * -1;
+
+		this.V[0] += acc[0] * deltaT;
+		this.V[1] += acc[1] * deltaT;
+
+		this.X += this.V[0] * deltaT;
+		this.Y += this.V[1] * deltaT;
+
+		this.Intensity -= this.Decay * deltaT;
 	}
 }
 
