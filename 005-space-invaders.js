@@ -79,27 +79,37 @@ var draw = function( deltaT )
 	ctx.fillStyle = 'rgb( 20, 20, 20 )';
 	ctx.fillRect( 0, 0, width, height );
 
+	if ( !player.Dead )
+	{
+		for ( var i = enemies.length - 1; i >= 0; i-- )
+		{
+			enemies[i].update( deltaT );
+		}
+
+		for ( var i = bullets.length - 1; i >= 0; i-- )
+		{
+			bullets[i].update( deltaT );
+		}
+
+		player.update( deltaT );
+
+		waveCounter += deltaT;
+		if ( waveCounter >= waveTime )
+		{
+			waveCounter -= waveTime;
+			wave();
+		}
+	}
+
 	for ( var i = enemies.length - 1; i >= 0; i-- )
 	{
-		enemies[i].update( deltaT );
 		enemies[i].draw();
 	}
-
 	for ( var i = bullets.length - 1; i >= 0; i-- )
 	{
-		bullets[i].update( deltaT );
 		bullets[i].draw();
 	}
-
-	player.update( deltaT );
 	player.draw();
-
-	waveCounter += deltaT;
-	if ( waveCounter >= waveTime )
-	{
-		waveCounter -= waveTime;
-		wave();
-	}
 };
 
 
@@ -143,11 +153,16 @@ class Player
 		this.Y = height - sprites.player.size()[1];
 		this.xoff = sprites.player.size()[0] / -2;
 		this.Velocity = 0.0;
+		this.Dead = false;
 	}
 
 	draw()
 	{
 		ctx.fillStyle = "rgb(200, 200, 40)";
+		if ( this.Dead )
+		{
+			ctx.fillStyle = "rgb( 146, 147, 147 )";
+		}
 		sprites.player.draw( this.X + this.xoff, this.Y );
 	}
 
@@ -192,7 +207,7 @@ class Enemy
 		}
 
 		this.off = this.Sprite.size();
-		this.off = [ this.off[0] / 2, this.off[1] / 2 ];
+		this.off[0] /= 2;
 	}
 
 	draw()
@@ -224,6 +239,9 @@ class Enemy
 		}
 
 		// TODO: handle collision
+
+		if ( this.Y >= height )
+			player.Dead = true;
 	}
 
 	innerUpdate( deltaT )
