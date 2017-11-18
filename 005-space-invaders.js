@@ -130,15 +130,15 @@ var wave = function()
 		if ( j == 4 )      t = 2;
 		else if ( j >= 2 ) t = 1;
 
-		var e = new Enemy( x, -1*Y, t );
-		Y += e.Sprite.size()[1] + enemySpacing;
-
 		for ( var i = 0; i < enemiesX; i++ )
 		{
 			var x = enemyMargin + (0.5*enemyWidth) + i*spacingX;
 
 			enemies.push( new Enemy( x, -1*Y, t ) );
 		}
+
+		var e = new Enemy( x, -1*Y, t );
+		Y += e.Sprite.size()[1] + enemySpacing;
 	}
 };
 
@@ -193,11 +193,11 @@ class Enemy
 		this.stage = 0;
 		this.stageCounter = 0.0;
 
-		if ( this.Type == 2 )
+		if ( type == 2 )
 		{
 			this.Sprite = sprites.enemyC;
 		}
-		else if ( this.Type == 1 )
+		else if ( type == 1 )
 		{
 			this.Sprite = sprites.enemyB;
 		}
