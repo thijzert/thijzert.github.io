@@ -4,6 +4,7 @@ var width = 400, height = 400;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
+var previewCharacter;
 
 var setup = function()
 {
@@ -18,6 +19,7 @@ var setup = function()
 	pendown = false;
 
 	strokes = [];
+	previewCharacter = "\u4F60"
 
 	redraw();
 };
@@ -61,6 +63,16 @@ var redraw = function()
 	ctx.stroke();
 
 	ctx.setLineDash([]);
+
+
+	if ( previewCharacter != "" )
+	{
+		ctx.fillStyle = "rgba( 80, 80, 80, 0.3 )";
+		ctx.font = (height/2) + "px serif";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.fillText( previewCharacter, width/2, height/1.85 );
+	}
 
 
 	ctx.strokeStyle = "rgb( 50, 50, 50 )";
