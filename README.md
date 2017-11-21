@@ -15,3 +15,6 @@ Roses, whiskers on kittens, bright copper kettles, warm woolen mittens, and brow
 
 ## 5. [Space Invaders](005-space-invaders.html)
 Another arcade classic.  #MeToo
+
+## 6. [Paint](006-paint.html)
+Paint on a canvas.
