@@ -2,6 +2,8 @@
 var canvas, ctx;
 var width = 400, height = 400;
 
+var strokeDescription;
+
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
 var previewCharacter;
@@ -20,6 +22,9 @@ var setup = function()
 
 	strokes = [];
 	previewCharacter = "\u4F60"
+
+	strokeDescription = document.createElement("PRE");
+	document.getElementById("summary").appendChild(strokeDescription);
 
 	redraw();
 };
@@ -74,9 +79,17 @@ var redraw = function()
 		ctx.fillText( previewCharacter, width/2, height/1.85 );
 	}
 
+	if ( strokes.length == 0 )
+	{
+		strokeDescription.textContent = "";
+		return;
+	}
+
 
 	ctx.strokeStyle = "rgb( 50, 50, 50 )";
 	ctx.lineWidth = 8;
+
+	var full_description = "";
 
 	for ( var i = 0; i < strokes.length; i++ )
 	{
@@ -85,14 +98,36 @@ var redraw = function()
 		ctx.beginPath();
 		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
 
-		for ( var j = 1; j < strokes[i].length; j++ )
+		var startSquare = null;
+
+		for ( var j = 0; j < strokes[i].length; j++ )
 		{
-			ctx.lineTo( strokes[i][j][0], strokes[i][j][1] );
-			ctx.moveTo( strokes[i][j][0], strokes[i][j][1] );
+			var x = strokes[i][j][0], y = strokes[i][j][1];
+
+			if ( !startSquare )
+			{
+				var xx = Math.floor( 16 * x / width );
+				var yy = 15 - Math.floor( 16 * y / height );
+
+				if ( xx >= 4 && xx < 12 && yy >= 4 && yy < 12 )
+				{
+					startSquare = String.fromCharCode(65 + (xx-4)) + (yy-3);
+				}
+			}
+
+			if ( j >= 1 )
+			{
+				ctx.lineTo( x, y );
+				ctx.moveTo( x, y );
+			}
 		}
+
+		full_description += "\n" + startSquare;
 
 		ctx.stroke();
 	}
+
+	strokeDescription.textContent = full_description.substr(1);
 };
 
 var canvasPosition = function( e )
