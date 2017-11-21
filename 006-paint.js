@@ -99,6 +99,16 @@ var redraw = function()
 		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
 
 		var startSquare = null;
+		var direction = null, nextDirection = null, directionCounter = 0;
+		var strokeDirection = "";
+
+		var directionCountMax = strokes[i].length / 15;
+		if ( directionCountMax < 5 )  directionCountMax = 5;
+		if ( directionCountMax > 12 ) directionCountMax = 12;
+
+		var directionOffset = Math.round( strokes[i].length / 20 );
+		if ( directionOffset < 2 ) directionOffset = 2;
+		if ( directionOffset > 5 ) directionOffset = 5;
 
 		for ( var j = 0; j < strokes[i].length; j++ )
 		{
@@ -120,9 +130,30 @@ var redraw = function()
 				ctx.lineTo( x, y );
 				ctx.moveTo( x, y );
 			}
+
+			if ( j >= directionOffset )
+			{
+				var d = getDirection( strokes[i][j-directionOffset], strokes[i][j] );
+
+				if ( d != nextDirection )
+				{
+					directionCounter = 0;
+				}
+				else if ( nextDirection != direction )
+				{
+					directionCounter++;
+					if ( directionCounter > directionCountMax )
+					{
+						direction = d;
+						strokeDirection += d;
+						directionCounter = 0;
+					}
+				}
+				nextDirection = d;
+			}
 		}
 
-		full_description += "\n" + startSquare;
+		full_description += "\n" + startSquare + strokeDirection;
 
 		ctx.stroke();
 	}
@@ -141,6 +172,12 @@ var canvasPosition = function( e )
 		penpos[0] = ( e.clientX - bcr.x ) * ( width / bcr.width );
 		penpos[1] = ( e.clientY - bcr.y ) * ( height / bcr.height );
 	}
+};
+
+var getDirection = function( a, b )
+{
+	var clock = Math.round( 12 * Math.atan2( b[0]-a[0], b[1]-a[1] ) / (Math.PI*2) );
+	return String.fromCharCode( 97 + (((5 - clock)+144) % 12) );
 };
 
 
