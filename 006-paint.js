@@ -21,10 +21,15 @@ var setup = function()
 	pendown = false;
 
 	strokes = [];
-	previewCharacter = "\u4F60"
+	previewCharacter = "\u597D"
 
 	strokeDescription = document.createElement("PRE");
 	document.getElementById("summary").appendChild(strokeDescription);
+	strokeCharacter = document.createElement("DIV");
+	strokeCharacter.style.fontSize = "30px";
+	strokeCharacter.style.fontFamily = "serif";
+	strokeCharacter.style.textAlign = "center";
+	document.getElementById("summary").appendChild(strokeCharacter);
 
 	redraw();
 };
@@ -82,6 +87,7 @@ var redraw = function()
 	if ( strokes.length == 0 )
 	{
 		strokeDescription.textContent = "";
+		strokeCharacter.textContent = "";
 		return;
 	}
 
@@ -90,6 +96,7 @@ var redraw = function()
 	ctx.lineWidth = 8;
 
 	var full_description = "";
+	var charStroke = [];
 
 	for ( var i = 0; i < strokes.length; i++ )
 	{
@@ -153,12 +160,27 @@ var redraw = function()
 			}
 		}
 
-		full_description += "\n" + startSquare + strokeDirection;
+		if ( !startSquare )
+		{
+			full_description += "\n" + startSquare + strokeDirection;
+			charStroke.push( startSquare + strokeDirection );
 
-		ctx.stroke();
+			ctx.stroke();
+		}
+		else
+		{
+			// TODO: delete this one
+		}
 	}
 
 	strokeDescription.textContent = full_description.substr(1);
+	strokeCharacter.textContent = "";
+
+	var character = LookupCharacter( charStroke );
+	if ( character )
+	{
+		strokeCharacter.textContent = character.glyph;
+	}
 };
 
 var canvasPosition = function( e )
@@ -230,6 +252,36 @@ window.addEventListener( "keydown", function(e)
 	};
 });
 
+
+var characterDatabase = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+var RegisterCharacter = function( glyph, stroke, descriptions )
+{
+	stroke = stroke.trim().split(/ +/);
+	characterDatabase[stroke.length].push({
+		glyph: glyph,
+		stroke: stroke,
+		descriptions: descriptions
+	});
+};
+
+var LookupCharacter = function( stroke )
+{
+	//stroke = stroke.trim().split(/ +/);
+	var jstr = stroke.join("");
+
+	if ( ! stroke.length in characterDatabase )
+		return null;
+
+	for ( var i = 0; i < characterDatabase[stroke.length].length; i++ )
+	{
+		if ( characterDatabase[stroke.length][i].stroke.join("") == jstr )
+			return characterDatabase[stroke.length][i];
+	}
+
+	// TODO: fuzzy finding
+
+	return null;
+};
 
 
 
