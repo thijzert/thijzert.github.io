@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Paint</title>
+		<style>
+			#canvas
+			{
+				width: 100%;
+			}
+			@media screen and (min-width: 600px)
+			{
+				body
+				{
+					display: grid;
+					grid-template-columns: repeat(3, 1fr);
+					grid-auto-rows: minmax(100px, auto);
+				}
+
+				#canvas
+				{
+					grid-column: 1;
+					grid-row: 1;
+					width: 100%;
+				}
+				#summary
+				{
+					grid-column: 2 / 4;
+					grid-row: 1;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<div id="summary"></div>
+		<script src="006-paint.js"></script>
+		<script src="006-database.js"></script>
+	</body>
+</html>
