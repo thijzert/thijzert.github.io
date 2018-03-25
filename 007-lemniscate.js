@@ -2,6 +2,8 @@
 var canvas, ctx;
 var width = 800, height = 300;
 
+var lsize = 0.3 * height;
+
 var setup = function()
 {
 	canvas = document.getElementById("canvas");
@@ -16,6 +18,7 @@ var setup = function()
 
 
 
+
 	ctx.fillStyle = 'rgb( 255, 255, 255 )';
 	ctx.fillRect( 0, 0, width, height );
 
@@ -23,27 +26,35 @@ var setup = function()
 	ctx.lineCap = "round";
 	ctx.strokeStyle = 'rgb( 60, 20, 20 )';
 
-	var a = Math.sqrt(2) * -1;
-
 	ctx.beginPath();
 
 	for ( var t = 0.0; t <= 2*Math.PI+0.03; t+=0.02 )
 	{
-		var s = Math.sin(t);
-		s = 1 / (s*s + 1);
-		var x = (a * Math.cos(t)) * s;
-		var y = (a * Math.cos(t)*Math.sin(t)) * s;
-
-		var absX = 0.5*width  + x*height/3;
-		var absY = 0.5*height + y*height/3;
+		var p = lemn( t );
 
 		if ( t == 0.0 )
-			ctx.moveTo( absX, absY );
+			ctx.moveTo( p[0], p[1] );
 		else
-			ctx.lineTo( absX, absY );
+			ctx.lineTo( p[0], p[1] );
 	}
 
 	ctx.stroke();
+};
+
+// The lemniscate curve
+var lemn = function(t)
+{
+	var st = Math.sin(t);
+	var ct = Math.cos(t);
+	var s = Math.sqrt(2) / (st*st + 1);
+
+	var x = ct * s
+	var y = ct*st * s;
+
+	return [
+		0.5*width  + x*lsize,
+		0.5*height - y*lsize
+	];
 };
 
 var draw = function( deltaT )
