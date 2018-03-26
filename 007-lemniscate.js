@@ -2,7 +2,7 @@
 var canvas, ctx;
 var width = 800, height = 300;
 
-var lsize = 0.3 * height;
+var lsize = 0.4 * height;
 
 var setup = function()
 {
@@ -23,38 +23,6 @@ var setup = function()
 	ctx.fillRect( 0, 0, width, height );
 
 
-	ctx.lineWidth = 6;
-	ctx.lineCap = "round";
-	ctx.strokeStyle = 'rgb( 10, 10, 80 )';
-
-	ctx.beginPath();
-	ctx.moveTo( 0, height );
-
-	for ( var s = 0.0; s <= 1.0; s+= 0.01 )
-	{
-		var t = linv(s);
-		ctx.lineTo( width * s, height * (1-(t / (Math.PI*2) )));
-	}
-
-	ctx.stroke();
-
-	ctx.beginPath();
-	ctx.moveTo( 0, linvprime(0) );
-
-	for ( var s = 0.0; s <= 1.0; s+= 0.01 )
-	{
-		var t = linvprime(s);
-		ctx.lineTo( width * s, height * (1-t) );
-	}
-
-	ctx.stroke();
-
-	ctx.lineWidth = 3;
-	ctx.lineCap = "round";
-	ctx.strokeStyle = 'rgb( 150, 70, 70 )';
-
-
-
 	ctx.lineWidth = 8;
 	ctx.lineCap = "round";
 	ctx.strokeStyle = 'rgb( 60, 20, 20 )';
@@ -72,6 +40,18 @@ var setup = function()
 	}
 
 	ctx.stroke();
+
+	ctx.strokeStyle = "";
+	ctx.fillColor = "#fff";
+	for ( var i = 0; i < 50; i++ )
+	{
+		var t = linv(i/50);
+		var p = lemn(t);
+		ctx.beginPath();
+		ctx.arc( p[0], p[1], 3, 0, Math.PI * 2, 0 );
+		ctx.closePath();
+		ctx.fill();
+	}
 };
 
 // The lemniscate curve
@@ -92,94 +72,13 @@ var lemn = function(t)
 
 
 // Inverse integrated lemiscate curve length.
-// TODO: direct formula
-var linv = (function()
+var linv = function( s )
 {
-	var npoints = 1000;
-	var points = new Array(npoints + 1);
-	var dmax = 0.0;
-	var dmin = Infinity;
+	// Values found through experimentation.
+	// Pragmaticism trumps a math degree for describing a function that's basically linear
 
-	var pl = lemn(0);
-	var total = 0.0;
-	points[0] = { s: 0.0, t: 0.0 };
-
-	for ( var i = 1; i <= npoints; i++ )
-	{
-		var t = Math.PI * 2 * i / npoints;
-		var pp = lemn(t);
-
-		var d = Math.sqrt( (pp[0]-pl[0])*(pp[0]-pl[0]) + (pp[1]-pl[1])*(pp[1]-pl[1]) );
-		total += d;
-		points[i] = { s: total, t: t, d: d };
-
-		if ( d > dmax )
-			dmax = d;
-		if ( d < dmin )
-			dmin = d;
-
-		pl[0] = pp[0];
-		pl[1] = pp[1];
-	}
-
-	for ( var i = 0; i <= npoints; i++ )
-	{
-		points[i].s /= total;
-	}
-
-	console.log(dmax,dmin,(dmax-dmin)/2, dmin + (dmax-dmin)/2);
-	console.log((dmax-dmin)/(2*dmax), (dmin + (dmax-dmin)/2)/dmax);
-	window.linvprime = (function( s )
-	{
-		s -= Math.floor(s);
-
-		// TODO: logarithmic search
-		for ( var i = 0; i < npoints; i++ )
-		{
-			if ( points[i].s < s )
-				continue;
-
-			// TODO: more-clever-than-linear interpolation
-			var d = points[i+1].s - points[i].s
-			if ( d > 0 )
-			{
-				d = ( s - points[i].s ) / d
-				return ( points[i].d*d + points[i+1].d*(1-d) ) / dmax;
-			}
-			else
-			{
-				return points[i].d / dmax;
-			}
-		}
-
-		return 1;
-	});
-	return (function( s )
-	{
-		s -= Math.floor(s);
-
-		// TODO: logarithmic search
-		for ( var i = 0; i < npoints; i++ )
-		{
-			if ( points[i].s < s )
-				continue;
-
-			// TODO: more-clever-than-linear interpolation
-			var d = points[i+1].s - points[i].s
-			if ( d > 0 )
-			{
-				d = ( s - points[i].s ) / d
-				return points[i].t*d + points[i+1].t*(1-d)
-			}
-			else
-			{
-				return points[i].t;
-			}
-		}
-
-		return Math.PI * 2;
-	});
-})();
+	return (-0.011653156703457948 * Math.sin(4*Math.PI*s) + s) * Math.PI * 2;
+};
 
 var draw = function( deltaT )
 {
