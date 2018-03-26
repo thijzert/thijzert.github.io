@@ -31,7 +31,7 @@ var setup = function()
 
 	for ( var t = 0.0; t <= 2*Math.PI+0.03; t+=0.02 )
 	{
-		var p = lemn( t );
+		var p = labs(lemn( t ));
 
 		if ( t == 0.0 )
 			ctx.moveTo( p[0], p[1] );
@@ -46,13 +46,14 @@ var setup = function()
 	for ( var i = 0; i < 50; i++ )
 	{
 		var t = linv(i/50);
-		var p = lemn(t);
+		var p = labs(lemn(t));
 		ctx.beginPath();
 		ctx.arc( p[0], p[1], 3, 0, Math.PI * 2, 0 );
 		ctx.closePath();
 		ctx.fill();
 	}
 };
+
 
 // The lemniscate curve
 var lemn = function(t)
@@ -61,15 +62,24 @@ var lemn = function(t)
 	var ct = Math.cos(t);
 	var s = Math.sqrt(2) / (st*st + 1);
 
-	var x = ct * s
-	var y = ct*st * s;
+	return [
+		ct * s,
+		ct*st * s
+	];
+};
+var labs = function( x, y )
+{
+	if ( x.length == 2 )
+	{
+		y = x[1];
+		x = x[0];
+	}
 
 	return [
 		0.5*width  + x*lsize,
 		0.5*height - y*lsize
 	];
 };
-
 
 // Inverse integrated lemiscate curve length.
 var linv = function( s )
