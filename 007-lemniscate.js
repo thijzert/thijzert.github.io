@@ -4,6 +4,8 @@ var width = 800, height = 300;
 
 var lsize = 0.4 * height;
 
+var particles;
+
 var setup = function()
 {
 	canvas = document.getElementById("canvas");
@@ -14,46 +16,73 @@ var setup = function()
 	ctx.fillStyle = 'rgb( 255, 255, 255 )';
 	ctx.fillRect( 0, 0, width, height );
 
+	particles = [];
+	for ( var i = 0; i < 7; i++ )
+	{
+		particles.push( new Particle( 0.61, -0.5-i*0.06 ) );
+	}
+};
 
-
-
-
-
+var draw = function( deltaT )
+{
 	ctx.fillStyle = 'rgb( 255, 255, 255 )';
 	ctx.fillRect( 0, 0, width, height );
 
 
-	ctx.lineWidth = 8;
-	ctx.lineCap = "round";
-	ctx.strokeStyle = 'rgb( 60, 20, 20 )';
-
-	ctx.beginPath();
-
-	for ( var t = 0.0; t <= 2*Math.PI+0.03; t+=0.02 )
+	for ( var i = 0; i < particles.length; i++ )
 	{
-		var p = labs(lemn( t ));
-
-		if ( t == 0.0 )
-			ctx.moveTo( p[0], p[1] );
-		else
-			ctx.lineTo( p[0], p[1] );
+		particles[i].update( deltaT );
 	}
 
-	ctx.stroke();
-
-	ctx.strokeStyle = "";
-	ctx.fillColor = "#fff";
-	for ( var i = 0; i < 50; i++ )
+	for ( var i = 0; i < particles.length; i++ )
 	{
-		var t = linv(i/50);
-		var p = labs(lemn(t));
-		ctx.beginPath();
-		ctx.arc( p[0], p[1], 3, 0, Math.PI * 2, 0 );
-		ctx.closePath();
-		ctx.fill();
+		particles[i].show( ctx );
 	}
 };
 
+
+
+class Particle
+{
+	constructor( s, t )
+	{
+		console.log(t);
+		this.T = t;
+		this.S = s;
+		this.A = linv(s);
+	}
+
+	update( deltaT )
+	{
+		if ( this.T < 0 )
+		{
+			this.T += deltaT
+			if ( this.T > 0 )
+				deltaT = this.T;
+		}
+
+		if ( this.T >= 0 )
+		{
+			var p = lemn(this.A);
+			var speed = 0.5 - 0.45*p[1];
+
+			this.S += speed * deltaT;
+			this.A = linv(this.S)
+		}
+	}
+
+	show( ctx )
+	{
+		ctx.fillStyle = "rgb( 20, 20, 80 )";
+		ctx.beginPath();
+
+		var p = labs(lemn(this.A));
+
+		ctx.arc( p[0], p[1], 6, 0, Math.PI * 2, 0 );
+		ctx.closePath();
+		ctx.fill();
+	}
+}
 
 // The lemniscate curve
 var lemn = function(t)
@@ -88,10 +117,6 @@ var linv = function( s )
 	// Pragmaticism trumps a math degree for describing a function that's basically linear
 
 	return (-0.011653156703457948 * Math.sin(4*Math.PI*s) + s) * Math.PI * 2;
-};
-
-var draw = function( deltaT )
-{
 };
 
 
