@@ -18,3 +18,6 @@ Another arcade classic.  #MeToo
 
 ## 6. [Handwriting](006-paint.html)
 Paint Chinese characters.
+
+## 7. [Lemniscate](007-lemniscate.html)
+Infinity time remaining.
