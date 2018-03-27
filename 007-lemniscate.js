@@ -46,7 +46,6 @@ class Particle
 {
 	constructor( s, t )
 	{
-		console.log(t);
 		this.T = t;
 		this.S = s;
 		this.A = linv(s);
@@ -64,9 +63,9 @@ class Particle
 		if ( this.T >= 0 )
 		{
 			var p = lemn(this.A);
-			var speed = 0.5 - 0.45*p[1];
+			var speed = 0.001 + 0.1*Math.sqrt(25*(1 - p[1]));
 
-			this.S += speed * deltaT;
+			this.S -= speed * deltaT;
 			this.A = linv(this.S)
 		}
 	}
