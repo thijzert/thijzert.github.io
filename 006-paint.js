@@ -160,7 +160,7 @@ var redraw = function()
 			}
 		}
 
-		if ( !startSquare )
+		if ( startSquare )
 		{
 			full_description += "\n" + startSquare + strokeDirection;
 			charStroke.push( startSquare + strokeDirection );
