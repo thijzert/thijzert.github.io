@@ -14,6 +14,7 @@ var setup = function()
 	canvas.height = height;
 	canvas.width = width;
 
+
 	ctx = canvas.getContext("2d");
 
 	penpos = [ width/2, height/2 ];
@@ -30,6 +31,16 @@ var setup = function()
 	strokeCharacter.style.fontFamily = "serif";
 	strokeCharacter.style.textAlign = "center";
 	document.getElementById("summary").appendChild(strokeCharacter);
+
+
+	canvas.addEventListener( "mousedown", mouseDown );
+	canvas.addEventListener( "mousemove", mouseMove );
+	window.addEventListener( "mouseup", mouseUp );
+
+	canvas.addEventListener( "touchstart", mouseDown );
+	canvas.addEventListener( "touchmove", mouseMove );
+	window.addEventListener( "touchend", mouseUp );
+	canvas.addEventListener( "touchcancel", function() { pendown = false; } );
 
 	redraw();
 };
@@ -194,6 +205,14 @@ var canvasPosition = function( e )
 		penpos[0] = ( e.clientX - bcr.x ) * ( width / bcr.width );
 		penpos[1] = ( e.clientY - bcr.y ) * ( height / bcr.height );
 	}
+	else if ( e.touches && e.touches.length > 0 )
+	{
+		canvasPosition( e.touches[0] );
+	}
+	else
+	{
+		console.log( e );
+	}
 };
 
 var getDirection = function( a, b )
@@ -203,7 +222,7 @@ var getDirection = function( a, b )
 };
 
 
-window.addEventListener( "mousemove", function(e)
+var mouseMove = function(e)
 {
 	canvasPosition( e );
 
@@ -220,22 +239,32 @@ window.addEventListener( "mousemove", function(e)
 
 		currentStroke.push( [ penpos[0], penpos[1] ] );
 	}
-} );
+};
 
-window.addEventListener( "mouseup", function(e)
+var mouseUp = function(e)
 {
-	pendown = false;
-	strokes.push(currentStroke);
-	redraw();
-});
-window.addEventListener( "mousedown", function(e)
+	if ( pendown )
+	{
+		pendown = false;
+		strokes.push(currentStroke);
+		redraw();
+	}
+};
+
+var mouseDown = function(e)
 {
+	canvasPosition( e );
+	if ( penpos[0] < 0 || penpos[0] > width
+		|| penpos[1] < 0 || penpos[1] > height )
+	{
+		return true;
+	}
+
 	pendown = true;
 	currentStroke = [];
 
-	canvasPosition( e );
 	currentStroke = [ [ penpos[0], penpos[1] ] ];
-});
+};
 
 window.addEventListener( "keydown", function(e)
 {
