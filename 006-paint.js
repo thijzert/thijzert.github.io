@@ -2,7 +2,7 @@
 var canvas, ctx;
 var width = 400, height = 400;
 
-var strokeDescription, textBox;
+var strokeDescription, textBox, studioBox, studioOutput;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
@@ -53,6 +53,31 @@ var setup = function()
 	strokeCharacter.addEventListener( "click", acceptChar );
 	strokeDescription.addEventListener( "click", strikeThat );
 
+
+	var studiocontainer = document.createElement("DIV");
+	studiocontainer.setAttribute( "class", "studio-container" );
+	if ( location.hash != "#create" )
+		studiocontainer.style.display = "none";
+
+	var bcc = document.createElement("DIV");
+	studiocontainer.appendChild(bcc);
+	bcc.innerHTML = "Create new: ";
+	studioBox = document.createElement("INPUT");
+	studioBox.setAttribute( "type", "text" );
+	studioBox.style.width = "2em";
+	studioBox.addEventListener( "change", redraw );
+	bcc.appendChild( studioBox );
+
+	bcc = document.createElement("DIV");
+	studiocontainer.appendChild(bcc);
+	studioOutput = document.createElement("INPUT");
+	studioOutput.setAttribute( "type", "text" );
+	studioOutput.style.width = "100%";
+	studioOutput.style.fontFamily = "Inconsolata, monospace";
+	bcc.appendChild( studioOutput );
+
+	document.getElementById("summary").appendChild(studiocontainer);
+
 	redraw();
 };
 
@@ -62,6 +87,15 @@ var draw = function( deltaT )
 
 var redraw = function()
 {
+	if ( studioBox && studioBox.value.length > 0 )
+	{
+		previewCharacter = studioBox.value.substr(0,1);
+	}
+	else
+	{
+		previewCharacter = "";
+	}
+
 	ctx.fillStyle = 'rgb( 255, 255, 255 )';
 	ctx.fillRect( 0, 0, width, height );
 
@@ -97,8 +131,8 @@ var redraw = function()
 	ctx.setLineDash([]);
 
 
-	var bgc = foundCharacter;
-	if ( bgc == "" )  bgc = previewCharacter;
+	var bgc = previewCharacter;
+	if ( bgc == "" )  bgc = foundCharacter;
 
 	if ( bgc != "" )
 	{
@@ -196,6 +230,14 @@ var redraw = function()
 		{
 			// TODO: delete this one
 		}
+	}
+
+	if ( previewCharacter != "" )
+	{
+		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
+		var str = JSON.stringify( charStroke.join( " " ) );
+		var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
+		studioOutput.value = "RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
 	}
 
 	strokeDescription.textContent = full_description.substr(1);
