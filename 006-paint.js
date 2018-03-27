@@ -2,11 +2,11 @@
 var canvas, ctx;
 var width = 400, height = 400;
 
-var strokeDescription;
+var strokeDescription, textBox;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
-var previewCharacter;
+var previewCharacter, foundCharacter;
 
 var setup = function()
 {
@@ -22,7 +22,8 @@ var setup = function()
 	pendown = false;
 
 	strokes = [];
-	previewCharacter = "\u597D"
+	previewCharacter = "";
+	foundCharacter = "";
 
 	strokeDescription = document.createElement("PRE");
 	document.getElementById("summary").appendChild(strokeDescription);
@@ -32,6 +33,13 @@ var setup = function()
 	strokeCharacter.style.textAlign = "center";
 	document.getElementById("summary").appendChild(strokeCharacter);
 
+	var textcontainer = document.createElement("DIV");
+	textcontainer.setAttribute( "class", "text-container" );
+
+	textBox = document.createElement("INPUT");
+	textBox.setAttribute( "type", "text" );
+	textcontainer.appendChild( textBox );
+	document.getElementById("summary").appendChild(textcontainer);
 
 	canvas.addEventListener( "mousedown", mouseDown );
 	canvas.addEventListener( "mousemove", mouseMove );
@@ -41,6 +49,9 @@ var setup = function()
 	canvas.addEventListener( "touchmove", mouseMove );
 	window.addEventListener( "touchend", mouseUp );
 	canvas.addEventListener( "touchcancel", function() { pendown = false; } );
+
+	strokeCharacter.addEventListener( "click", acceptChar );
+	strokeDescription.addEventListener( "click", strikeThat );
 
 	redraw();
 };
@@ -86,13 +97,16 @@ var redraw = function()
 	ctx.setLineDash([]);
 
 
-	if ( previewCharacter != "" )
+	var bgc = foundCharacter;
+	if ( bgc == "" )  bgc = previewCharacter;
+
+	if ( bgc != "" )
 	{
 		ctx.fillStyle = "rgba( 80, 80, 80, 0.3 )";
 		ctx.font = (height/2) + "px serif";
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.fillText( previewCharacter, width/2, height/1.85 );
+		ctx.fillText( bgc, width/2, height/1.85 );
 	}
 
 	if ( strokes.length == 0 )
@@ -190,7 +204,12 @@ var redraw = function()
 	var character = LookupCharacter( charStroke );
 	if ( character )
 	{
-		strokeCharacter.textContent = character.glyph;
+		foundCharacter = character.glyph;
+		strokeCharacter.textContent = foundCharacter;
+	}
+	else
+	{
+		foundCharacter = "";
 	}
 };
 
@@ -266,6 +285,23 @@ var mouseDown = function(e)
 	currentStroke = [ [ penpos[0], penpos[1] ] ];
 };
 
+var strikeThat = function()
+{
+	if ( strokes.length > 0 )
+		strokes.pop();
+	redraw();
+};
+
+var acceptChar = function()
+{
+	textBox.value += foundCharacter;
+	foundCharacter = "";
+
+	pendown = false;
+	strokes = [];
+	redraw();
+};
+
 window.addEventListener( "keydown", function(e)
 {
 	if ( e.defaultPrevented )
@@ -274,9 +310,10 @@ window.addEventListener( "keydown", function(e)
 	switch ( e.key )
 	{
 		case "Escape":
-			if ( strokes.length > 0 )
-				strokes.pop();
-			redraw();
+			strikeThat();
+			break;
+		case "Enter":
+			acceptChar();
 			break;
 	};
 });
