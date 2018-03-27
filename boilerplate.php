@@ -65,8 +65,8 @@ var draw = function( deltaT )
 	nextFrame = function( now )
 	{
 		var deltaT = (now - then) * 0.001;
-		if ( deltaT > 1.0 )
-			deltaT = 1.0;
+		if ( deltaT > 0.1 )
+			deltaT = 0.1;
 
 		draw( deltaT );
 		then = now;
