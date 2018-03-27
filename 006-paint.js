@@ -131,38 +131,12 @@ var redraw = function()
 	ctx.setLineDash([]);
 
 
-	var bgc = previewCharacter;
-	if ( bgc == "" )  bgc = foundCharacter;
-
-	if ( bgc != "" )
-	{
-		ctx.fillStyle = "rgba( 80, 80, 80, 0.3 )";
-		ctx.font = (height/2) + "px serif";
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.fillText( bgc, width/2, height/1.85 );
-	}
-
-	if ( strokes.length == 0 )
-	{
-		strokeDescription.textContent = "";
-		strokeCharacter.textContent = "";
-		return;
-	}
-
-
-	ctx.strokeStyle = "rgb( 50, 50, 50 )";
-	ctx.lineWidth = 8;
-
 	var full_description = "";
 	var charStroke = [];
 
 	for ( var i = 0; i < strokes.length; i++ )
 	{
 		if ( strokes[i].length == 0 )  continue;
-
-		ctx.beginPath();
-		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
 
 		var startSquare = null;
 		var direction = null, nextDirection = null, directionCounter = 0;
@@ -189,12 +163,6 @@ var redraw = function()
 				{
 					startSquare = String.fromCharCode(65 + (xx-4)) + (yy-3);
 				}
-			}
-
-			if ( j >= 1 )
-			{
-				ctx.lineTo( x, y );
-				ctx.moveTo( x, y );
 			}
 
 			if ( j >= directionOffset )
@@ -228,16 +196,10 @@ var redraw = function()
 		}
 		else
 		{
-			// TODO: delete this one
+			// Delete this one
+			strokes.splice(i,1);
+			i--;
 		}
-	}
-
-	if ( previewCharacter != "" )
-	{
-		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
-		var str = JSON.stringify( charStroke.join( " " ) );
-		var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
-		studioOutput.value = "RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
 	}
 
 	strokeDescription.textContent = full_description.substr(1);
@@ -253,6 +215,55 @@ var redraw = function()
 	{
 		foundCharacter = "";
 	}
+
+
+	var bgc = previewCharacter;
+	if ( bgc == "" )  bgc = foundCharacter;
+
+	if ( bgc != "" )
+	{
+		ctx.fillStyle = "rgba( 80, 80, 80, 0.3 )";
+		ctx.font = (height/2) + "px serif";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.fillText( bgc, width/2, height/1.85 );
+	}
+
+	if ( strokes.length == 0 )
+	{
+		strokeDescription.textContent = "";
+		strokeCharacter.textContent = "";
+		return;
+	}
+
+
+	ctx.strokeStyle = "rgb( 50, 50, 50 )";
+	ctx.lineWidth = 8;
+
+	for ( var i = 0; i < strokes.length; i++ )
+	{
+		if ( strokes[i].length == 0 )  continue;
+
+		ctx.beginPath();
+		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
+
+		for ( var j = 1; j < strokes[i].length; j++ )
+		{
+			ctx.lineTo( strokes[i][j][0], strokes[i][j][1] );
+		}
+
+		ctx.stroke();
+	}
+
+
+	if ( previewCharacter != "" )
+	{
+		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
+		var str = JSON.stringify( charStroke.join( " " ) );
+		var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
+		studioOutput.value = "RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
+	}
+
 };
 
 var canvasPosition = function( e )
