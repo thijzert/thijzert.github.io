@@ -2,17 +2,18 @@
 var canvas, ctx;
 var width = 400, height = 400;
 
-var strokeDescription;
+var strokeDescription, textBox, studioBox, studioOutput;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
-var previewCharacter;
+var previewCharacter, foundCharacter;
 
 var setup = function()
 {
 	canvas = document.getElementById("canvas");
 	canvas.height = height;
 	canvas.width = width;
+
 
 	ctx = canvas.getContext("2d");
 
@@ -21,7 +22,8 @@ var setup = function()
 	pendown = false;
 
 	strokes = [];
-	previewCharacter = "\u597D"
+	previewCharacter = "";
+	foundCharacter = "";
 
 	strokeDescription = document.createElement("PRE");
 	document.getElementById("summary").appendChild(strokeDescription);
@@ -30,6 +32,51 @@ var setup = function()
 	strokeCharacter.style.fontFamily = "serif";
 	strokeCharacter.style.textAlign = "center";
 	document.getElementById("summary").appendChild(strokeCharacter);
+
+	var textcontainer = document.createElement("DIV");
+	textcontainer.setAttribute( "class", "text-container" );
+
+	textBox = document.createElement("INPUT");
+	textBox.setAttribute( "type", "text" );
+	textcontainer.appendChild( textBox );
+	document.getElementById("summary").appendChild(textcontainer);
+
+	canvas.addEventListener( "mousedown", mouseDown );
+	canvas.addEventListener( "mousemove", mouseMove );
+	window.addEventListener( "mouseup", mouseUp );
+
+	canvas.addEventListener( "touchstart", mouseDown );
+	canvas.addEventListener( "touchmove", mouseMove );
+	window.addEventListener( "touchend", mouseUp );
+	canvas.addEventListener( "touchcancel", function() { pendown = false; } );
+
+	strokeCharacter.addEventListener( "click", acceptChar );
+	strokeDescription.addEventListener( "click", strikeThat );
+
+
+	var studiocontainer = document.createElement("DIV");
+	studiocontainer.setAttribute( "class", "studio-container" );
+	if ( location.hash != "#create" )
+		studiocontainer.style.display = "none";
+
+	var bcc = document.createElement("DIV");
+	studiocontainer.appendChild(bcc);
+	bcc.innerHTML = "Create new: ";
+	studioBox = document.createElement("INPUT");
+	studioBox.setAttribute( "type", "text" );
+	studioBox.style.width = "2em";
+	studioBox.addEventListener( "change", redraw );
+	bcc.appendChild( studioBox );
+
+	bcc = document.createElement("DIV");
+	studiocontainer.appendChild(bcc);
+	studioOutput = document.createElement("INPUT");
+	studioOutput.setAttribute( "type", "text" );
+	studioOutput.style.width = "100%";
+	studioOutput.style.fontFamily = "Inconsolata, monospace";
+	bcc.appendChild( studioOutput );
+
+	document.getElementById("summary").appendChild(studiocontainer);
 
 	redraw();
 };
@@ -40,6 +87,15 @@ var draw = function( deltaT )
 
 var redraw = function()
 {
+	if ( studioBox && studioBox.value.length > 0 )
+	{
+		previewCharacter = studioBox.value.substr(0,1);
+	}
+	else
+	{
+		previewCharacter = "";
+	}
+
 	ctx.fillStyle = 'rgb( 255, 255, 255 )';
 	ctx.fillRect( 0, 0, width, height );
 
@@ -75,35 +131,12 @@ var redraw = function()
 	ctx.setLineDash([]);
 
 
-	if ( previewCharacter != "" )
-	{
-		ctx.fillStyle = "rgba( 80, 80, 80, 0.3 )";
-		ctx.font = (height/2) + "px serif";
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.fillText( previewCharacter, width/2, height/1.85 );
-	}
-
-	if ( strokes.length == 0 )
-	{
-		strokeDescription.textContent = "";
-		strokeCharacter.textContent = "";
-		return;
-	}
-
-
-	ctx.strokeStyle = "rgb( 50, 50, 50 )";
-	ctx.lineWidth = 8;
-
 	var full_description = "";
 	var charStroke = [];
 
 	for ( var i = 0; i < strokes.length; i++ )
 	{
 		if ( strokes[i].length == 0 )  continue;
-
-		ctx.beginPath();
-		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
 
 		var startSquare = null;
 		var direction = null, nextDirection = null, directionCounter = 0;
@@ -132,12 +165,6 @@ var redraw = function()
 				}
 			}
 
-			if ( j >= 1 )
-			{
-				ctx.lineTo( x, y );
-				ctx.moveTo( x, y );
-			}
-
 			if ( j >= directionOffset )
 			{
 				var d = getDirection( strokes[i][j-directionOffset], strokes[i][j] );
@@ -160,7 +187,7 @@ var redraw = function()
 			}
 		}
 
-		if ( !startSquare )
+		if ( startSquare )
 		{
 			full_description += "\n" + startSquare + strokeDirection;
 			charStroke.push( startSquare + strokeDirection );
@@ -169,7 +196,9 @@ var redraw = function()
 		}
 		else
 		{
-			// TODO: delete this one
+			// Delete this one
+			strokes.splice(i,1);
+			i--;
 		}
 	}
 
@@ -179,8 +208,62 @@ var redraw = function()
 	var character = LookupCharacter( charStroke );
 	if ( character )
 	{
-		strokeCharacter.textContent = character.glyph;
+		foundCharacter = character.glyph;
+		strokeCharacter.textContent = foundCharacter;
 	}
+	else
+	{
+		foundCharacter = "";
+	}
+
+
+	var bgc = previewCharacter;
+	if ( bgc == "" )  bgc = foundCharacter;
+
+	if ( bgc != "" )
+	{
+		ctx.fillStyle = "rgba( 80, 80, 80, 0.3 )";
+		ctx.font = (height/2) + "px serif";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.fillText( bgc, width/2, height/1.85 );
+	}
+
+	if ( strokes.length == 0 )
+	{
+		strokeDescription.textContent = "";
+		strokeCharacter.textContent = "";
+		return;
+	}
+
+
+	ctx.strokeStyle = "rgb( 50, 50, 50 )";
+	ctx.lineWidth = 8;
+
+	for ( var i = 0; i < strokes.length; i++ )
+	{
+		if ( strokes[i].length == 0 )  continue;
+
+		ctx.beginPath();
+		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
+
+		for ( var j = 1; j < strokes[i].length; j++ )
+		{
+			ctx.lineTo( strokes[i][j][0], strokes[i][j][1] );
+		}
+
+		ctx.stroke();
+	}
+
+
+	if ( previewCharacter != "" )
+	{
+		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
+		var str = JSON.stringify( charStroke.join( " " ) );
+		var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
+		studioOutput.value = "RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
+	}
+
 };
 
 var canvasPosition = function( e )
@@ -194,6 +277,14 @@ var canvasPosition = function( e )
 		penpos[0] = ( e.clientX - bcr.x ) * ( width / bcr.width );
 		penpos[1] = ( e.clientY - bcr.y ) * ( height / bcr.height );
 	}
+	else if ( e.touches && e.touches.length > 0 )
+	{
+		canvasPosition( e.touches[0] );
+	}
+	else
+	{
+		console.log( e );
+	}
 };
 
 var getDirection = function( a, b )
@@ -203,7 +294,7 @@ var getDirection = function( a, b )
 };
 
 
-window.addEventListener( "mousemove", function(e)
+var mouseMove = function(e)
 {
 	canvasPosition( e );
 
@@ -220,22 +311,49 @@ window.addEventListener( "mousemove", function(e)
 
 		currentStroke.push( [ penpos[0], penpos[1] ] );
 	}
-} );
+};
 
-window.addEventListener( "mouseup", function(e)
+var mouseUp = function(e)
 {
-	pendown = false;
-	strokes.push(currentStroke);
-	redraw();
-});
-window.addEventListener( "mousedown", function(e)
+	if ( pendown )
+	{
+		pendown = false;
+		strokes.push(currentStroke);
+		redraw();
+	}
+};
+
+var mouseDown = function(e)
 {
+	canvasPosition( e );
+	if ( penpos[0] < 0 || penpos[0] > width
+		|| penpos[1] < 0 || penpos[1] > height )
+	{
+		return true;
+	}
+
 	pendown = true;
 	currentStroke = [];
 
-	canvasPosition( e );
 	currentStroke = [ [ penpos[0], penpos[1] ] ];
-});
+};
+
+var strikeThat = function()
+{
+	if ( strokes.length > 0 )
+		strokes.pop();
+	redraw();
+};
+
+var acceptChar = function()
+{
+	textBox.value += foundCharacter;
+	foundCharacter = "";
+
+	pendown = false;
+	strokes = [];
+	redraw();
+};
 
 window.addEventListener( "keydown", function(e)
 {
@@ -245,9 +363,10 @@ window.addEventListener( "keydown", function(e)
 	switch ( e.key )
 	{
 		case "Escape":
-			if ( strokes.length > 0 )
-				strokes.pop();
-			redraw();
+			strikeThat();
+			break;
+		case "Enter":
+			acceptChar();
 			break;
 	};
 });
@@ -264,25 +383,93 @@ var RegisterCharacter = function( glyph, stroke, descriptions )
 	});
 };
 
-var LookupCharacter = function( stroke )
+var LookupCharacter = (function()
 {
-	//stroke = stroke.trim().split(/ +/);
-	var jstr = stroke.join("");
-
-	if ( ! stroke.length in characterDatabase )
-		return null;
-
-	for ( var i = 0; i < characterDatabase[stroke.length].length; i++ )
+	// Difference in starting square
+	var sqdif = function( a, b )
 	{
-		if ( characterDatabase[stroke.length][i].stroke.join("") == jstr )
-			return characterDatabase[stroke.length][i];
-	}
+		var dx = a.charCodeAt(0) - b.charCodeAt(0);
+		var dy = a.charCodeAt(1) - b.charCodeAt(1);
 
-	// TODO: fuzzy finding
+		if ( dx == 0 )  return dy;
+		if ( dy == 0 )  return dx;
 
-	return null;
-};
+		return Math.sqrt( dx*dx + dy*dy );
+	};
 
+	// Difference in direction
+	var dirdif = function( a, b )
+	{
+		if ( a == "" )
+		{
+			if ( b == "" )
+				return 0;
+			return 1;
+		}
+		else if ( b == "" )
+			return 1;
+
+		var s0 = a.charCodeAt(0) - b.charCodeAt(0);
+		if ( s0 < 0 )  s0 *= -1;
+		s0 *= 0.3;
+
+		var s1a = dirdif( a.substr(1), b.substr(1) );
+		var s1b = s1a;
+		if ( a.length > b.length )
+			s1b = dirdif( a.substr(1), b );
+		else if ( b.length < a.length )
+			s1b = dirdif( a, b.substr(1) );
+
+		if ( s1b < s1a )
+			return s0 + s1b;
+		return s0 + s1a;
+	};
+
+
+	var sqrt = new Array(20);
+	for ( var i = 0; i < 20; i++ )
+		sqrt[i] = Math.sqrt(i);
+
+	var sdif = function( a, b )
+	{
+		var d0 = sqdif( a, b );
+		var d1 = dirdif( a.substr(2), b.substr(2) );
+		d1 /= sqrt[a.length];
+
+		return d0*0.4 + d1*1.1;
+	};
+
+	return (function( stroke )
+	{
+		//stroke = stroke.trim().split(/ +/);
+		var jstr = stroke.join("");
+
+		if ( ! stroke.length in characterDatabase )
+			return null;
+
+		var wiener = null;
+		var dmax = 1000.0;
+
+		for ( var i = 0; i < characterDatabase[stroke.length].length; i++ )
+		{
+			var d = 0.0;
+			for ( var j = 0; j < stroke.length; j++ )
+			{
+				d += sdif( characterDatabase[stroke.length][i].stroke[j], stroke[j] );
+
+				if ( d > dmax )  break;
+			}
+
+			if ( d < dmax )
+			{
+				wiener = characterDatabase[stroke.length][i];
+				dmax = d;
+			}
+		}
+
+		return wiener;
+	});
+})();
 
 
 (function()
