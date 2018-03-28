@@ -6,7 +6,7 @@ var strokeDescription, textBox, studioBox, studioOutput;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
-var previewCharacter, foundCharacter;
+var previewCharacter, foundCharacter, foundScore;
 
 var setup = function()
 {
@@ -247,7 +247,7 @@ var redraw = function()
 		ctx.beginPath();
 		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
 
-		for ( var j = 1; j < strokes[i].length; j++ )
+		for ( var j = 0; j < strokes[i].length; j++ )
 		{
 			ctx.lineTo( strokes[i][j][0], strokes[i][j][1] );
 		}
@@ -347,12 +347,16 @@ var strikeThat = function()
 
 var acceptChar = function()
 {
-	textBox.value += foundCharacter;
-	foundCharacter = "";
+	if ( foundCharacter != "" )
+	{
+		console.log( "Accepted character ", foundCharacter, " with score ", foundScore );
+		textBox.value += foundCharacter;
+		foundCharacter = "";
 
-	pendown = false;
-	strokes = [];
-	redraw();
+		pendown = false;
+		strokes = [];
+		redraw();
+	}
 };
 
 window.addEventListener( "keydown", function(e)
@@ -436,7 +440,7 @@ var LookupCharacter = (function()
 		var d1 = dirdif( a.substr(2), b.substr(2) );
 		d1 /= sqrt[a.length];
 
-		return d0*0.4 + d1*1.1;
+		return d0*0.2 + d1*0.9;
 	};
 
 	return (function( stroke )
@@ -466,6 +470,8 @@ var LookupCharacter = (function()
 				dmax = d;
 			}
 		}
+
+		foundScore = dmax;
 
 		return wiener;
 	});
