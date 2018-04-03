@@ -247,7 +247,7 @@ var redraw = function()
 		ctx.beginPath();
 		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
 
-		for ( var j = 1; j < strokes[i].length; j++ )
+		for ( var j = 0; j < strokes[i].length; j++ )
 		{
 			ctx.lineTo( strokes[i][j][0], strokes[i][j][1] );
 		}
