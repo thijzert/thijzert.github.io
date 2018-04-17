@@ -16,6 +16,7 @@ var setup = function()
 
 
 	hzp = new Hanzipad();
+	hzp.canvas = document.getElementById("alsoacanvas");
 	hzp.size = width / 2;
 	hzp.border = width / 4;
 
@@ -192,10 +193,13 @@ var redraw = function()
 		ctx.fillText( bgc, width/2, height/1.85 );
 	}
 
+	hzp.BackgroundGlyph = bgc;
+
 	if ( strokes.length == 0 )
 	{
 		strokeDescription.textContent = "";
 		strokeCharacter.textContent = "";
+		hzp.redraw();
 		return;
 	}
 
@@ -225,6 +229,8 @@ var redraw = function()
 		studioOutput.value = "RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
 	}
 
+
+	hzp.redraw();
 };
 
 var canvasPosition = function( e )
@@ -280,6 +286,15 @@ var mouseUp = function(e)
 	{
 		pendown = false;
 		strokes.push(currentStroke);
+
+		// Shift absolute coordinates to unit square
+		var shifted = [];
+		for ( var j = 0; j < currentStroke.length; j++ )
+		{
+			shifted.push( hzp.fromAbs( currentStroke[j] ) );
+		}
+		hzp._strokes.push(shifted);
+
 		redraw();
 	}
 };
@@ -303,6 +318,9 @@ var strikeThat = function()
 {
 	if ( strokes.length > 0 )
 		strokes.pop();
+	if ( hzp._strokes.length > 0 )
+		hzp._strokes.pop();
+
 	redraw();
 };
 

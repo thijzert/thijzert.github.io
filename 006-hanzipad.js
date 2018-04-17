@@ -6,12 +6,36 @@ class Hanzipad
 	{
 		this._size = 100;
 		this._border = 50;
+
+		this._canvas = null;
+		this._ctx = null;
+
+		this._strokes = [];
+
+
+		this.BackgroundGlyph = "";
+
+		this.Colours = {
+			Background: "#fff",
+			ChessSquares: "#f5f5f5",
+			Border: "#c8c8c8",
+			BackgroundGlyph: "rgba( 80, 80, 80, 0.3 )",
+			CurrentStroke: "#1e1e1e",
+			PreviousStrokes: "#323232"
+		};
 	}
 
 
 	set size( v )
 	{
 		this._size = v;
+		if ( this._canvas )
+		{
+			var s = 2*this._border + this._size;
+			this._canvas.height = s;
+			this._canvas.width = s;
+			this.redraw();
+		}
 	}
 	get size()
 	{
@@ -21,10 +45,28 @@ class Hanzipad
 	set border( v )
 	{
 		this._border = v;
+		if ( this._canvas )
+		{
+			var s = 2*this._border + this._size;
+			this._canvas.height = s;
+			this._canvas.width = s;
+			this.redraw();
+		}
 	}
 	get border()
 	{
 		return this._border;
+	}
+
+	set canvas( c )
+	{
+		this._ctx = c.getContext("2d");
+		this._canvas = c;
+		this.redraw();
+	}
+	get canvas()
+	{
+		return this._canvas;
 	}
 
 
@@ -150,6 +192,86 @@ class Hanzipad
 			return startSquare + strokeDirection;
 
 		return null;
+	}
+
+
+	/**
+	 * Redraw the Hanzipad component
+	 **/
+	redraw()
+	{
+		if ( !this._ctx )
+			return;
+
+		this._ctx.fillStyle = this.Colours.Background;
+		this._ctx.fillRect( 0, 0, this._size + 2*this._border, this._size + 2*this._border );
+
+		this._ctx.fillStyle = this.Colours.ChessSquares;
+
+		var b = this._border;
+		var s = this._size;
+		var x = this._size / 8;
+		for ( var i = 0; i < 8; i++ )
+		{
+			for ( var j = 0; j < 8; j++ )
+			{
+				if ( (i+j)%2 == 0 ) continue;
+				this._ctx.fillRect( b + i*x, b + j*x, x, x );
+			}
+		}
+
+		this._ctx.strokeStyle = this.Colours.Border;
+		this._ctx.lineWidth = 4;
+		this._ctx.lineCap = "round";
+
+		this._ctx.strokeRect( b, b, s, s );
+
+		this._ctx.beginPath();
+
+		x = 0.0615 * this._size;
+		this._ctx.setLineDash([ x, x ]);
+
+		this._ctx.moveTo( b, b );
+		this._ctx.lineTo( b+s, b+s );
+		this._ctx.moveTo( b+s, b );
+		this._ctx.lineTo( b, b+s );
+		this._ctx.stroke();
+
+		this._ctx.setLineDash([]);
+
+
+
+		if ( this.BackgroundGlyph != "" )
+		{
+			this._ctx.fillStyle = this.Colours.BackgroundGlyph;
+			this._ctx.font = s+"px serif";
+			this._ctx.textAlign = "center";
+			this._ctx.textBaseline = "middle";
+			this._ctx.fillText( this.BackgroundGlyph, s, 1.08*s );
+		}
+
+
+		this._ctx.strokeStyle = this.Colours.PreviousStrokes;
+		this._ctx.lineWidth = 8;
+
+		for ( var i = 0; i < this._strokes.length; i++ )
+		{
+			if ( this._strokes[i].length == 0 )  continue;
+
+			var prev = this.toAbs(this._strokes[i][0]);
+			var curr;
+			for ( var j = 1; j < this._strokes[i].length; j++ )
+			{
+				curr = this.toAbs(this._strokes[i][j]);
+
+				this._ctx.beginPath();
+				this._ctx.moveTo( prev[0], prev[1] );
+				this._ctx.lineTo( curr[0], curr[1] );
+				this._ctx.stroke();
+
+				prev = curr;
+			}
+		}
 	}
 }
 
