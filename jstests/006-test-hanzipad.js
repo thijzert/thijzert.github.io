@@ -151,7 +151,7 @@ describe( "Hanzipad", function()
 
 		it("should return a valid square for points on the board", function()
 		{
-			for ( var i = 0; i < 100; i++ )
+			for ( var i = 0; i < 10; i++ )
 			{
 				var x = Math.random();
 				var y = Math.random();
@@ -179,6 +179,42 @@ describe( "Hanzipad", function()
 
 				assert.notExists( sq.chessSquare( x, y ) );
 			}
+		});
+	});
+
+
+	describe( "#clockDirection", function()
+	{
+		describe( "cardinal directions should work", function()
+		{
+			var sq = new Hanzipad();
+
+			// Unit circle in positive orientation will start at the right (3 o'clock) and move counterclockwise.
+			var directions = ["c","b","a","l","k","j","i","h","g","f","e","d"]
+
+			it("in the ideal case", function()
+			{
+				for ( var i = 0; i < 12; i++ )
+				{
+					var t = i * Math.PI/6;
+					var x = Math.cos(t);
+					var y = Math.sin(t);
+
+					assert.equal( sq.clockDirection([0,0], [x,y]), directions[i] );
+				}
+			});
+
+			it("even when it's a bit fuzzy", function()
+			{
+				for ( var i = 0; i < 144; i++ )
+				{
+					var t = i * Math.PI/6 + (Math.random()-0.5)*Math.PI/6;
+					var x = Math.cos(t);
+					var y = Math.sin(t);
+
+					assert.equal( sq.clockDirection([0,0], [x,y]), directions[i % 12] );
+				}
+			});
 		});
 	});
 });
