@@ -143,55 +143,19 @@ var redraw = function()
 	{
 		if ( strokes[i].length == 0 )  continue;
 
-		var startSquare = null;
-		var direction = null, nextDirection = null, directionCounter = 0;
-		var strokeDirection = "";
-
-		var directionCountMax = strokes[i].length / 15;
-		if ( directionCountMax < 5 )  directionCountMax = 5;
-		if ( directionCountMax > 12 ) directionCountMax = 12;
-
-		var directionOffset = Math.round( strokes[i].length / 20 );
-		if ( directionOffset < 2 ) directionOffset = 2;
-		if ( directionOffset > 5 ) directionOffset = 5;
-
+		// Shift absolute coordinates to unit square
+		var shifted = [];
 		for ( var j = 0; j < strokes[i].length; j++ )
 		{
-			var x = strokes[i][j][0], y = strokes[i][j][1];
-
-			if ( !startSquare )
-			{
-				startSquare = hzp.chessSquareAbs( x, y );
-			}
-
-			if ( j >= directionOffset )
-			{
-				var d = getDirection( strokes[i][j-directionOffset], strokes[i][j] );
-
-				if ( d != nextDirection )
-				{
-					directionCounter = 0;
-				}
-				else if ( nextDirection != direction )
-				{
-					directionCounter++;
-					if ( directionCounter > directionCountMax )
-					{
-						direction = d;
-						strokeDirection += d;
-						directionCounter = 0;
-					}
-				}
-				nextDirection = d;
-			}
+			shifted.push( hzp.fromAbs( strokes[i][j] ) );
 		}
 
-		if ( startSquare )
-		{
-			full_description += "\n" + startSquare + strokeDirection;
-			charStroke.push( startSquare + strokeDirection );
+		var strokeCode = hzp.getStrokeCode(shifted);
 
-			ctx.stroke();
+		if ( strokeCode )
+		{
+			full_description += "\n" + strokeCode
+			charStroke.push( strokeCode );
 		}
 		else
 		{
