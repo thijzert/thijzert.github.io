@@ -1,0 +1,9 @@
+{
+	"scripts": {
+		"test": "mocha --recursive ./jstests"
+	},
+	"dependencies": {
+		"chai": "^4.1.2",
+		"mocha": "^5.1.0"
+	}
+}
