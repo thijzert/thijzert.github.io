@@ -246,7 +246,7 @@ class Hanzipad
 		}
 
 		this._ctx.strokeStyle = this.Colours.Border;
-		this._ctx.lineWidth = 4;
+		this._ctx.lineWidth = this._size * 0.02;
 		this._ctx.lineCap = "round";
 
 		this._ctx.strokeRect( b, b, s, s );
@@ -277,7 +277,7 @@ class Hanzipad
 
 
 		this._ctx.strokeStyle = this.Colours.PreviousStrokes;
-		this._ctx.lineWidth = 8;
+		this._ctx.lineWidth = this._size * 0.04;
 
 		for ( var i = 0; i < this._strokes.length; i++ )
 		{
@@ -362,8 +362,8 @@ class Hanzipad
 
 		if ( this._pendown )
 		{
-			this._ctx.strokeStyle = "rgb( 30, 30, 30 )";
-			this._ctx.lineWidth = 10;
+			this._ctx.strokeStyle = this.Colours.CurrentStroke;
+			this._ctx.lineWidth = this._size * 0.05;
 			this._ctx.lineCap = "round";
 
 			var lpa = this.toAbs( this._lastpos );
