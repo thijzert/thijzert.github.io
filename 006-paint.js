@@ -1,5 +1,5 @@
 
-var canvas, ctx;
+var canvas, ctx, hzp;
 var width = 400, height = 400;
 
 var strokeDescription, textBox, studioBox, studioOutput;
@@ -13,6 +13,11 @@ var setup = function()
 	canvas = document.getElementById("canvas");
 	canvas.height = height;
 	canvas.width = width;
+
+
+	hzp = new Hanzipad();
+	hzp.size = width / 2;
+	hzp.border = width / 4;
 
 
 	ctx = canvas.getContext("2d");
@@ -156,13 +161,7 @@ var redraw = function()
 
 			if ( !startSquare )
 			{
-				var xx = Math.floor( 16 * x / width );
-				var yy = 15 - Math.floor( 16 * y / height );
-
-				if ( xx >= 4 && xx < 12 && yy >= 4 && yy < 12 )
-				{
-					startSquare = String.fromCharCode(65 + (xx-4)) + (yy-3);
-				}
+				startSquare = hzp.chessSquareAbs( x, y );
 			}
 
 			if ( j >= directionOffset )
