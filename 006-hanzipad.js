@@ -247,7 +247,7 @@ class Hanzipad
 			this._ctx.font = s+"px serif";
 			this._ctx.textAlign = "center";
 			this._ctx.textBaseline = "middle";
-			this._ctx.fillText( this.BackgroundGlyph, s, 1.08*s );
+			this._ctx.fillText( this.BackgroundGlyph, b+0.5*s, b+0.58*s );
 		}
 
 
