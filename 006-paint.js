@@ -207,15 +207,13 @@ var redraw = function()
 	{
 		if ( strokes[i].length == 0 )  continue;
 
-		ctx.beginPath();
-		ctx.moveTo( strokes[i][0][0], strokes[i][0][1] );
-
-		for ( var j = 0; j < strokes[i].length; j++ )
+		for ( var j = 1; j < strokes[i].length; j++ )
 		{
+			ctx.beginPath();
+			ctx.moveTo( strokes[i][j-1][0], strokes[i][j-1][1] );
 			ctx.lineTo( strokes[i][j][0], strokes[i][j][1] );
+			ctx.stroke();
 		}
-
-		ctx.stroke();
 	}
 
 
