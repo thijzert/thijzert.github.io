@@ -103,6 +103,27 @@ RegisterCharacter( "\u9762", "A7c E7g B5f B6cfi C5f F5f D4c C3c B1c", [{sound: "
 
 
 // HSK 1 101-125:  叫名上干午礻视山出车矢匸阝院医三不他月先生
+RegisterCharacter( "\u4E09", "B7c B4c A1c", [{sound: "san1", eng: "three"}] );
+RegisterCharacter( "\u4E0A", "D8f D5c A1c", [{sound: "shang4", eng: "up; above"}] );
+RegisterCharacter( "\u4E0D", "A7c E7g D6f E5d", [{sound: "bu4", eng: "no; not"}] );
+RegisterCharacter( "\u4ED6", "C8g B6f C4bfi D7fcl F8f", [{sound: "ta1", eng: "he; him"}] );
+RegisterCharacter( "\u5148", "C7g B6c D8f A4c C4fh F4fcl", [{sound: "xian1", eng: "first"}] );
+RegisterCharacter( "\u51FA", "B7fc G7f D8f B4fc G4f", [{sound: "chu1", eng: "to go out"}] );
+RegisterCharacter( "\u5338", "A7c B7fc", [{sound: "xi3", eng: "to conceal"}] );
+RegisterCharacter( "\u533B", "A7c D7g C6c B4c E6fh E4d A7fc", [{sound: "yi1", eng: "doctor"}] );
+RegisterCharacter( "\u5348", "C8g B7c A4c E7f", [{sound: "wu3", eng: "noon"}] );
+RegisterCharacter( "\u53EB", "A7f A7cf A3c E7fb G7f", [{sound: "jiao4", eng: "to call"}] );
+RegisterCharacter( "\u540D", "D8h C7ch B6d C4f C4cf C1c", [{sound: "ming2", eng: "name"}] );
+RegisterCharacter( "\u5C71", "D8f A6fc G6f", [{sound: "shan1", eng: "mountain"}] );
+RegisterCharacter( "\u5E72", "B7c A4c D7f", [{sound: "gan1", eng: "dry"}] );
+RegisterCharacter( "\u6708", "B7fg B7cfi C5c C3c", [{sound: "yue2", eng: "moon; month"}] );
+RegisterCharacter( "\u751F", "C8g B6c B4c D8f A1c", [{sound: "sheng1", eng: "to be born"}] );
+RegisterCharacter( "\u77E2", "C8g B7c A4c D6fh D4e", [{sound: "shi3", eng: "arrow"}] );
+RegisterCharacter( "\u793B", "C8 B8f A6ch C4f C4e", [{sound: "shi2", eng: "sign", "rad": 1}] );
+RegisterCharacter( "\u89C6", "C8 A6ch B4f B4e D7f D7cf F6fg F3fcl", [{sound: "shi2", eng: "to see"}] );
+RegisterCharacter( "\u8F66", "A6c D7gc A2c E6f", [{sound: "che1", eng: "vehicle"}] );
+RegisterCharacter( "\u961D", "B7cgefi B7f", [{sound: "yi4", eng: "mound"}] );
+RegisterCharacter( "\u9662", "A7cgefi A7f F8 D7f D7cf D5c D4c E4fh F4fcl", [{sound: "yuan4", eng: "courtyard"}] );
 
 
 // HSK 1 126-150:  也玉囗国门们弋戈我匕尸尼呢衣喂乙气立亲新重丨再
