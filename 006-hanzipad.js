@@ -12,6 +12,11 @@ class Hanzipad
 
 		this._strokes = [];
 
+		this._pendown = false;
+		this._penpos = [ 0.5, 0.5 ];
+		this._lastpos = [ 0.5, 0.5 ];
+		this._currentStroke = [];
+
 
 		this.BackgroundGlyph = "";
 
@@ -23,6 +28,9 @@ class Hanzipad
 			CurrentStroke: "#1e1e1e",
 			PreviousStrokes: "#323232"
 		};
+
+		window.addEventListener( "mouseup", this );
+		window.addEventListener( "touchcancel", this );
 	}
 
 
@@ -60,6 +68,23 @@ class Hanzipad
 
 	set canvas( c )
 	{
+		if ( this._canvas )
+		{
+			this._canvas.removeEventListener( "mousedown", this );
+			this._canvas.removeEventListener( "mousemove", this );
+
+			this._canvas.removeEventListener( "touchstart", this );
+			this._canvas.removeEventListener( "touchmove", this );
+			this._canvas.removeEventListener( "touchend", this );
+		}
+
+		c.addEventListener( "mousedown", this );
+		c.addEventListener( "mousemove", this );
+
+		c.addEventListener( "touchstart", this );
+		c.addEventListener( "touchmove", this );
+		c.addEventListener( "touchend", this );
+
 		this._ctx = c.getContext("2d");
 		this._canvas = c;
 		this.redraw();
@@ -273,6 +298,101 @@ class Hanzipad
 			}
 		}
 	}
+
+
+	/**
+	 * Remove all strokes, begin anew.
+	 **/
+	reset()
+	{
+		this._strokes = [];
+
+		this._pendown = false;
+		this._currentStroke = [];
+	}
+
+
+	/**
+	 * Handle events
+	 **/
+	handleEvent( event )
+	{
+		if ( event.type == "mousedown" || event.type == "touchstart" )
+		{
+			return this._mouseDown( event );
+		}
+		else if ( event.type == "mousemove" || event.type == "touchmove" )
+		{
+			return this._mouseMove( event );
+		}
+		else if ( event.type == "mouseup" || event.type == "touchend" )
+		{
+			return this._mouseUp( event );
+		}
+		else if ( event.type == "touchcancel" )
+		{
+			this._pendown = false;
+		}
+	}
+
+
+	_touchPosition( e )
+	{
+		if (( "clientX" in e ) && ( "clientY" in e ))
+		{
+			this._lastpos = this._penpos;
+
+			var bcr = this._canvas.getBoundingClientRect();
+			var s = 2*this._border + this._size;
+			var pp = [
+				( e.clientX - bcr.x ) * ( s / bcr.width ),
+				( e.clientY - bcr.y ) * ( s / bcr.height )
+			];
+
+			this._penpos = this.fromAbs( pp );
+		}
+		else if ( e.touches && e.touches.length > 0 )
+		{
+			this._touchPosition( e.touches[0] );
+		}
+	};
+	_mouseMove(e)
+	{
+		this._touchPosition( e );
+
+		if ( this._pendown )
+		{
+			this._ctx.strokeStyle = "rgb( 30, 30, 30 )";
+			this._ctx.lineWidth = 10;
+			this._ctx.lineCap = "round";
+
+			var lpa = this.toAbs( this._lastpos );
+			var ppa = this.toAbs( this._penpos );
+
+			this._ctx.beginPath();
+			this._ctx.moveTo( lpa[0], lpa[1] );
+			this._ctx.lineTo( ppa[0], ppa[1] );
+			this._ctx.stroke();
+
+			this._currentStroke.push( [ this._penpos[0], this._penpos[1] ] );
+		}
+	}
+	_mouseUp(e)
+	{
+		if ( this._pendown )
+		{
+			this._pendown = false;
+			this._strokes.push(this._currentStroke);
+			this.redraw();
+		}
+	}
+	_mouseDown(e)
+	{
+		this._touchPosition( e );
+
+		this._pendown = true;
+		this._currentStroke = [ [ this._penpos[0], this._penpos[1] ] ];
+	};
 }
 
 

@@ -286,15 +286,6 @@ var mouseUp = function(e)
 	{
 		pendown = false;
 		strokes.push(currentStroke);
-
-		// Shift absolute coordinates to unit square
-		var shifted = [];
-		for ( var j = 0; j < currentStroke.length; j++ )
-		{
-			shifted.push( hzp.fromAbs( currentStroke[j] ) );
-		}
-		hzp._strokes.push(shifted);
-
 		redraw();
 	}
 };
@@ -334,6 +325,7 @@ var acceptChar = function()
 
 		pendown = false;
 		strokes = [];
+		hzp.reset();
 		redraw();
 	}
 };
