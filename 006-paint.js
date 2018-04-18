@@ -6,7 +6,7 @@ var strokeDescription, textBox, studioBox, studioOutput;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
-var previewCharacter, foundCharacter, foundScore;
+var previewCharacter = "", foundCharacter = "", foundScore;
 
 var setup = function()
 {
@@ -16,26 +16,13 @@ var setup = function()
 
 
 	hzp = new Hanzipad();
-	hzp.canvas = document.getElementById("alsoacanvas");
+	hzp.canvas = canvas;
 	hzp.size = width / 2;
 	hzp.border = width / 4;
 
-	hzp.addEventListener( "change", function()
-	{
-		console.log( "changed", this.glyphCode );
-		document.getElementById("clock-code").textContent = this.glyphCode.join(" ");
-	});
 
-
-	ctx = canvas.getContext("2d");
-
-	penpos = [ width/2, height/2 ];
-	lastpos = [ width/2, height/2 ];
-	pendown = false;
-
-	strokes = [];
 	previewCharacter = "";
-	foundCharacter = "";
+
 
 	strokeDescription = document.createElement("PRE");
 	document.getElementById("summary").appendChild(strokeDescription);
@@ -52,15 +39,6 @@ var setup = function()
 	textBox.setAttribute( "type", "text" );
 	textcontainer.appendChild( textBox );
 	document.getElementById("summary").appendChild(textcontainer);
-
-	canvas.addEventListener( "mousedown", mouseDown );
-	canvas.addEventListener( "mousemove", mouseMove );
-	window.addEventListener( "mouseup", mouseUp );
-
-	canvas.addEventListener( "touchstart", mouseDown );
-	canvas.addEventListener( "touchmove", mouseMove );
-	window.addEventListener( "touchend", mouseUp );
-	canvas.addEventListener( "touchcancel", function() { pendown = false; } );
 
 	strokeCharacter.addEventListener( "click", acceptChar );
 	strokeDescription.addEventListener( "click", strikeThat );
@@ -90,235 +68,53 @@ var setup = function()
 
 	document.getElementById("summary").appendChild(studiocontainer);
 
+
+	hzp.addEventListener( "change", function()
+	{
+		var glc = this.glyphCode;
+		strokeDescription.textContent = this.glyphCode.join("\n");
+
+		var character = null;
+		if ( glc.length > 0 )
+			character = LookupCharacter( glc );
+
+		if ( character )
+			foundCharacter = character.glyph;
+		else
+			foundCharacter = "";
+
+		strokeCharacter.textContent = foundCharacter;
+
+
+		if ( previewCharacter != "" )
+			this.BackgroundGlyph = previewCharacter;
+		else
+			this.BackgroundGlyph = foundCharacter;
+	});
+
+
 	redraw();
 };
 
-var draw = function( deltaT )
-{
-};
 
 var redraw = function()
 {
+	previewCharacter = "";
 	if ( studioBox && studioBox.value.length > 0 )
-	{
 		previewCharacter = studioBox.value.substr(0,1);
-	}
-	else
-	{
-		previewCharacter = "";
-	}
-
-	ctx.fillStyle = 'rgb( 255, 255, 255 )';
-	ctx.fillRect( 0, 0, width, height );
-
-	ctx.fillStyle = 'rgb( 245, 245, 245 )';
-
-	var w = width / 16;
-	var h = width / 16;
-	for ( var i = 4; i < 12; i++ )
-	{
-		for ( var j = 4; j < 12; j++ )
-		{
-			if ( (i+j)%2 == 0 ) continue;
-			ctx.fillRect( i*w, j*h, w, h );
-		}
-	}
-
-	ctx.strokeStyle = 'rgb( 200, 200, 200 )';
-	ctx.lineWidth = 4;
-	ctx.lineCap = "round";
-
-	ctx.strokeRect( width/4, height/4, width/2, height/2 );
-
-	ctx.beginPath();
-	ctx.setLineDash([12.3,12.3]);
-	w = width / 4;
-	h = width / 4;
-	ctx.moveTo( w, h );
-	ctx.lineTo( 3*w, 3*h );
-	ctx.moveTo( 3*w, h );
-	ctx.lineTo( w, 3*h );
-	ctx.stroke();
-
-	ctx.setLineDash([]);
-
-
-	var full_description = "";
-	var charStroke = [];
-
-	for ( var i = 0; i < strokes.length; i++ )
-	{
-		if ( strokes[i].length == 0 )  continue;
-
-		// Shift absolute coordinates to unit square
-		var shifted = [];
-		for ( var j = 0; j < strokes[i].length; j++ )
-		{
-			shifted.push( hzp.fromAbs( strokes[i][j] ) );
-		}
-
-		var strokeCode = hzp.getStrokeCode(shifted);
-
-		if ( strokeCode )
-		{
-			full_description += "\n" + strokeCode
-			charStroke.push( strokeCode );
-		}
-		else
-		{
-			// Delete this one
-			strokes.splice(i,1);
-			i--;
-		}
-	}
-
-	strokeDescription.textContent = full_description.substr(1);
-	strokeCharacter.textContent = "";
-
-	var character = LookupCharacter( charStroke );
-	if ( character )
-	{
-		foundCharacter = character.glyph;
-		strokeCharacter.textContent = foundCharacter;
-	}
-	else
-	{
-		foundCharacter = "";
-	}
-
-
-	var bgc = previewCharacter;
-	if ( bgc == "" )  bgc = foundCharacter;
-
-	if ( bgc != "" )
-	{
-		ctx.fillStyle = "rgba( 80, 80, 80, 0.3 )";
-		ctx.font = (height/2) + "px serif";
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.fillText( bgc, width/2, height/1.85 );
-	}
-
-	hzp.BackgroundGlyph = bgc;
-
-	if ( strokes.length == 0 )
-	{
-		strokeDescription.textContent = "";
-		strokeCharacter.textContent = "";
-		hzp.redraw();
-		return;
-	}
-
-
-	ctx.strokeStyle = "rgb( 50, 50, 50 )";
-	ctx.lineWidth = 8;
-
-	for ( var i = 0; i < strokes.length; i++ )
-	{
-		if ( strokes[i].length == 0 )  continue;
-
-		for ( var j = 1; j < strokes[i].length; j++ )
-		{
-			ctx.beginPath();
-			ctx.moveTo( strokes[i][j-1][0], strokes[i][j-1][1] );
-			ctx.lineTo( strokes[i][j][0], strokes[i][j][1] );
-			ctx.stroke();
-		}
-	}
-
 
 	if ( previewCharacter != "" )
-	{
-		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
-		var str = JSON.stringify( charStroke.join( " " ) );
-		var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
-		studioOutput.value = "RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
-	}
-
+		hzp.BackgroundGlyph = previewCharacter;
+	else
+		hzp.BackgroundGlyph = foundCharacter;
 
 	hzp.redraw();
 };
 
-var canvasPosition = function( e )
-{
-	if ( e.clientX && e.clientY )
-	{
-		lastpos[0] = penpos[0];
-		lastpos[1] = penpos[1];
-
-		var bcr = canvas.getBoundingClientRect();
-		penpos[0] = ( e.clientX - bcr.x ) * ( width / bcr.width );
-		penpos[1] = ( e.clientY - bcr.y ) * ( height / bcr.height );
-	}
-	else if ( e.touches && e.touches.length > 0 )
-	{
-		canvasPosition( e.touches[0] );
-	}
-	else
-	{
-		console.log( e );
-	}
-};
-
-var getDirection = function( a, b )
-{
-	var clock = Math.round( 12 * Math.atan2( b[0]-a[0], b[1]-a[1] ) / (Math.PI*2) );
-	return String.fromCharCode( 97 + (((5 - clock)+144) % 12) );
-};
-
-
-var mouseMove = function(e)
-{
-	canvasPosition( e );
-
-	if ( pendown )
-	{
-		ctx.strokeStyle = "rgb( 30, 30, 30 )";
-		ctx.lineWidth = 10;
-		ctx.lineCap = "round";
-
-		ctx.beginPath();
-		ctx.moveTo( lastpos[0], lastpos[1] );
-		ctx.lineTo( penpos[0], penpos[1] );
-		ctx.stroke();
-
-		currentStroke.push( [ penpos[0], penpos[1] ] );
-	}
-};
-
-var mouseUp = function(e)
-{
-	if ( pendown )
-	{
-		pendown = false;
-		strokes.push(currentStroke);
-		redraw();
-	}
-};
-
-var mouseDown = function(e)
-{
-	canvasPosition( e );
-	if ( penpos[0] < 0 || penpos[0] > width
-		|| penpos[1] < 0 || penpos[1] > height )
-	{
-		return true;
-	}
-
-	pendown = true;
-	currentStroke = [];
-
-	currentStroke = [ [ penpos[0], penpos[1] ] ];
-};
 
 var strikeThat = function()
 {
-	if ( strokes.length > 0 )
-		strokes.pop();
-
 	hzp.popStroke();
-
-	redraw();
 };
 
 var acceptChar = function()
@@ -329,10 +125,7 @@ var acceptChar = function()
 		textBox.value += foundCharacter;
 		foundCharacter = "";
 
-		pendown = false;
-		strokes = [];
 		hzp.reset();
-		redraw();
 	}
 };
 
@@ -472,18 +265,6 @@ var LookupCharacter = (function()
 (function()
 {
 	setup();
-	var nextFrame = null;
-	var then = 0;
-
-	nextFrame = function( now )
-	{
-		var deltaT = (now - then) * 0.001;
-		draw( deltaT );
-		then = now;
-
-		requestAnimationFrame( nextFrame );
-	};
-	requestAnimationFrame( nextFrame );
 })();
 
 
