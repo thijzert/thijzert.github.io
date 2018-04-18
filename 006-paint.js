@@ -20,6 +20,12 @@ var setup = function()
 	hzp.size = width / 2;
 	hzp.border = width / 4;
 
+	hzp.addEventListener( "change", function()
+	{
+		console.log( "changed", this.glyphCode );
+		document.getElementById("clock-code").textContent = this.glyphCode.join(" ");
+	});
+
 
 	ctx = canvas.getContext("2d");
 
@@ -309,8 +315,8 @@ var strikeThat = function()
 {
 	if ( strokes.length > 0 )
 		strokes.pop();
-	if ( hzp._strokes.length > 0 )
-		hzp._strokes.pop();
+
+	hzp.popStroke();
 
 	redraw();
 };

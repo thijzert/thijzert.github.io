@@ -28,9 +28,6 @@ class Hanzipad
 			CurrentStroke: "#1e1e1e",
 			PreviousStrokes: "#323232"
 		};
-
-		window.addEventListener( "mouseup", this );
-		window.addEventListener( "touchcancel", this );
 	}
 
 
@@ -77,6 +74,11 @@ class Hanzipad
 			this._canvas.removeEventListener( "touchmove", this );
 			this._canvas.removeEventListener( "touchend", this );
 		}
+		else
+		{
+			window.addEventListener( "mouseup", this );
+			window.addEventListener( "touchcancel", this );
+		}
 
 		c.addEventListener( "mousedown", this );
 		c.addEventListener( "mousemove", this );
@@ -92,6 +94,20 @@ class Hanzipad
 	get canvas()
 	{
 		return this._canvas;
+	}
+
+
+	/**
+	 * Get the chess clock code for the current drawing
+	 **/
+	get glyphCode()
+	{
+		var rv = [];
+		for ( var i = 0; i < this._strokes.length; i++ )
+		{
+			rv[i] = this.getStrokeCode( this._strokes[i] );
+		}
+		return rv;
 	}
 
 
@@ -309,6 +325,20 @@ class Hanzipad
 
 		this._pendown = false;
 		this._currentStroke = [];
+		this.dispatchEvent(new Event("change"));
+		this.redraw();
+	}
+
+	/**
+	 * Remove the last stroke
+	 **/
+	popStroke()
+	{
+		if ( this._strokes.length > 0 )
+			this._strokes.pop();
+
+		this.dispatchEvent(new Event("change"));
+		this.redraw();
 	}
 
 
@@ -383,6 +413,7 @@ class Hanzipad
 		{
 			this._pendown = false;
 			this._strokes.push(this._currentStroke);
+			this.dispatchEvent(new Event("change"));
 			this.redraw();
 		}
 	}
@@ -393,6 +424,49 @@ class Hanzipad
 		this._pendown = true;
 		this._currentStroke = [ [ this._penpos[0], this._penpos[1] ] ];
 	};
+
+
+
+	/**
+	 * Handle custom events. (Implement the EventTarget interface.)
+	 * Source: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
+	 **/
+	addEventListener( type, callback )
+	{
+		if ( !this._listeners )
+			this._listeners = {};
+		if ( !(type in this._listeners ) )
+			this._listeners[type] = [];
+
+		this._listeners[type].push( callback );
+	}
+	removeEventListener( type, callback )
+	{
+		if ( !this._listeners || !(type in this._listeners ) )
+			return;
+
+		var stack = this._listeners[type];
+		for ( var i = 0; i < stack.length; i++ )
+		{
+			if ( stack[i] === callback )
+			{
+				stack.splice( i, 1 );
+				return;
+			}
+		}
+	}
+	dispatchEvent( event )
+	{
+		if ( !this._listeners || !(event.type in this._listeners ) )
+			return true;
+
+		var stack = this._listeners[event.type];
+		for ( var i = 0; i < stack.length; i++ )
+		{
+			stack[i].call( this, event );
+		}
+		return !event.defaultPrevented;
+	}
 }
 
 
