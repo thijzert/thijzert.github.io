@@ -105,7 +105,9 @@ class Hanzipad
 		var rv = [];
 		for ( var i = 0; i < this._strokes.length; i++ )
 		{
-			rv[i] = this.getStrokeCode( this._strokes[i] );
+			var sc = this.getStrokeCode( this._strokes[i] );
+			if ( sc )
+				rv.push( sc );
 		}
 		return rv;
 	}
