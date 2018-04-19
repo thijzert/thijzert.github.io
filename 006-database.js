@@ -1,4 +1,24 @@
 
+// Colours:  颜色红蓝黄绿黑粉紫白橙棕灰金浅深
+
+RegisterCharacter( "\u68D5", "A6c B8f B6g B6e E8 D7f D7cf E5c D4c F4fi E3g G3e", [{sound: "zong1", eng: "brown"}] );
+RegisterCharacter( "\u6A59", "A6c B8f B6g B6e C7cg D6 G7 H6 F7e E5c D4f D4cf D3c D2 G2 C1c", [{sound: "cheng2", eng: "orange"}] );
+RegisterCharacter( "\u6D45", "A7d A5d A1a C5b C3b E7fel G3h F7", [{sound: "qian3", eng: "light, shallow"}] );
+RegisterCharacter( "\u6DF1", "A7 A5 A1a D7f D7cf E6h F6d C4c E5f E4h E4d", [{sound: "shen1", eng: "dark, deep"}] );
+RegisterCharacter( "\u7070", "A6c C7g D4 G5g E6fg E3e", [{sound: "hui1", eng: "gray"}] );
+RegisterCharacter( "\u767D", "D8g B6f B6cf B4c B1c", [{sound: "bai2", eng: "white"}] );
+RegisterCharacter( "\u7C89", "A7e D7g A5c B8f B5g C4e E7g G8e E4cfj F4g", [{sound: "fen3", eng: "pink"}] );
+RegisterCharacter( "\u7D2B", "C8f C7c B7f A5c G7h E7fcl D5hc F4hc F4e E3fi C2h F2d", [{sound: "zi3", eng: "purple"}] );
+RegisterCharacter( "\u7EA2", "B7gc C6gb A1b D7c F7f D1c", [{sound: "hong2", eng: "red"}] );
+RegisterCharacter( "\u7EFF", "B7gc C6gb A1b D7cf D6c D5c F5fi D4e D1b H4g F3d", [{sound: "lv4", eng: "green"}] );
+RegisterCharacter( "\u8272", "C7h C7cg B5cf D5f B3c B5fcl", [{sound: "se4", eng: "colour"}] );
+RegisterCharacter( "\u84DD", "C8f F8f A7c B5f D5f F5g E5c F4e B3f B3cf D3f E3f A1c", [{sound: "lan2", eng: "blue"}] );
+RegisterCharacter( "\u91D1", "E8h D7d C5c B3c D5f B2e G3g A1c", [{sound: "jin1", eng: "gold"}] );
+RegisterCharacter( "\u989C", "C7 A7c B6e D7g A5c B5f D4h D3h D2h E7c F7 E6f E6cf F5fg G2e", [{sound: "yan2", eng: "color"}] );
+RegisterCharacter( "\u9EC4", "A7c C8f F8f A6c B5f B5cf B3c D5f B2c C1h E1d", [{sound: "huang2", eng: "yellow"}] );
+RegisterCharacter( "\u9ED1", "B7f B7cf C6 F6 B5c D7f B4c A2c B2g C2e E2e G2e", [{sound: "hei1", eng: "black"}] );
+
+
 // HSK 1 1-25:  子女小勹尔人亻你马妈工乍作羊木样厶冖丶见觉
 
 RegisterCharacter( "\u4E36", "C6d", [{sound: "dian3", eng: "dot", rad: 1}] );
