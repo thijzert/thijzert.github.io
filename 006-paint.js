@@ -87,9 +87,18 @@ var setup = function()
 
 
 		if ( previewCharacter != "" )
+		{
 			this.BackgroundGlyph = previewCharacter;
+
+			var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
+			var str = JSON.stringify( glc.join( " " ) );
+			var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
+			studioOutput.value = "RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
+		}
 		else
+		{
 			this.BackgroundGlyph = foundCharacter;
+		}
 	});
 
 
