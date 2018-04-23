@@ -147,6 +147,29 @@ Hanzipad.RegisterCharacter( "\u9662", "A7cgefi A7f F8 D7f D7cf D5c D4c E4fh F4fc
 
 
 // HSK 1 126-150:  也玉囗国门们弋戈我匕尸尼呢衣喂乙气立亲新重丨再
+Hanzipad.RegisterCharacter( "\u4E28", "D8f", [{sound: "shu4", eng: "stick", "rad": 1}] );
+Hanzipad.RegisterCharacter( "\u4E59", "A7chcl", [{sound: "yi3", eng: "fish hook"}] );
+Hanzipad.RegisterCharacter( "\u4E5F", "A5bcfi B7fcl E8f", [{sound: "ye3", eng: "also"}] );
+Hanzipad.RegisterCharacter( "\u4EB2", "D8 B7c C6 F6 A5c B3c D5fk D3h E3d", [{sound: "qin1", eng: "parent"}] );
+Hanzipad.RegisterCharacter( "\u4EEC", "C8g B6f D8e C6f E7cfi", [{sound: "men5", eng: "plural"}] );
+Hanzipad.RegisterCharacter( "\u518D", "A7c B6f B6cfi D7f C4c A3c", [{sound: "zai4", eng: "again"}] );
+Hanzipad.RegisterCharacter( "\u5315", "G6h B7fcl", [{sound: "bi3", eng: "knife"}] );
+Hanzipad.RegisterCharacter( "\u5462", "A7f A7cf A3c D7cf D6c D7f H4h E5fcl", [{sound: "ne5", eng: "how about..."}] );
+Hanzipad.RegisterCharacter( "\u5582", "A7f A7cf A3c D7f D7cf D6c F7f E5c D4c D4fb H3h F4e", [{sound: "wei4", eng: "hello"}] );
+Hanzipad.RegisterCharacter( "\u56D7", "B7f B7cf B1c", [{sound: "kou3", eng: "mouth"}] );
+Hanzipad.RegisterCharacter( "\u56FD", "B7f B7cf C6c C4c E6f C2c F4 B1c", [{sound: "guo2", eng: "country"}] );
+Hanzipad.RegisterCharacter( "\u5C38", "B7clf B5c B7f", [{sound: "shi1", eng: "corpse"}] );
+Hanzipad.RegisterCharacter( "\u5C3C", "B7clf B5c B7f G4h D5fcl", [{sound: "ni2", eng: "nun"}] );
+Hanzipad.RegisterCharacter( "\u5F0B", "B5b D8fel F8", [{sound: "yi4", eng: "to catch"}] );
+Hanzipad.RegisterCharacter( "\u6208", "B5b D8fel G5h E7", [{sound: "ge1", eng: "weapon"}] );
+Hanzipad.RegisterCharacter( "\u6211", "D8h A5c C7fl A3b E8fel G4h G7", [{sound: "wo3", eng: "I"}] );
+Hanzipad.RegisterCharacter( "\u65B0", "C8 A7c B6 D7 A5c A4c C5f C4g C4e H8h E7fg E5c G5f", [{sound: "xin1", eng: "new"}] );
+Hanzipad.RegisterCharacter( "\u6C14", "C8g C7c C6c B5cel", [{sound: "qi4", eng: "steam"}] );
+Hanzipad.RegisterCharacter( "\u7389", "B7c B4c D7f A1c F3", [{sound: "yu4", eng: "jade"}] );
+Hanzipad.RegisterCharacter( "\u7ACB", "D7 A6c B5e F5g A1c", [{sound: "li4", eng: "to stand"}] );
+Hanzipad.RegisterCharacter( "\u8863", "D8 A6c E6gh C5fb G5h E6e", [{sound: "yi1", eng: "gown"}] );
+Hanzipad.RegisterCharacter( "\u91CD", "G8h A6c B5f B5cf B4c B3c E7f B2c B1c", [{sound: "chong2", eng: "to repeat"}] );
+Hanzipad.RegisterCharacter( "\u95E8", "B7e B7f C7cfi", [{sound: "men2", eng: "door"}] );
 
 
 // HSK 1 151-175:  幺糸系关文辶这中桌昨星共其期学冫习父
