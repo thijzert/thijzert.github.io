@@ -20,6 +20,7 @@ var ffsrequire = function()
 };
 
 var Hanzipad = ffsrequire( "006-hanzipad.js" );
+eval( fs.readFileSync( "006-database.js" ) );
 
 describe( "Hanzipad", function()
 {
@@ -264,6 +265,33 @@ describe( "Hanzipad", function()
 
 		it("should classify the strokes in '你'", absverify(ni3abs) );
 		it("should classify the strokes in '好'", absverify(hao3abs) );
+	});
+
+
+	describe( "#RegisterCharacter", function()
+	{
+		describe("smiley", function()
+		{
+			Hanzipad.RegisterCharacter( "\xf0\x9f\x98\x8a", "C6 F6 A4dcb", [] );
+
+			it("should find a smiley on an exact match", function()
+			{
+				var sg = Hanzipad.LookupCharacter(["C6", "F6", "A4dcb"]);
+
+				assert.isNotEmpty( sg );
+				assert.exists( sg[0].character.glyph );
+				assert.equal( sg[0].character.glyph, "\xf0\x9f\x98\x8a" );
+			});
+
+			it("should find a smiley on an inexact match", function()
+			{
+				var sg = Hanzipad.LookupCharacter(["C6", "F7", "A4dcb"]);
+
+				assert.isNotEmpty( sg );
+				assert.exists( sg[0].character.glyph );
+				assert.equal( sg[0].character.glyph, "\xf0\x9f\x98\x8a" );
+			});
+		});
 	});
 });
 

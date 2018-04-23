@@ -469,6 +469,132 @@ class Hanzipad
 		}
 		return !event.defaultPrevented;
 	}
+
+
+
+	/**
+	 * Character database
+	 **/
+
+
+	static RegisterCharacter( glyph, stroke, descriptions )
+	{
+		if ( !Hanzipad._characterDatabase )
+			Hanzipad._characterDatabase = [];
+
+		stroke = stroke.trim().split(/ +/);
+		var sl = stroke.length;
+		if ( sl > 99 )  return;
+
+		if ( Hanzipad._characterDatabase.length <= sl )
+		{
+			for ( var i = Hanzipad._characterDatabase.length; i <= sl; i++ )
+			{
+				Hanzipad._characterDatabase[i] = [];
+			}
+		}
+
+		Hanzipad._characterDatabase[sl].push({
+			glyph: glyph,
+			stroke: stroke,
+			descriptions: descriptions
+		});
+	};
+
+	// Difference in starting square
+	static _sqdif( a, b )
+	{
+		var dx = a.charCodeAt(0) - b.charCodeAt(0);
+		var dy = a.charCodeAt(1) - b.charCodeAt(1);
+
+		if ( dx == 0 )  return dy;
+		if ( dy == 0 )  return dx;
+
+		return Math.sqrt( dx*dx + dy*dy );
+	};
+
+	// Difference in direction
+	static _dirdif( a, b )
+	{
+		if ( a == "" )
+		{
+			if ( b == "" )
+				return 0;
+			return 1;
+		}
+		else if ( b == "" )
+			return 1;
+
+		var s0 = a.charCodeAt(0) - b.charCodeAt(0);
+		if ( s0 < 0 )  s0 *= -1;
+		s0 *= 0.3;
+
+		var s1a = Hanzipad._dirdif( a.substr(1), b.substr(1) );
+		var s1b = s1a;
+		if ( a.length > b.length )
+			s1b = Hanzipad._dirdif( a.substr(1), b );
+		else if ( b.length < a.length )
+			s1b = Hanzipad._dirdif( a, b.substr(1) );
+
+		if ( s1b < s1a )
+			return s0 + s1b;
+		return s0 + s1a;
+	};
+
+
+	static _sdif( a, b )
+	{
+		if ( ! Hanzipad._sqrt )
+		{
+			Hanzipad._sqrt = new Array(20);
+			for ( var i = 0; i < 20; i++ )
+				Hanzipad._sqrt[i] = Math.sqrt(i);
+		}
+
+		var d0 = Hanzipad._sqdif( a, b );
+		var d1 = Hanzipad._dirdif( a.substr(2), b.substr(2) );
+		d1 /= Hanzipad._sqrt[a.length];
+
+		return d0*0.2 + d1*0.9;
+	};
+
+	static LookupCharacter( stroke )
+	{
+		//stroke = stroke.trim().split(/ +/);
+		var jstr = stroke.join("");
+
+		if ( ! stroke.length in Hanzipad._characterDatabase )
+			return [];
+
+		var wieners = [];
+		var dmax = 10.0;
+
+		for ( var i = 0; i < Hanzipad._characterDatabase[stroke.length].length; i++ )
+		{
+			var d = 0.0;
+			for ( var j = 0; j < stroke.length; j++ )
+			{
+				d += Hanzipad._sdif( Hanzipad._characterDatabase[stroke.length][i].stroke[j], stroke[j] );
+
+				if ( d > dmax )  break;
+			}
+
+			if ( d < dmax )
+			{
+				wieners.push({
+					score: d,
+					character: Hanzipad._characterDatabase[stroke.length][i]
+				});
+			}
+		}
+
+		wieners.sort(function(a,b)
+		{
+			return a.score - b.score;
+		});
+
+		return wieners;
+	}
 }
 
 
