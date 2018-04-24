@@ -72,19 +72,7 @@ var setup = function()
 	hzp.addEventListener( "change", function()
 	{
 		var glc = this.glyphCode;
-		strokeDescription.textContent = this.glyphCode.join("\n");
-
-		var character = null;
-		if ( glc.length > 0 )
-			character = LookupCharacter( glc );
-
-		if ( character )
-			foundCharacter = character.glyph;
-		else
-			foundCharacter = "";
-
-		strokeCharacter.textContent = foundCharacter;
-
+		strokeDescription.textContent = glc.join(" ");
 
 		if ( previewCharacter != "" )
 		{
@@ -99,6 +87,20 @@ var setup = function()
 		{
 			this.BackgroundGlyph = foundCharacter;
 		}
+	});
+
+
+	hzp.addEventListener( "options", function( event )
+	{
+		foundCharacter = "";
+		foundScore = Infinity;
+		if ( event.characterOptions.length == 0 )
+			return;
+
+		foundCharacter = event.characterOptions[0].character.glyph;
+		foundScore = event.characterOptions[0].score;
+
+		strokeCharacter.textContent = foundCharacter;
 	});
 
 
@@ -167,15 +169,6 @@ document.getElementById("borderSlider").addEventListener("change", function(e)
 	if ( s >= 0 && s <= 100 )
 		hzp.border = s;
 });
-
-var LookupCharacter = function( stroke )
-{
-	var res = Hanzipad.LookupCharacter( stroke );
-	if ( res.length > 0 )
-		return res[0].character;
-
-	return null;
-};
 
 
 (function()

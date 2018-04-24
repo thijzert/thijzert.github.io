@@ -31,6 +31,9 @@ class Hanzipad
 	}
 
 
+	/**
+	 * Get/set the size, in CSS pixels, of the Hanzipad chess board
+	 **/
 	set size( v )
 	{
 		this._size = v;
@@ -47,6 +50,9 @@ class Hanzipad
 		return this._size;
 	}
 
+	/**
+	 * Get/set the size of the border around the chess board
+	 **/
 	set border( v )
 	{
 		this._border = v;
@@ -63,6 +69,9 @@ class Hanzipad
 		return this._border;
 	}
 
+	/**
+	 * Set the target HTML canvas in which to draw the main Hanzipad component
+	 **/
 	set canvas( c )
 	{
 		if ( this._canvas )
@@ -317,6 +326,21 @@ class Hanzipad
 		}
 	}
 
+	/**
+	 * Something changed - fire all relevant events and redraw.
+	 **/
+	_changed()
+	{
+		this._options = Hanzipad.LookupCharacter( this.glyphCode );
+
+		var opts = new Event("options");
+		opts.characterOptions = JSON.parse(JSON.stringify(this._options));
+
+		this.dispatchEvent(opts);
+		this.dispatchEvent(new Event("change"));
+		this.redraw();
+	}
+
 
 	/**
 	 * Remove all strokes, begin anew.
@@ -327,8 +351,7 @@ class Hanzipad
 
 		this._pendown = false;
 		this._currentStroke = [];
-		this.dispatchEvent(new Event("change"));
-		this.redraw();
+		this._changed();
 	}
 
 	/**
@@ -339,8 +362,7 @@ class Hanzipad
 		if ( this._strokes.length > 0 )
 			this._strokes.pop();
 
-		this.dispatchEvent(new Event("change"));
-		this.redraw();
+		this._changed();
 	}
 
 
@@ -415,8 +437,7 @@ class Hanzipad
 		{
 			this._pendown = false;
 			this._strokes.push(this._currentStroke);
-			this.dispatchEvent(new Event("change"));
-			this.redraw();
+			this._changed();
 		}
 	}
 	_mouseDown(e)
