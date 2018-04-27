@@ -173,9 +173,44 @@ Hanzipad.RegisterCharacter( "\u95E8", "B7e B7f C7cfi", [{sound: "men2", eng: "do
 
 
 // HSK 1 151-175:  幺糸系关文辶这中桌昨星共其期学冫习父
+Hanzipad.RegisterCharacter( "\u4E2D", "B6f B6cf B3c D8f", [{sound: "zhong1", eng: "middle"}] ); // 中
+Hanzipad.RegisterCharacter( "\u4E60", "B7cfi C6d B2b", [{sound: "xi2", eng: "to practice"}] ); // 习
+Hanzipad.RegisterCharacter( "\u5171", "B6c C8f F8f A3c C2h F2d", [{sound: "gong4", eng: "public"}] ); // 共
+Hanzipad.RegisterCharacter( "\u5173", "C8e F8g B6lc F6 B4c D6fg E4e", [{sound: "guan1", eng: "to shut"}] ); // 关
+Hanzipad.RegisterCharacter( "\u5176", "A7c C8f F8f C5c C4c A2c C2h F2d", [{sound: "qi2", eng: "such"}] ); // 其
+Hanzipad.RegisterCharacter( "\u51AB", "B7 A1a", [{sound: "bing1", eng: "ice"}] ); // 冫
+Hanzipad.RegisterCharacter( "\u5B66", "B8 D8 G8g A6f A6cf B5ch E4fi B3c", [{sound: "xue2", eng: "to study"}] ); // 学
+Hanzipad.RegisterCharacter( "\u5E7A", "D8gd F6gc F3e", [{sound: "yao1", eng: "coil", "rad": 1}] ); // 幺
+Hanzipad.RegisterCharacter( "\u6587", "E8 A6c G6gh B6ed", [{sound: "wen2", eng: "language"}] ); // 文
+Hanzipad.RegisterCharacter( "\u661F", "B7lf B7cf B6c B5c C5g B4c B2c D4f A1c", [{sound: "xing1", eng: "star"}] ); // 星
+Hanzipad.RegisterCharacter( "\u6628", "A7f A7cf A5c B2c E8 E6c F6f F5c F3c", [{sound: "zuo2", eng: "yesterday"}] ); // 昨
+Hanzipad.RegisterCharacter( "\u671F", "A7c B8f D8f B5c B4c A3c B2g C2e E7f E7cfi E5c E4c", [{sound: "qi1", eng: "period of time"}] ); // 期
+Hanzipad.RegisterCharacter( "\u684C", "D8f D7c B6f B6cf B5c B4c A3c D4f D3h E3d", [{sound: "zhuo1", eng: "table"}] ); // 桌
+Hanzipad.RegisterCharacter( "\u7236", "C7h F7d F5h C5e", [{sound: "fu4", eng: "father"}] ); // 父
+Hanzipad.RegisterCharacter( "\u7CF8", "D8ge F7hc F5e D4fi C3g F3d", [{sound: "mi4", eng: "silk"}] ); // 糸
+Hanzipad.RegisterCharacter( "\u7CFB", "G8i D7ge F6hc F5e E4fi C3h F3d", [{sound: "xi", eng: "connection"}] ); // 系
+Hanzipad.RegisterCharacter( "\u8FB6", "B7 A5cf A1bdcb", [{sound: "chuo4", eng: "path"}] ); // 辶
+Hanzipad.RegisterCharacter( "\u8FD9", "B7le A5cf A1bdcb E8e C6c G6gh C5d", [{sound: "zhe4", eng: "this"}] ); // 这
 
 
 // HSK 1 176-200:  交校卩服丁可奇椅下现姐八兄兑说古舌话
+Hanzipad.RegisterCharacter( "\u4E01", "A7c E7f", [{sound: "ding1", eng: "nail"}] ); // 丁
+Hanzipad.RegisterCharacter( "\u4EA4", "D8 A7c C6h F6d F4h C4ed", [{sound: "jiao1", eng: "to exchange"}] ); // 交
+Hanzipad.RegisterCharacter( "\u5144", "B7f B7cf B5c D4gh E4fcl", [{sound: "xiong1", eng: "elder brother"}] ); // 兄
+Hanzipad.RegisterCharacter( "\u5151", "C8le F8g B6f B6cf B4c D4gh E3fcl", [{sound: "dui4", eng: "to exchange"}] ); // 兑
+Hanzipad.RegisterCharacter( "\u516B", "C5g E7fe", [{sound: "ba1", eng: "eight"}] ); // 八
+Hanzipad.RegisterCharacter( "\u5369", "D7cfi D7f", [{sound: "jie2", eng: "seal", "rad": 1}] ); // 卩
+Hanzipad.RegisterCharacter( "\u53E4", "D8f A5c C3f C3cf C1c", [{sound: "gu3", eng: "ancient"}] ); // 古
+Hanzipad.RegisterCharacter( "\u53EF", "A7c B5f B5cf B3c G7fi", [{sound: "ke3", eng: "to can"}] ); // 可
+Hanzipad.RegisterCharacter( "\u5947", "B7c E8gh D6d A5c B3f B3cf B2c G4fi", [{sound: "qi2", eng: "odd"}] ); // 奇
+Hanzipad.RegisterCharacter( "\u59D0", "B8gd D6g A6c E7f E7cf E5c E3c D1c", [{sound: "jie3", eng: "elder sister"}] ); // 姐
+Hanzipad.RegisterCharacter( "\u670D", "B7f B7cf B6c B4c E7cfi E7f E5cg E4e", [{sound: "fu2", eng: "to serve"}] ); // 服
+Hanzipad.RegisterCharacter( "\u6821", "A6c B8f B1 B6g C5e F8f D7c E6g G6e H4 G4gh E4e", [{sound: "xiao4", eng: "school"}] ); // 校
+Hanzipad.RegisterCharacter( "\u6905", "A6c B8lf B6g B6e D7c F8fh F6d D5c D4f D4cf D2c G5f", [{sound: "yi3", eng: "chair"}] ); // 椅
+Hanzipad.RegisterCharacter( "\u73B0", "A7c A5c B7f A2b D7f D7cf F6fg F3fcl", [{sound: "xian4", eng: "to appear"}] ); // 现
+Hanzipad.RegisterCharacter( "\u820C", "F8h B5c E7f C3f C3cf C1c", [{sound: "she2", eng: "tongue"}] ); // 舌
+Hanzipad.RegisterCharacter( "\u8BDD", "B7e A5cfa G8h D5c F7f D3f D3cf D1c", [{sound: "hua4", eng: "dialect"}] ); // 话
+Hanzipad.RegisterCharacter( "\u8BF4", "B7d A5cfa D8e G8g D6f D6cf D4c E4gh F4fcl", [{sound: "shuo1", eng: "to speak"}] ); // 说
 
 
 // HSK 1 201-225:  冂同刂前只识认商什明字那哪

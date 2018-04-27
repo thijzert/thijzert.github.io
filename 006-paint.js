@@ -2,7 +2,7 @@
 var canvas, ctx, hzp;
 var width = 400, height = 400;
 
-var strokeDescription, textBox, studioBox, studioOutput;
+var strokeDescription, textBox, studioBox, studioOutput, stu;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
@@ -51,7 +51,7 @@ var setup = function()
 	document.getElementById("summary").appendChild(textcontainer);
 
 	//strokeCharacter.addEventListener( "click", acceptChar );
-	strokeDescription.addEventListener( "click", strikeThat );
+	//strokeDescription.addEventListener( "click", strikeThat );
 
 
 	var studiocontainer = document.createElement("DIV");
@@ -64,7 +64,6 @@ var setup = function()
 	bcc.innerHTML = "Create new: ";
 	studioBox = document.createElement("INPUT");
 	studioBox.setAttribute( "type", "text" );
-	studioBox.style.width = "2em";
 	studioBox.addEventListener( "change", redraw );
 	bcc.appendChild( studioBox );
 
@@ -74,6 +73,14 @@ var setup = function()
 	studioOutput.setAttribute( "type", "text" );
 	studioOutput.style.width = "100%";
 	studioOutput.style.fontFamily = "Inconsolata, monospace";
+	bcc.appendChild( studioOutput );
+
+	stu = document.createElement("TEXTAREA");
+	stu.style.fontFamily = "Inconsolata, monospace";
+	stu.style.width = "100%";
+	stu.style.height = "30em";
+	studiocontainer.appendChild(stu);
+
 	bcc.appendChild( studioOutput );
 
 	document.getElementById("summary").appendChild(studiocontainer);
@@ -91,7 +98,7 @@ var setup = function()
 			var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
 			var str = JSON.stringify( glc.join( " " ) );
 			var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
-			studioOutput.value = "Hanzipad.RegisterCharacter( " + pc + ", " + str + ", " + cdd + " );";
+			studioOutput.value = "Hanzipad.RegisterCharacter( " + pc + ", " + str + ", " + cdd + " ); // " + previewCharacter;
 		}
 		else
 		{
@@ -148,6 +155,9 @@ var strikeThat = function()
 
 window.addEventListener( "keydown", function(e)
 {
+	if ( e.target != document.body )
+		return;
+
 	if ( e.defaultPrevented )
 		return;
 
@@ -157,15 +167,29 @@ window.addEventListener( "keydown", function(e)
 			strikeThat();
 			break;
 		case "Enter":
-			hzp.accept();
+			if ( previewCharacter != "" )
+			{
+				stu.value += studioOutput.value + "\n";
+
+				studioBox.value = studioBox.value.substr(1);
+				previewCharacter = studioBox.value.substr(0,1);
+
+				hzp.reset();
+			}
+			else
+			{
+				hzp.accept();
+			}
 			break;
 		case "ArrowLeft":
 		case "ArrowUp":
 			hzp.activeIndex--;
+			e.preventDefault();
 			break;
 		case "ArrowRight":
 		case "ArrowDown":
 			hzp.activeIndex++;
+			e.preventDefault();
 			break;
 	};
 });
