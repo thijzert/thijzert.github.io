@@ -25,12 +25,14 @@ var setup = function()
 
 
 	strokeDescription = document.createElement("PRE");
+	strokeDescription.style.minHeight = "2em";
 	document.getElementById("summary").appendChild(strokeDescription);
+
 	strokeCharacter = document.createElement("DIV");
 	strokeCharacter.style.fontSize = "30px";
 	strokeCharacter.style.fontFamily = "serif";
 	strokeCharacter.style.textAlign = "center";
-	document.getElementById("summary").appendChild(strokeCharacter);
+	//document.getElementById("summary").appendChild(strokeCharacter);
 
 	var otrg = document.createElement("UL");
 	otrg.id = "optionTarget";
