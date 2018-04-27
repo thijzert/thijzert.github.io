@@ -9,8 +9,11 @@ class Hanzipad
 
 		this._canvas = null;
 		this._ctx = null;
+		this._optionTarget = null;
 
 		this._strokes = [];
+		this._options = [];
+		this._activeIndex = 0;
 
 		this._pendown = false;
 		this._penpos = [ 0.5, 0.5 ];
@@ -103,6 +106,73 @@ class Hanzipad
 	get canvas()
 	{
 		return this._canvas;
+	}
+
+
+	/**
+	 * A DOM UL or OL element in which the Hanzipad will highlight its options
+	 **/
+	set optionTarget( v )
+	{
+		this._optionTarget = v;
+		this.redraw();
+	}
+
+	/**
+	 * The index of the selected option
+	 **/
+	get activeIndex()
+	{
+		if ( this._options.length == 0 )
+			return 0;
+
+		return this._activeIndex % this._options.length;
+	}
+	set activeIndex( i )
+	{
+		if ( this._options.length == 0 )
+			this._activeIndex = 0;
+
+		this._activeIndex = i % this._options.length;
+		if ( this._activeIndex < 0 )
+		{
+			this._activeIndex += 2*this._options.length;
+			this._activeIndex %= this._options.length;
+		}
+
+
+		if ( this._optionTarget )
+		{
+			var j = 0;
+			var li = this._optionTarget.firstChild;
+			while ( li )
+			{
+				if ( li.tagName == "LI" )
+				{
+					if ( j == this._activeIndex )
+						li.classList.add("active");
+					else
+						li.classList.remove("active");
+
+					j++;
+				}
+				li = li.nextSibling;
+			}
+		}
+	}
+
+	/**
+	 * All possible characters for the given drawing
+	 **/
+	get options()
+	{
+		var rv = JSON.parse(JSON.stringify(this._options));
+		if ( rv.length > 0 )
+		{
+			rv[ this._activeIndex % rv.length ].active = true;
+		}
+
+		return rv;
 	}
 
 
@@ -252,76 +322,118 @@ class Hanzipad
 	 **/
 	redraw()
 	{
-		if ( !this._ctx )
-			return;
-
-		this._ctx.fillStyle = this.Colours.Background;
-		this._ctx.fillRect( 0, 0, this._size + 2*this._border, this._size + 2*this._border );
-
-		this._ctx.fillStyle = this.Colours.ChessSquares;
-
-		var b = this._border;
-		var s = this._size;
-		var x = this._size / 8;
-		for ( var i = 0; i < 8; i++ )
+		if ( this._ctx )
 		{
-			for ( var j = 0; j < 8; j++ )
+			this._ctx.fillStyle = this.Colours.Background;
+			this._ctx.fillRect( 0, 0, this._size + 2*this._border, this._size + 2*this._border );
+
+			this._ctx.fillStyle = this.Colours.ChessSquares;
+
+			var b = this._border;
+			var s = this._size;
+			var x = this._size / 8;
+			for ( var i = 0; i < 8; i++ )
 			{
-				if ( (i+j)%2 == 0 ) continue;
-				this._ctx.fillRect( b + i*x, b + j*x, x, x );
+				for ( var j = 0; j < 8; j++ )
+				{
+					if ( (i+j)%2 == 0 ) continue;
+					this._ctx.fillRect( b + i*x, b + j*x, x, x );
+				}
+			}
+
+			this._ctx.strokeStyle = this.Colours.Border;
+			this._ctx.lineWidth = this._size * 0.02;
+			this._ctx.lineCap = "round";
+
+			this._ctx.strokeRect( b, b, s, s );
+
+			this._ctx.beginPath();
+
+			x = 0.0615 * this._size;
+			this._ctx.setLineDash([ x, x ]);
+
+			this._ctx.moveTo( b, b );
+			this._ctx.lineTo( b+s, b+s );
+			this._ctx.moveTo( b+s, b );
+			this._ctx.lineTo( b, b+s );
+			this._ctx.stroke();
+
+			this._ctx.setLineDash([]);
+
+
+
+			if ( this.BackgroundGlyph != "" )
+			{
+				this._ctx.fillStyle = this.Colours.BackgroundGlyph;
+				this._ctx.font = s+"px serif";
+				this._ctx.textAlign = "center";
+				this._ctx.textBaseline = "middle";
+				this._ctx.fillText( this.BackgroundGlyph, b+0.5*s, b+0.58*s );
+			}
+
+
+			this._ctx.strokeStyle = this.Colours.PreviousStrokes;
+			this._ctx.lineWidth = this._size * 0.04;
+
+			for ( var i = 0; i < this._strokes.length; i++ )
+			{
+				if ( this._strokes[i].length == 0 )  continue;
+
+				var prev = this.toAbs(this._strokes[i][0]);
+				var curr;
+				for ( var j = 1; j < this._strokes[i].length; j++ )
+				{
+					curr = this.toAbs(this._strokes[i][j]);
+
+					this._ctx.beginPath();
+					this._ctx.moveTo( prev[0], prev[1] );
+					this._ctx.lineTo( curr[0], curr[1] );
+					this._ctx.stroke();
+
+					prev = curr;
+				}
 			}
 		}
 
-		this._ctx.strokeStyle = this.Colours.Border;
-		this._ctx.lineWidth = this._size * 0.02;
-		this._ctx.lineCap = "round";
-
-		this._ctx.strokeRect( b, b, s, s );
-
-		this._ctx.beginPath();
-
-		x = 0.0615 * this._size;
-		this._ctx.setLineDash([ x, x ]);
-
-		this._ctx.moveTo( b, b );
-		this._ctx.lineTo( b+s, b+s );
-		this._ctx.moveTo( b+s, b );
-		this._ctx.lineTo( b, b+s );
-		this._ctx.stroke();
-
-		this._ctx.setLineDash([]);
-
-
-
-		if ( this.BackgroundGlyph != "" )
+		if ( this._optionTarget )
 		{
-			this._ctx.fillStyle = this.Colours.BackgroundGlyph;
-			this._ctx.font = s+"px serif";
-			this._ctx.textAlign = "center";
-			this._ctx.textBaseline = "middle";
-			this._ctx.fillText( this.BackgroundGlyph, b+0.5*s, b+0.58*s );
-		}
-
-
-		this._ctx.strokeStyle = this.Colours.PreviousStrokes;
-		this._ctx.lineWidth = this._size * 0.04;
-
-		for ( var i = 0; i < this._strokes.length; i++ )
-		{
-			if ( this._strokes[i].length == 0 )  continue;
-
-			var prev = this.toAbs(this._strokes[i][0]);
-			var curr;
-			for ( var j = 1; j < this._strokes[i].length; j++ )
+			this._optionTarget.innerHTML = "";
+			for ( var i = 0; i < this._options.length; i++ )
 			{
-				curr = this.toAbs(this._strokes[i][j]);
+				var li = document.createElement("LI");
+				li.dataset["index"] = i;
+				li.dataset["glyph"] = this._options[i].character.glyph;
 
-				this._ctx.beginPath();
-				this._ctx.moveTo( prev[0], prev[1] );
-				this._ctx.lineTo( curr[0], curr[1] );
-				this._ctx.stroke();
+				if ( i == this._activeIndex )
+					li.setAttribute( "class", "active" );
 
-				prev = curr;
+				var s = document.createElement("SPAN");
+				s.setAttribute( "class", "glyph" );
+				s.textContent = this._options[i].character.glyph;
+				li.appendChild( s );
+
+				s = document.createElement("SPAN");
+				s.setAttribute( "class", "sound" );
+				if ( this._options[i].character.descriptions.length > 0 )
+				{
+					s.textContent = this._options[i].character.descriptions[0].sound;
+				}
+				li.appendChild( s );
+
+				//s = document.createElement("SPAN");
+				//s.setAttribute( "class", "score" );
+				//s.textContent = this._options[i].score.toFixed(2);
+				//li.appendChild( s );
+
+				//s = document.createElement("SPAN");
+				//s.setAttribute( "class", "normalized-score" );
+				//if ( this._strokes.length > 0 )
+				//{
+				//	s.textContent = (this._options[i].score / this._strokes.length).toFixed(2);
+				//}
+				//li.appendChild( s );
+
+				this._optionTarget.appendChild(li);
 			}
 		}
 	}
@@ -332,6 +444,7 @@ class Hanzipad
 	_changed()
 	{
 		this._options = Hanzipad.LookupCharacter( this.glyphCode );
+		this._activeIndex = 0;
 
 		var opts = new Event("options");
 		opts.characterOptions = JSON.parse(JSON.stringify(this._options));
@@ -339,6 +452,24 @@ class Hanzipad
 		this.dispatchEvent(opts);
 		this.dispatchEvent(new Event("change"));
 		this.redraw();
+	}
+
+
+	/**
+	 * Accept the currently highlighted character (if any) and reset.
+	 **/
+	accept()
+	{
+		if ( this._options.length > 0 )
+		{
+			var ch = this.options[ this.activeIndex ];
+			var sel = new Event("select");
+			sel.character = ch.character;
+			sel.score = ch.score;
+			this.dispatchEvent(sel);
+		}
+
+		this.reset();
 	}
 
 
@@ -528,8 +659,8 @@ class Hanzipad
 		var dx = a.charCodeAt(0) - b.charCodeAt(0);
 		var dy = a.charCodeAt(1) - b.charCodeAt(1);
 
-		if ( dx == 0 )  return dy;
-		if ( dy == 0 )  return dx;
+		if ( dx == 0 )  return Math.abs(dy);
+		if ( dy == 0 )  return Math.abs(dx);
 
 		return Math.sqrt( dx*dx + dy*dy );
 	};
@@ -588,7 +719,7 @@ class Hanzipad
 			return [];
 
 		var wieners = [];
-		var dmax = 10.0;
+		var dmax = stroke.length * 0.7;
 
 		for ( var i = 0; i < Hanzipad._characterDatabase[stroke.length].length; i++ )
 		{

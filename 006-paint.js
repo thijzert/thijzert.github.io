@@ -32,6 +32,16 @@ var setup = function()
 	strokeCharacter.style.textAlign = "center";
 	document.getElementById("summary").appendChild(strokeCharacter);
 
+	var otrg = document.createElement("UL");
+	otrg.id = "optionTarget";
+	hzp.optionTarget = otrg;
+	document.getElementById("summary").appendChild(otrg);
+
+	var cb = document.createElement("DIV");
+	cb.style.clear = "both";
+	document.getElementById("summary").appendChild(cb);
+
+
 	var textcontainer = document.createElement("DIV");
 	textcontainer.setAttribute( "class", "text-container" );
 
@@ -40,7 +50,7 @@ var setup = function()
 	textcontainer.appendChild( textBox );
 	document.getElementById("summary").appendChild(textcontainer);
 
-	strokeCharacter.addEventListener( "click", acceptChar );
+	//strokeCharacter.addEventListener( "click", acceptChar );
 	strokeDescription.addEventListener( "click", strikeThat );
 
 
@@ -104,6 +114,13 @@ var setup = function()
 	});
 
 
+	hzp.addEventListener( "select", function( event )
+	{
+		console.log( "Accepted character ", event.character.glyph, " with score ", event.score );
+		textBox.value += event.character.glyph;
+	});
+
+
 	redraw();
 };
 
@@ -128,17 +145,6 @@ var strikeThat = function()
 	hzp.popStroke();
 };
 
-var acceptChar = function()
-{
-	if ( foundCharacter != "" )
-	{
-		console.log( "Accepted character ", foundCharacter, " with score ", foundScore );
-		textBox.value += foundCharacter;
-		foundCharacter = "";
-
-		hzp.reset();
-	}
-};
 
 window.addEventListener( "keydown", function(e)
 {
@@ -151,7 +157,15 @@ window.addEventListener( "keydown", function(e)
 			strikeThat();
 			break;
 		case "Enter":
-			acceptChar();
+			hzp.accept();
+			break;
+		case "ArrowLeft":
+		case "ArrowUp":
+			hzp.activeIndex--;
+			break;
+		case "ArrowRight":
+		case "ArrowDown":
+			hzp.activeIndex++;
 			break;
 	};
 });
