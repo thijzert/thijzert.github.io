@@ -80,7 +80,7 @@ var setup = function()
 	stu = document.createElement("TEXTAREA");
 	stu.style.fontFamily = "Inconsolata, monospace";
 	stu.style.width = "100%";
-	stu.style.height = "30em";
+	stu.style.height = "40em";
 	studiocontainer.appendChild(stu);
 
 	bcc.appendChild( studioOutput );

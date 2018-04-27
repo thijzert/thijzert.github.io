@@ -310,11 +310,74 @@ Hanzipad.RegisterCharacter( "\u56DE", "B7f B7cf C6f C5cf D3c B1c", [{sound: "hui
 
 
 // HSK 1 326-350:  豕家曷喝有爱能茶云会乞吃相想夬块零攵做巴爸此些者都
+Hanzipad.RegisterCharacter( "\u4E5E", "C8g C7c B5chcl", [{sound: "qi3", eng: "to beg"}] ); // 乞
+Hanzipad.RegisterCharacter( "\u4E91", "C7c B5c D5gc F3e", [{sound: "yun2", eng: "cloud"}] ); // 云
+Hanzipad.RegisterCharacter( "\u4E9B", "C8f C6c B7f A4b G7h E8fcl C3c B1c", [{sound: "xie1", eng: "a little, somewhat"}] ); // 些
+Hanzipad.RegisterCharacter( "\u4F1A", "D8h D8d C5c B4c D4gc F3e", [{sound: "hui4", eng: "to can"}] ); // 会
+Hanzipad.RegisterCharacter( "\u505A", "C8g B6f C6c D8f C4f C4cf C2c F8g F6cl H6fg F6e", [{sound: "zuo4", eng: "to do"}] ); // 做
+Hanzipad.RegisterCharacter( "\u5403", "A6f A6cf B3c E8lg E6c E5chcl", [{sound: "chi1", eng: "to eat"}] ); // 吃
+Hanzipad.RegisterCharacter( "\u559D", "A7f A7cf A3c D7lf D7cf E6c D5c E5g D4cfi F3h F3e D3lf", [{sound: "he1", eng: "to drink"}] ); // 喝
+Hanzipad.RegisterCharacter( "\u5757", "A6c B8f A2b D6cf D4c E8fg F3e", [{sound: "kuai4", eng: "lump"}] ); // 块
+Hanzipad.RegisterCharacter( "\u592C", "B7cf B4c E8fg E4e", [{sound: "guai4", eng: "decisive"}] ); // 夬
+Hanzipad.RegisterCharacter( "\u5BB6", "D8 B7f B7cf C6c E6h D5 C5efi D4h E3h G5h E5e", [{sound: "jia1", eng: "home, family"}] ); // 家
+Hanzipad.RegisterCharacter( "\u5DF4", "B7cf E7f C4c B7fcl", [{sound: "ba1", eng: "to look forward to"}] ); // 巴
+Hanzipad.RegisterCharacter( "\u60F3", "A6lc C8lf C6g C6e E7f E7cf E6c E5c E3c B3g C3fcl D3e G3e", [{sound: "xiang3", eng: "to think"}] ); // 想
+Hanzipad.RegisterCharacter( "\u6535", "D8g C6c G6g C5d", [{sound: "pu1", eng: "knock", "rad": 1}] ); // 攵
+Hanzipad.RegisterCharacter( "\u66F7", "C7f C7cf C6c C5c C5gh C4cfi E4h D3d B3fc", [{sound: "he2", eng: "why"}] ); // 曷
+Hanzipad.RegisterCharacter( "\u6709", "B7c D7g C5f C5cf C4c C2c", [{sound: "you3", eng: "to have"}] ); // 有
+Hanzipad.RegisterCharacter( "\u6B64", "C7f D5c B6f A1b H6h E7fcl", [{sound: "ci3", eng: "this"}] ); // 此
+Hanzipad.RegisterCharacter( "\u7231", "G8h B7e D7e G7g B6f B6cf B4c D5g C3ch C3d", [{sound: "ai4", eng: "to love"}] ); // 爱
+Hanzipad.RegisterCharacter( "\u7238", "C8h F8d F7h C7d C4cf D4f C3c C4fcl", [{sound: "ba4", eng: "dad"}] ); // 爸
+Hanzipad.RegisterCharacter( "\u76F8", "A6c C8f C6g C5e E7f E7cf E5c E3c E1c", [{sound: "xiang1", eng: "each other"}] ); // 相
+Hanzipad.RegisterCharacter( "\u8005", "C7c D8f B5c G7h C3f C4cf C2c C1c", [{sound: "zhe3", eng: "he who"}] ); // 者
+Hanzipad.RegisterCharacter( "\u80FD", "B8gc C7e B5f B5cf B4c B2c G7h E8fcl G3h E4fcl", [{sound: "neng2", eng: "to be able to"}] ); // 能
+Hanzipad.RegisterCharacter( "\u8336", "C8e F8g A7c D6h D6d B3c E4fi C3g F3e", [{sound: "cha2", eng: "tea"}] ); // 茶
+Hanzipad.RegisterCharacter( "\u8C55", "B7c E7g C6efi D5h E4h H6h E7e", [{sound: "shi3", eng: "hog, swine"}] ); // 豕
+Hanzipad.RegisterCharacter( "\u90FD", "B7c C8f A5c E7g B4f B4cf B3 B1 F7cgei F7f", [{sound: "dou1", eng: "all, both"}] ); // 都
+Hanzipad.RegisterCharacter( "\u96F6", "C7c A6f B7cf D7f C6 C5 F6 F5 D5h E5d D4 C2ch D2e", [{sound: "ling2", eng: "zero"}] ); // 零
 
 
 // HSK 1 351-375:  戋钱买句犭狗猫书隹谁她七太六白勺的疋是彳艮很青请点
+Hanzipad.RegisterCharacter( "\u4E03", "A4b C7fcl", [{sound: "qi1", eng: "seven"}] ); // 七
+Hanzipad.RegisterCharacter( "\u4E66", "C6cf B4cfi D8f F7d", [{sound: "shu1", eng: "book"}] ); // 书
+Hanzipad.RegisterCharacter( "\u4E70", "B7cg C6d B5d B3c E6fh E2d", [{sound: "mai3", eng: "buy, bribe"}] ); // 买
+Hanzipad.RegisterCharacter( "\u516D", "D8e B6c C4g F4e", [{sound: "liu4", eng: "six"}] ); // 六
+Hanzipad.RegisterCharacter( "\u52FA", "C8g C7cfi C5e", [{sound: "shao2", eng: "spoon"}] ); // 勺
+Hanzipad.RegisterCharacter( "\u53E5", "C8g C7cfi C5f C5cf C2c", [{sound: "ju4", eng: "sentence"}] ); // 句
+Hanzipad.RegisterCharacter( "\u592A", "B5lc D8fgh E5e D2d", [{sound: "tai4", eng: "very, too"}] ); // 太
+Hanzipad.RegisterCharacter( "\u5979", "B8fd C6fg A6c D5bfi F8f E7fcl", [{sound: "ta1", eng: "she, her"}] ); // 她
+Hanzipad.RegisterCharacter( "\u5F73", "D8h D5h C4f", [{sound: "chi4", eng: "step", "rad": 1}] ); // 彳
+Hanzipad.RegisterCharacter( "\u5F88", "C8h C6g B5f D7fb D7cf E6c D4c H4h F4ed", [{sound: "hen3", eng: "very"}] ); // 很
+Hanzipad.RegisterCharacter( "\u620B", "C6b B4b D8edl G4h E8e", [{sound: "jian1", eng: "small, narrow"}] ); // 戋
+Hanzipad.RegisterCharacter( "\u662F", "C7lf C7cf D6c C5c A4c E4f E3c C3g C3cl", [{sound: "shi4", eng: "to be"}] ); // 是
+Hanzipad.RegisterCharacter( "\u70B9", "D8f D7c C5f C5cf C3c B2g C2e E2e G2e", [{sound: "dian3", eng: "a bit"}] ); // 点
+Hanzipad.RegisterCharacter( "\u72AD", "E8h B7efi D5h", [{sound: "quan3", eng: "dog", "rad": 1}] ); // 犭
+Hanzipad.RegisterCharacter( "\u72D7", "C8h A8efi C5g E8g E6cfi D5f D5cf E3c", [{sound: "gou3", eng: "dog"}] ); // 狗
+Hanzipad.RegisterCharacter( "\u732B", "C8h A8efi C5g D8e G8g D6lc D4f D4cf D3c F4f D1c", [{sound: "mao1", eng: "cat"}] ); // 猫
+Hanzipad.RegisterCharacter( "\u758B", "B7ch D7f E4c C5g C4ec", [{sound: "pi3", eng: "bolt"}] ); // 疋
+Hanzipad.RegisterCharacter( "\u7684", "C8g B6f B6cf B4c B2c F8g E6cfhi E5e", [{sound: "de5", eng: "of"}] ); // 的
+Hanzipad.RegisterCharacter( "\u826E", "B7fb B7cf B6c B4c H4h D4ed", [{sound: "gen3", eng: "stubborn"}] ); // 艮
+Hanzipad.RegisterCharacter( "\u8BF7", "B8d A5cfa D7c D6c F8f D5c E4f E4cfi E3c E2c", [{sound: "qing3", eng: "please, kindly"}] ); // 请
+Hanzipad.RegisterCharacter( "\u8C01", "B8e A5cfa E8g D6f F8e E6c E5c E3c F6f E1c", [{sound: "shei2", eng: "who"}] ); // 谁
+Hanzipad.RegisterCharacter( "\u94B1", "B8g B7c B5c A4c B5fa D6b D4b E8fel H4h F8d", [{sound: "qian2", eng: "money"}] ); // 钱
+Hanzipad.RegisterCharacter( "\u96B9", "C8g B6f E8e C6c D5lc D3c E6f C1c", [{sound: "zhui1", eng: "dove", "rad": 1}] ); // 隹
+Hanzipad.RegisterCharacter( "\u9752", "C7c C6c D8f A5c C4f C4cfi C3c D2c", [{sound: "qing1", eng: "nature's green"}] ); // 青
 
 
-// HSK 1 375-400:  未来坐主住去四个本开己卖
+// HSK 1 375-400:  未来坐主住去四个本开己卖米们
+Hanzipad.RegisterCharacter( "\u4E2A", "D8g E8d D5f", [{sound: "ge4", eng: "measure word"}] ); // 个
+Hanzipad.RegisterCharacter( "\u4E3B", "D8 C6c C4c D6f A1c", [{sound: "zhu3", eng: "master"}] ); // 主
+Hanzipad.RegisterCharacter( "\u4EEC", "B6 B8g B6f D8e D6f E7cfi", [{sound: "men5", eng: "plural"}] ); // 们
+Hanzipad.RegisterCharacter( "\u4F4F", "C8g B6f E8e D6c D4c E6f C1c", [{sound: "zhu4", eng: "to live"}] ); // 住
+Hanzipad.RegisterCharacter( "\u5356", "C7c D8f B6cg C5d B4d B3c E5gh E2d", [{sound: "mai4", eng: "sell"}] ); // 卖
+Hanzipad.RegisterCharacter( "\u53BB", "C6c D8f B4c D4fb F3e", [{sound: "qu4", eng: "to go"}] ); // 去
+Hanzipad.RegisterCharacter( "\u56DB", "B7f B7cf B2c D7g E7fc", [{sound: "si4", eng: "four"}] ); // 四
+Hanzipad.RegisterCharacter( "\u5750", "C7g B6e G7g F6e B3c D8f A1c", [{sound: "zuo4", eng: "to sit"}] ); // 坐
+Hanzipad.RegisterCharacter( "\u5DF1", "B7cf B5c B4fcl", [{sound: "ji3", eng: "self, oneself"}] ); // 己
+Hanzipad.RegisterCharacter( "\u5F00", "B7c B4c C7fg F7f", [{sound: "kai1", eng: "open"}] ); // 开
+Hanzipad.RegisterCharacter( "\u672A", "C6c B4c D8f D4g E4e", [{sound: "wei4", eng: "not yet"}] ); // 未
+Hanzipad.RegisterCharacter( "\u672C", "B6c D8f D6g E6e C2c", [{sound: "ben3", eng: "root"}] ); // 本
+Hanzipad.RegisterCharacter( "\u6765", "C7c C6e G6g B4c E8f D4g E4e", [{sound: "lai2", eng: "to arrive"}] ); // 来
+Hanzipad.RegisterCharacter( "\u7C73", "B7e G7g B5c D8f D4g E5e", [{sound: "mi3", eng: "rice"}] ); // 米
 
 
