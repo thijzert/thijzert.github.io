@@ -17,8 +17,8 @@ var setup = function()
 
 	hzp = new Hanzipad();
 	hzp.canvas = canvas;
-	hzp.size = width / 2;
-	hzp.border = width / 4;
+	hzp.size = 220;
+	hzp.border = 30;
 
 
 	previewCharacter = "";
@@ -28,12 +28,6 @@ var setup = function()
 	strokeDescription.style.minHeight = "2em";
 	document.getElementById("summary").appendChild(strokeDescription);
 
-	strokeCharacter = document.createElement("DIV");
-	strokeCharacter.style.fontSize = "30px";
-	strokeCharacter.style.fontFamily = "serif";
-	strokeCharacter.style.textAlign = "center";
-	//document.getElementById("summary").appendChild(strokeCharacter);
-
 	var otrg = document.createElement("UL");
 	otrg.id = "optionTarget";
 	hzp.optionTarget = otrg;
@@ -41,6 +35,7 @@ var setup = function()
 
 	var cb = document.createElement("DIV");
 	cb.style.clear = "both";
+	cb.style.marginBottom = "1em";
 	document.getElementById("summary").appendChild(cb);
 
 
@@ -51,9 +46,6 @@ var setup = function()
 	textBox.setAttribute( "type", "text" );
 	textcontainer.appendChild( textBox );
 	document.getElementById("summary").appendChild(textcontainer);
-
-	//strokeCharacter.addEventListener( "click", acceptChar );
-	//strokeDescription.addEventListener( "click", strikeThat );
 
 
 	var studiocontainer = document.createElement("DIV");
@@ -118,8 +110,6 @@ var setup = function()
 
 		foundCharacter = event.characterOptions[0].character.glyph;
 		foundScore = event.characterOptions[0].score;
-
-		strokeCharacter.textContent = foundCharacter;
 	});
 
 

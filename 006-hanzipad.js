@@ -420,6 +420,15 @@ class Hanzipad
 				}
 				li.appendChild( s );
 
+				li.addEventListener( "click", (function(i,hzp)
+				{
+					return (function( event )
+					{
+						hzp.activeIndex = i;
+						hzp.accept();
+					});
+				})( i, this ));
+
 				//s = document.createElement("SPAN");
 				//s.setAttribute( "class", "score" );
 				//s.textContent = this._options[i].score.toFixed(2);
