@@ -187,20 +187,6 @@ window.addEventListener( "keydown", function(e)
 });
 
 
-document.getElementById("sizeSlider").addEventListener("change", function(e)
-{
-	var s = parseFloat( this.value )
-	if ( s >= 5 && s <= 300 )
-		hzp.size = s;
-});
-document.getElementById("borderSlider").addEventListener("change", function(e)
-{
-	var s = parseFloat( this.value )
-	if ( s >= 0 && s <= 100 )
-		hzp.border = s;
-});
-
-
 (function()
 {
 	setup();
