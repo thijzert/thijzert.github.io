@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=320, user-scalable=no" />
+		<title>Chinese colour names</title>
+		<style>
+			#previous-answer
+			{
+				margin: 15px 5px;
+				font-size: 32px;
+				line-height: 28px;
+				font-weight: normal;
+				font-family: serif;
+			}
+			#previous-answer .correct { color: #1FC92B; }
+			#previous-answer .wrong   { color: #C9231F; }
+			#previous-answer .youanswered
+			{
+				color: #9C9C9C;
+				font-size: 80%;
+			}
+		</style>
+		<link rel="stylesheet" href="006-hanzipad.css" />
+	</head>
+	<body class="HanziPad">
+		<h2 id="previous-answer"></h2>
+		<h1 id="current-challenge"></h1>
+
+		<div class="HanziPad">
+			<canvas id="canvas"></canvas>
+			<ul class="optionList" id="options"></ul>
+		</div>
+
+		<script src="006-hanzipad.js"></script>
+		<script src="006-database.js"></script>
+
+		<script src="006a-colours.js"></script>
+	</body>
+</html>
+
