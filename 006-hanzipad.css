@@ -1,0 +1,39 @@
+
+.HanziPad .optionList
+{
+	margin: 0;
+	padding: 0;
+}
+.HanziPad .optionList li
+{
+	list-style: none;
+	float: left;
+	width: 40px;
+	padding: 5px 3px;
+	text-align: center;
+}
+.HanziPad .optionList li.undo
+{
+	background-color: #DE4A4A;
+}
+.HanziPad .optionList li.undo.nope
+{
+	background-color: #D8D6D6;
+	color: #939191;
+}
+.HanziPad .optionList li.active
+{
+	background-color: #7B99DD;
+}
+.HanziPad .optionList li span
+{
+	display: block;
+}
+.HanziPad .optionList li span.glyph
+{
+	font-size: 30px;
+	line-height: 30px;
+	font-family: serif;
+}
+
+
