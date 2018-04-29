@@ -14,7 +14,7 @@ Hanzipad.RegisterCharacter( "\u7EFF", "B7gc C6gb A1b D7cf D6c D5c F5fi D4e D1b H
 Hanzipad.RegisterCharacter( "\u8272", "C7h C7cg B5cf D5f B3c B5fcl", [{sound: "se4", eng: "colour"}] );
 Hanzipad.RegisterCharacter( "\u84DD", "C8f F8f A7c B5f D5f F5g E5c F4e B3f B3cf D3f E3f A1c", [{sound: "lan2", eng: "blue"}] );
 Hanzipad.RegisterCharacter( "\u91D1", "E8h D7d C5c B3c D5f B2e G3g A1c", [{sound: "jin1", eng: "gold"}] );
-Hanzipad.RegisterCharacter( "\u989C", "C7 A7c B6e D7g A5c B5f D4h D3h D2h E7c F7 E6f E6cf F5fg G2e", [{sound: "yan2", eng: "color"}] );
+Hanzipad.RegisterCharacter( "\u989C", "C7 A7c B6e D7g A5c B5f D4h D3h D2h E7c F7 E6f E6cf F5fg G2e", [{sound: "yan2", eng: "face"}] );
 Hanzipad.RegisterCharacter( "\u9EC4", "A7c C8f F8f A6c B5f B5cf B3c D5f B2c C1h E1d", [{sound: "huang2", eng: "yellow"}] );
 Hanzipad.RegisterCharacter( "\u9ED1", "B7f B7cf C6 F6 B5c D7f B4c A2c B2g C2e E2e G2e", [{sound: "hei1", eng: "black"}] );
 

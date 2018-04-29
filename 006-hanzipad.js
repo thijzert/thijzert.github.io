@@ -402,21 +402,20 @@ class Hanzipad
 			this._optionTarget.innerHTML = "";
 
 
-			if ( this._strokes.length > 0 )
-			{
-				var li = document.createElement("LI");
-				li.setAttribute( "class", "undo" );
-				li.innerHTML = "<span class=\"glyph\">\u2718</span><span class=\"sound\">undo</span>";
+			var li = document.createElement("LI");
+			li.classList.add( "undo" );
+			if ( this._strokes.length == 0 )
+				li.classList.add( "nope" );
+			li.innerHTML = "<span class=\"glyph\">\u2718</span><span class=\"sound\">undo</span>";
 
-				li.addEventListener( "click", (function(hzp)
+			li.addEventListener( "click", (function(hzp)
+			{
+				return (function( event )
 				{
-					return (function( event )
-					{
-						hzp.popStroke();
-					});
-				})( this ));
-				this._optionTarget.appendChild(li);
-			}
+					hzp.popStroke();
+				});
+			})( this ));
+			this._optionTarget.appendChild(li);
 
 			for ( var i = 0; i < this._options.length; i++ )
 			{

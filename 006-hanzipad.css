@@ -16,6 +16,11 @@
 {
 	background-color: #DE4A4A;
 }
+.HanziPad .optionList li.undo.nope
+{
+	background-color: #D8D6D6;
+	color: #939191;
+}
 .HanziPad .optionList li.active
 {
 	background-color: #7B99DD;
