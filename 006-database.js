@@ -286,27 +286,28 @@ Hanzipad.RegisterCharacter( "\u8111", "B7f B7cfi A6c A4c E8e D6c G6g E5e D5fc G5
 Hanzipad.RegisterCharacter( "\u8BED", "B7e A5cfb D7c F7g D6cf C4c D3f D3cf D1c", [{sound: "yu3", eng: "language"}] ); // 语
 
 
-// HSK 1 301-325:  今丬北反饣饭官馆年了写爫采菜令冷和岁水回
-Hanzipad.RegisterCharacter( "\u4ECA", "E8h E8d C5c B3cg", [{sound: "jin1", eng: "present"}] ); // 今
+// HSK 1 301-325:  今丬北反饣饭官馆吗年了写爫采菜令冷和岁水回
 Hanzipad.RegisterCharacter( "\u4E2C", "C7e C2b E8f", [{sound: "qiang2", eng: "cot", "rad": 1}] ); // 丬
+Hanzipad.RegisterCharacter( "\u4E86", "B7ch E5fi", [{sound: "le5", eng: "past tense"}] ); // 了
+Hanzipad.RegisterCharacter( "\u4ECA", "E8h E8d C5c B3cg", [{sound: "jin1", eng: "present"}] ); // 今
+Hanzipad.RegisterCharacter( "\u4EE4", "D8gh D8e C5c B4cfi D4f", [{sound: "ling4", eng: "to command"}] ); // 令
+Hanzipad.RegisterCharacter( "\u5199", "B8g B7c C6c C6fcfi B3c", [{sound: "zie3", eng: "write"}] ); // 写
+Hanzipad.RegisterCharacter( "\u51B7", "A7d A2a E8h E8d D5c D4cfi E4f", [{sound: "leng3", eng: "cold"}] ); // 冷
 Hanzipad.RegisterCharacter( "\u5317", "C8f A6c A2b H6h E7fcl", [{sound: "bei3", eng: "north"}] ); // 北
 Hanzipad.RegisterCharacter( "\u53CD", "G7i B7fg B5ch C5ed", [{sound: "fan3", eng: "opposite"}] ); // 反
+Hanzipad.RegisterCharacter( "\u5417", "A7f A7cf A3c D7cf D6fcfi D3c", [{sound: "ma5", eng: "?"}] ); // 吗
+Hanzipad.RegisterCharacter( "\u548C", "D8h A5c C7f C5g C5e E6f E6cf E2c", [{sound: "he2", eng: "and"}] ); // 和
+Hanzipad.RegisterCharacter( "\u56DE", "B7f B7cf C6f C5cf D3c B1c", [{sound: "hui2", eng: "to circle, to return"}] ); // 回
+Hanzipad.RegisterCharacter( "\u5B98", "D8 B7f B7cf C6f C6cf C4c C3cf C1c", [{sound: "guan1", eng: "government official"}] ); // 官
+Hanzipad.RegisterCharacter( "\u5C81", "E8f B7fc G7f D6h C5c C3d", [{sound: "sui4", eng: "year, years old"}] ); // 岁
+Hanzipad.RegisterCharacter( "\u5E74", "C8g C7c C5c C5f A3c E7f", [{sound: "nian2", eng: "year"}] ); // 年
+Hanzipad.RegisterCharacter( "\u6C34", "D8fi A6cg H6gh D6e", [{sound: "shui3", eng: "water"}] ); // 水
+Hanzipad.RegisterCharacter( "\u722B", "G6h B5g D5e F5e", [{sound: "zhua3", eng: "claw", "rad": 1}] ); // 爫
+Hanzipad.RegisterCharacter( "\u83DC", "C8e F8g A7c G6i B5e D5e G5g B3c D4f D3g E3e", [{sound: "cai4", eng: "vegetable"}] ); // 菜
+Hanzipad.RegisterCharacter( "\u91C7", "G8h B6e D6e G7g B4c D5f D4g E4e", [{sound: "cai3", eng: "to pick"}] ); // 采
 Hanzipad.RegisterCharacter( "\u9963", "C8g B6cg C5fb", [{sound: "shi2", eng: "food", "rad": 1}] ); // 饣
 Hanzipad.RegisterCharacter( "\u996D", "B8g B7cg B5fb H8h D7f E5cg E5e", [{sound: "fan4", eng: "meal"}] ); // 饭
-Hanzipad.RegisterCharacter( "\u5B98", "D8 B7f B7cf C6f C6cf C4c C3cf C1c", [{sound: "guan1", eng: "government official"}] ); // 官
 Hanzipad.RegisterCharacter( "\u9986", "B8g B6cg B5f F8e D7 D7c E6f E6cf E4c E3cf E1c", [{sound: "guan3", eng: "public building"}] ); // 馆
-Hanzipad.RegisterCharacter( "\u5E74", "C8g C7c C5c C5f A3c E7f", [{sound: "nian2", eng: "year"}] ); // 年
-Hanzipad.RegisterCharacter( "\u4E86", "B7ch E5fi", [{sound: "le5", eng: "past tense"}] ); // 了
-Hanzipad.RegisterCharacter( "\u5199", "B8g B7c C6c C6fcfi B3c", [{sound: "zie3", eng: "write"}] ); // 写
-Hanzipad.RegisterCharacter( "\u722B", "G6h B5g D5e F5e", [{sound: "zhua3", eng: "claw", "rad": 1}] ); // 爫
-Hanzipad.RegisterCharacter( "\u91C7", "G8h B6e D6e G7g B4c D5f D4g E4e", [{sound: "cai3", eng: "to pick"}] ); // 采
-Hanzipad.RegisterCharacter( "\u83DC", "C8e F8g A7c G6i B5e D5e G5g B3c D4f D3g E3e", [{sound: "cai4", eng: "vegetable"}] ); // 菜
-Hanzipad.RegisterCharacter( "\u4EE4", "D8gh D8e C5c B4cfi D4f", [{sound: "ling4", eng: "to command"}] ); // 令
-Hanzipad.RegisterCharacter( "\u51B7", "A7d A2a E8h E8d D5c D4cfi E4f", [{sound: "leng3", eng: "cold"}] ); // 冷
-Hanzipad.RegisterCharacter( "\u548C", "D8h A5c C7f C5g C5e E6f E6cf E2c", [{sound: "he2", eng: "and"}] ); // 和
-Hanzipad.RegisterCharacter( "\u5C81", "E8f B7fc G7f D6h C5c C3d", [{sound: "sui4", eng: "year, years old"}] ); // 岁
-Hanzipad.RegisterCharacter( "\u6C34", "D8fi A6cg H6gh D6e", [{sound: "shui3", eng: "water"}] ); // 水
-Hanzipad.RegisterCharacter( "\u56DE", "B7f B7cf C6f C5cf D3c B1c", [{sound: "hui2", eng: "to circle, to return"}] ); // 回
 
 
 // HSK 1 326-350:  豕家曷喝有爱能茶云会乞吃相想夬块零攵做巴爸此些者都
@@ -379,5 +380,118 @@ Hanzipad.RegisterCharacter( "\u672A", "C6c B4c D8f D4g E4e", [{sound: "wei4", en
 Hanzipad.RegisterCharacter( "\u672C", "B6c D8f D6g E6e C2c", [{sound: "ben3", eng: "root"}] ); // 本
 Hanzipad.RegisterCharacter( "\u6765", "C7c C6e G6g B4c E8f D4g E4e", [{sound: "lai2", eng: "to arrive"}] ); // 来
 Hanzipad.RegisterCharacter( "\u7C73", "B7e G7g B5c D8f D4g E5e", [{sound: "mi3", eng: "rice"}] ); // 米
+
+
+
+// HSK 2:
+//    阴每比自因瓜要足思跑丈路跳两息千孩为黑卖乐它完也弟宜
+//    雪张舞事船累汽场男色您踢得室情介从可右号司以件票非泳
+//    忙快病意身向蛋就吧休慢离送告洗员但体牛穿道咖教药懂白
+//    百鱼便哥斤让新旁旅诉红试早纸绍课经给题颜元边公考共过
+//    迎运近还房进远所笑手第唱找等答啡游肉备外夫晚准真晴错
+//    眼着报奶睛羊玩行长左已表篮班妹妻始别姓到次知希门歌问
+//    间帮正步常球最望床贵务动助鸡走
+
+
+// HSK 3:
+//    板炼极超段越接阳烧阿附康提除碗澡糕糖园趣图怕急怪包总
+//    跟查化万且世业黄半季主然举单南难久乎安汁求搬舒定实照
+//    历般角于熊云解地甜当用坏画树界节根害容宾厨惯参又双需
+//    发叔变口句示礼河只鼻史虽祝法注花静心必忘借城鞋疼梯健
+//    感检愿层居伞选秋种爬爷通山位低片周牙空遇物突放音故使
+//    特敢草像数瘦文境楚响鲜楼轻较辆邮哭邻信议方记讲词级旧
+//    该须顾练终结绩声盘戏铁铅绿成或目直相者其典而迟银冒笔
+//    才耳扫清啊调聪把易啤风渴萄春筷简复夏酒算冬冰决头净普
+//    奇葡网护锻如担育镜择箱胖环拿街差己衫衬重满刚饱更饿蓝
+//    刮刷刻香姨婚短矮市被脚带灯闻力办裙理帽脸裤换据演干平
+//    腿末应朵马加李努束赛条蕉骑鸟
+
+
+// HSK 4:
+//    松破础林推烟硕趟母烦度毕座际毛降硬确限险握陪精随至困
+//    围怀态激怜瓶性染距匙恐与柿专区丢严麻孙民丰恼孤丽悉言
+//    默博集卡之悔弃弄乒乓永乘印危式即却引圆厉乱压厌汗观规
+//    江航污厚汤原弹争紧互亚甚圾熟址彩沙由申标坚艺往撞律留
+//    垃格惊案宽惜寄密富寒交疑桥察鼓虎及亲反虑桶亿取受仅导
+//    仍另社仔油台叶播代燥齐神价任微份泪忆倍禁泼擦龄福志苦
+//    值忽假梦愉基停将躺尊偶尔尝各合傅尤程稍森棵尽否慕众优
+//    吵吸传伤展秀适洋呀估科逐父逛速造积洲何范活味流支命究
+//    穷济收改遍窄效窗浪例傲海散堵供警消邀敲整塑植料填懒墙
+//    增咱咳咸品软针润概竞竟章童保输计断讨俩辛修狮许论访证
+//    评族获部译深约纪诚无既详页误顺顿皮组细织预钢钥绝允光
+//    士继克免盐盒续辣入全戚达具养耐戴户内连农扔符售笨扩聊
+//    猜职扬扮扰联聘批渐猪技猴谅谈温谊折映食处签肚够省况失
+//    湿酸凉象景减缺著奋醒暂奖暑貌暖暗键抬抱抽肤肥拉肯美拒
+//    管招羞括血拾篇巧巾嗽袋释量金袜刀切羡群划饮列则羽饺饼
+//    判利替制首持挂指按翻剧剩币帅脏歉挺闹止此功脱脾死嘴琴
+//    授掉掌并幸漫排幽广负序责败货术质膏底购费贺杂资粗码材
+//    村励骄赚研验勇赢骗阅
+
+
+// HSK 5:
+//    赶鸭构烂勤烈趁队鸽趋析枕控措烛勺防阵阶薄烤阻烫毒陆庭
+//    陌描毫插毯粮嚷碍碎骤骨糊臭延隔建团致糟枪固架怒怖髦跃
+//    某柔匀匆柜藏丁恋柴麦践丑碰丙丝恢匹恨磁存孝恳升恶临华
+//    协氛悄义雄雇占乏卧卫宁搞煎乖宇守乙舅卷舌舍乡汇宗官宙
+//    煤厂圈宝厅煮览雷摄弯摆摇厕厘雾弱池土强摔摘亏素触紫摩
+//    录沉甩均摸形田甲沟良誉艰鬼艳彻彼悠坦撕征魅待悲宠踩宣
+//    略核型宴桃厢宿寂桔惠寓惭县产档疗享寞叉震霉鼠虚叙蹲寺
+//    燃寻古寿召付治虹令露泉祖泛仿操德青靠革忍倒苗倡龙疯疲
+//    疾域念英痒梨愁培痛梳躲封射棉愤愧偷棋尖尘偿棒尚傍蛇吐
+//    吓税企慌慎尺尾吨局含启屈伙屉届屋伟慧吹稳吻私退逃慰属
+//    呆鞭洒透伴伸秒秘递途似洞逗秩版牌称余佛派移逻浅佣呼浇
+//    佩测堆岛浏浓政咐遗牵敌敏催救傻遵依敬涂避荐繁荣塔椒斗
+//    斜蜂憾蜜岸蜡咨登咬皂皇哈犯侵转轮立状犹促涨钓载狂俊辅
+//    液辈俗蝴蝶哲辑订竹辞狡训讯融郊施独俱讽设淡狼诊诗纯旦
+//    纲询旬纷顶壁项线领绕频颗统盆兄充益绪盖壶兔绳维辩模绸
+//    铃综横戒战兵铜盼迅盾唉返册违扇链橡军迫述托迷迹耽唯追
+//    执扶聚献承抄筑猾策抓投抖抗谓飘谜肃肌谦谨善配喊显营夕
+//    冠缓夜编豆缘晒晕眉率冲玉落王缩冻酱夸夹销锁眠豪锅豫奈
+//    醉醋源智锐套凡罐凭罚睁抢披击罪置股妇拆肩拍拐妙肺拜胁
+//    胃胆拥喷拦瞎背拳胜巨胡嗓玻餐巴衡补胳胶胸珍采滑野威滚
+//    滩娘妨滴饰创娱初娶瞧删翅曾姑委刺馒姥矛姻欠姿欣挑矩布
+//    剪石挡挣脆挤款挥矿振帘歇帝脖嘉闪闭闯灭裁闲装灰席灵灾
+//    劝武裔捐歪幅损嘱捡炒幕腐裹殊残漏籍漠腰幻幼器朝庆贝膀
+//    木贡财未膊账库庙类朴府废贴贷贸嚏杀权劣蔬粒驶嫁粘璃驾
+//    赏劲劳砍骂赔势赞炭炮嫩炸
+
+
+// HSK 6:
+//    赴阐阔砸烁枉殴蕴掠探殿掩烘枚枝毁毅勾勿掰掷陈膨揉陋烹
+//    揍庸粥廉陡廊臂碌嚼廓揭粹碑陵陶陷援隆臣隐隘隙障枯覆瓣
+//    瓦趴濒瓷怠薪怨怯跌柬跨恍跪柱碧恒恕丐匪丘碳丛恩孔恭孕
+//    丧隧磅恰氏焦磋氓串丸黎隶磕搀焰搁搂卑搅卓氢搏氧雅磨搓
+//    乌雌异搜煌宅悟雕弊舆乞宏卸搭舔携舟弥弦乳觅紊雹摊予舰
+//    舱圣舶熄索汰熏井汹艇甘摧归沃艘沐甭坑沛栋彰坛栏坝坟役
+//    踊踌坡踏撑撒畅患悦魂魄誓畏径悬徊畔株畜魔徒审悼徘徙踪
+//    芒垂垄宪宫番栽宰惋宵畴框惑惕厦蹈蹋桑疆惦惧惨惩疏亡惫
+//    亦惮惰桨亭疙熨惹虏蹦熬虐蹬霍仁叛沧仇寸梁沫叠沮霜叨霞
+//    虫躁躇仓叭叮沸仗仙沼撤沾沿叹泄叼蚀霸泊仪泌御仰祥循芦
+//    擅泡波擎泥祸泰垫芽齿忌泻泽倘苍苏疤倦疫忠埋苟忧若债倾
+//    症偏梢痕愈械躬痪愚痹愣棍棕吁吉稀吊尬慈吝吞尴吟尸稚伍
+//    爆伏吩稠伐屁屏慨禽蛮洁屑吼鞠伦秃伪稻稿伯慷呈逊屡履伶
+//    攀伺呕逝爽津憋秤洪逢攒屿逮岂茂洽呵逼茎呻穴岔岗韧堂浊
+//    牢咀牧浑攻咋遏窃佳牲堕咙储茫牺侈堡遣堤遥窜窝浮堪遭遮
+//    浴敞浸涉荒瘤譬涌瘩敷瘫塌涕荡涛荧瘸塘椎瘾塞斑僵癌斟僻
+//    椭岩墅岳墓墟皆鲁侠侣咽侦侧侨哀侮哄哆哇轨犬峡哎钉哑峭
+//    轰峰竖哟峻涮哦狈哨钞俐辉涵俘斥竭端斩辐榜淀辖辙讥哺斯
+//    哼淆辜郁辟狠淋俭俯讳郎狭讶淘郑讼狱莫旋诈旗墨纠纤混淹
+//    纬添诞旨菌纳纵诧纹纺诫诬纽旱旷顽诱旺绅诵诸颁颂皱颇颈
+//    诺绎诽绑绒绘颖络钦壤钩盈额兆绣壮监壳榨盗兑钻盛盟辨党
+//    兜辫兢辰辱盯崇辽盲耀迁迄迈截耍崖兼兽耕唆耗唇螺铭崩橙
+//    铸唐扁崭铺扎唠扑扒耸迸耻扛猎嵌扣猖猛聋唾扭颠扯颤笼啃
+//    渔渗昂筋昆鄙渠筐渡昌渣筒昏谋谍筛谎昔抑港抒啥啦谐抚抛
+//    啬飙渺啰昧肆啸萌谣谤筹谬肖喇喉缀谱酌昼谴谷湖晃酗冤喘
+//    缔晋酝缚缝晓缠酬央晤湾酷晨凄夺缴溃酿溅凌溉晰锈眨晶凑
+//    奉锋眯晾奏凝董眶溜奔暄葫葬罕锤奠奢锦奥凶凸凹罢罩锲蒂
+//    奴抵抹署押督镇妄睦肢妆蒙拄睬肪拌蠢妒睹肴拓拔拖拘拙肿
+//    拟胀箭拢拣拧拨喻胎瞒衅镶川州嗅衍巡胞拼拽巩衔巷溪嗦嗨
+//    溶嗯衰衷暧篷珠滋暴袍滔娃娇袖滞滤滥滨妥蒸曝刊饥蓄刑饪
+//    饲饶曲姆瞩瞪馅婆馈瀑馋瞻券刹蓬翔翘剂削婪剔剖挎婴欧翼
+//    挖剥挚欲灌帆副挠脂欺割脉挨袭帐挪挫帖媒袱帜嘈劈挽裂闷
+//    捆灶捉嘛捍捎捏灿歧裕捕炉捞炎歹嘲捣捧漆殃嘿簸裳琢腔捷
+//    幢殖掀腥腮掏掐朗腹掘噪腻腾庄庇贤贩贪蔑贫蔓贬贯庞膛朽
+//    膜膝媳粉贼潜贿杆赁驰驱赂驳劫嫂嫉赋驻赌潮杖嫌蔼蔽杜赖
+//    杠砖鉴勃赠勉赤澄澈阂骚杰勘鸣
 
 
