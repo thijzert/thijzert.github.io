@@ -28,7 +28,7 @@
 		{ glyph: "\u91D1", bg: "#DAA520", chk: "#A07812", br: "#947629", fg: "#F1DEAF", eng: "gold" },
 		{ glyph: "\u9EC4", bg: "#EAE814", chk: "#D0CF26", br: "#B3B320", fg: "#EEEEA2", eng: "yellow" },
 		{ glyph: "\u9ED1", bg: "#000000", chk: "#1e1e1e", br: "#282828", fg: "#777777", eng: "black" },
-		{ glyph: "\u989C", bg: "#ffffff", chk: "#f5f5f5", br: "#c8c8c8", fg: "#1e1e1e", eng: "color" },
+		{ glyph: "\u989C", bg: "#ffffff", chk: "#f5f5f5", br: "#c8c8c8", fg: "#1e1e1e", eng: "face" },
 		{ glyph: "\u8272", bg: "#ffffff", chk: "#f5f5f5", br: "#c8c8c8", fg: "#1e1e1e", eng: "colour" }
 	];
 
