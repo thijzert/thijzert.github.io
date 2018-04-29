@@ -59,7 +59,39 @@
 	};
 
 	var hdr_current = document.getElementById("current-challenge");
+	var hdr_hint = document.getElementById("current-hint");
 	var hdr_previous = document.getElementById("previous-answer");
+
+	// Hinting: add a hint character that grows over time
+	var hintStart = 0;
+	var growHint = function( _now )
+	{
+		if ( hintStart == 0 )
+			hintStart = _now;
+
+		var t = 0.00012 * ( _now - hintStart );
+		var s = t*t - 0.2;
+
+		if ( s > 1 )
+		{
+			hdr_hint.style.display = "inline";
+			hdr_hint.style.fontSize = "100%";
+		}
+		else
+		{
+			if ( s < 0 )
+			{
+				hdr_hint.style.display = "none";
+			}
+			else
+			{
+				hdr_hint.style.display = "inline";
+				hdr_hint.style.fontSize = (100*s) + "%";
+			}
+
+			requestAnimationFrame( growHint );
+		}
+	};
 
 	var current = 0;
 	var newChallenge = function(glyph)
@@ -83,6 +115,7 @@
 		current = Math.floor( colours.length * Math.random() );
 		col = colours[current];
 		hdr_current.textContent = col.eng;
+		hdr_hint.textContent = col.glyph;
 
 		hzp.Colours.Background = col.bg;
 		hzp.Colours.CurrentStroke = col.fg;
@@ -92,6 +125,9 @@
 
 		hzp.reset();
 		hzp.redraw();
+
+		hintStart = 0;
+		requestAnimationFrame( growHint );
 	};
 
 	newChallenge();
