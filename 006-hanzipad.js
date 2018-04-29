@@ -114,6 +114,8 @@ class Hanzipad
 	 **/
 	set optionTarget( v )
 	{
+		v.classList.add( "optionList" );
+
 		this._optionTarget = v;
 		this.redraw();
 	}
@@ -147,7 +149,7 @@ class Hanzipad
 			var li = this._optionTarget.firstChild;
 			while ( li )
 			{
-				if ( li.tagName == "LI" )
+				if ( li.tagName == "LI" && li.classList.contains("option") )
 				{
 					if ( j == this._activeIndex )
 						li.classList.add("active");
@@ -398,14 +400,33 @@ class Hanzipad
 		if ( this._optionTarget )
 		{
 			this._optionTarget.innerHTML = "";
+
+
+			if ( this._strokes.length > 0 )
+			{
+				var li = document.createElement("LI");
+				li.setAttribute( "class", "undo" );
+				li.innerHTML = "<span class=\"glyph\">\u2718</span><span class=\"sound\">undo</span>";
+
+				li.addEventListener( "click", (function(hzp)
+				{
+					return (function( event )
+					{
+						hzp.popStroke();
+					});
+				})( this ));
+				this._optionTarget.appendChild(li);
+			}
+
 			for ( var i = 0; i < this._options.length; i++ )
 			{
 				var li = document.createElement("LI");
+				li.classList.add("option");
 				li.dataset["index"] = i;
 				li.dataset["glyph"] = this._options[i].character.glyph;
 
 				if ( i == this._activeIndex )
-					li.setAttribute( "class", "active" );
+					li.classList.add( "active" );
 
 				var s = document.createElement("SPAN");
 				s.setAttribute( "class", "glyph" );
