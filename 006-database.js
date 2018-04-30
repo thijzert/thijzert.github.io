@@ -18,6 +18,15 @@ Hanzipad.RegisterCharacter( "\u989C", "C7 A7c B6e D7g A5c B5f D4h D3h D2h E7c F7
 Hanzipad.RegisterCharacter( "\u9EC4", "A7c C8f F8f A6c B5f B5cf B3c D5f B2c C1h E1d", [{sound: "huang2", eng: "yellow"}] );
 Hanzipad.RegisterCharacter( "\u9ED1", "B7f B7cf C6 F6 B5c D7f B4c A2c B2g C2e E2e G2e", [{sound: "hei1", eng: "black"}] );
 
+// If I ever reincarnate as an AI, I'll be:  量子大脚
+Hanzipad.RegisterCharacter( "\u91CF", "C7f C7cf C7c C6c A5c C4f C4cf D4c C3c E4f C2c A1c", [{sound: "liang2", eng: "quantity"}] ); // 量
+Hanzipad.RegisterCharacter( "\u5B50", "B7ch E6fi B4c", [{sound: "zi3", eng: "child, small thing"}] ); // 子
+Hanzipad.RegisterCharacter( "\u5927", "B5c E8fg D4e", [{sound: "da4", eng: "big"}] ); // 大
+Hanzipad.RegisterCharacter( "\u811A", "A7f A7cfi A6c A4c D6c D8f C5c D5gb E3e F7cfi F7f", [{sound: "jiao3", eng: "foot, leg"}] ); // 脚
+Hanzipad.RegisterCharacter( "\u8173", "A7f A7cf A5c A3c D7g E7e E6g E5e D3f D3cf D1c F7cfi F7f", [{sound: "jiao3", eng: "foot, leg"}] ); // 腳
+Hanzipad.RegisterCharacter( "\u602A", "A6g C6e B8f D7cg D7d E3c F4f C1c", [{sound: "guai4", eng: "strange, monster"}] ); // 怪
+
+
 
 // HSK 1 1-25:  子女小勹尔人亻你马妈工乍作羊木样厶冖丶见觉
 
