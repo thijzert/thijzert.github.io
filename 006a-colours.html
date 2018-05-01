@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=320, user-scalable=no" />
+		<link rel="stylesheet" href="doodle.css" />
 		<title>Chinese colour names</title>
 		<style>
 			#previous-answer
@@ -28,13 +29,19 @@
 		<link rel="stylesheet" href="006-hanzipad.css" />
 	</head>
 	<body class="HanziPad">
-		<h2 id="previous-answer"></h2>
-		<h1><span id="current-challenge"></span><span id="current-hint"></span></h1>
+		<header id="doodle-header">
+			<a href="."><strong>&#x2190;</strong> all doodles</a>
+			<h1>Chinese colour names</h1>
+		</header>
+		<main id="doodle-main">
+			<h2 id="previous-answer"></h2>
+			<h1><span id="current-challenge"></span><span id="current-hint"></span></h1>
 
-		<div class="HanziPad">
-			<canvas id="canvas"></canvas>
-			<ul class="optionList" id="options"></ul>
-		</div>
+			<div class="HanziPad">
+				<canvas id="canvas"></canvas>
+				<ul class="optionList" id="options"></ul>
+			</div>
+		</main>
 
 		<script src="006-hanzipad.js"></script>
 		<script src="006-database.js"></script>
