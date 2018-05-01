@@ -21,10 +21,17 @@ file_put_contents( $html, "<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset=\"UTF-8\"/>
+		<link rel=\"stylesheet\" href=\"doodle.css\" />
 		<title>".htmlspecialchars($title)."</title>
 	</head>
 	<body>
-		<canvas id=\"canvas\"></canvas>
+		<header id=\"doodle-header\">
+			<a href=\".\"><strong>&#x2190;</strong> all doodles</a>
+			<h1>".htmlspecialchars($title)."</h1>
+		</header>
+		<main id=\"doodle-main\">
+			<canvas id=\"canvas\"></canvas>
+		</main>
 		<script src=\"".htmlspecialchars($js)."\"></script>
 	</body>
 </html>" );
