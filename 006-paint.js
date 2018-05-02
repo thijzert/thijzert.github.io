@@ -8,6 +8,7 @@ var penpos, lastpos, pendown;
 var strokes, currentStroke;
 var previewCharacter = "", foundCharacter = "", foundScore;
 
+
 var setup = function()
 {
 	canvas = document.getElementById("canvas");
@@ -88,11 +89,7 @@ var setup = function()
 		if ( previewCharacter != "" )
 		{
 			this.BackgroundGlyph = previewCharacter;
-
-			var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
-			var str = JSON.stringify( glc.join( " " ) );
-			var cdd = "[{sound: \"xx\", eng: \"xx\"}]";
-			studioOutput.value = "Hanzipad.RegisterCharacter( " + pc + ", " + str + ", " + cdd + " ); // " + previewCharacter;
+			update_studio();
 		}
 		else
 		{
@@ -124,11 +121,23 @@ var setup = function()
 };
 
 
+var update_studio = function()
+{
+	var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
+	var str = JSON.stringify( hzp.glyphCode.join( " " ) );
+	var cdd = "[{sound: \"\", eng: \"\"}]";
+	studioOutput.value = "Hanzipad.RegisterCharacter( " + pc + ", " + str + ", " + cdd + " ); // " + previewCharacter;
+};
+
 var redraw = function()
 {
 	previewCharacter = "";
 	if ( studioBox && studioBox.value.length > 0 )
+	{
 		previewCharacter = studioBox.value.substr(0,1);
+		update_studio();
+	}
+
 
 	if ( previewCharacter != "" )
 		hzp.BackgroundGlyph = previewCharacter;
