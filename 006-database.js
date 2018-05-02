@@ -633,7 +633,7 @@ Hanzipad.RegisterCharacter( "\u5355", "C8 F8g B6f B6cf B5c B4c D6f A2c", [{sound
 Hanzipad.RegisterCharacter( "\u5357", "C7c E8g B5f B5cfi C5e F5g C4c C2c D4f", [{sound: "nan2", eng: "south"}] ); // 南
 Hanzipad.RegisterCharacter( "\u96BE", "A6cg A6e E8g E6f F8e E6c E5c E3c F6f E1c", [{sound: "nan2", eng: "difficult"}] ); // 难
 Hanzipad.RegisterCharacter( "\u4E45", "D8g B4 C6cg E4e", [{sound: "jiu3", eng: "long time"}] ); // 久
-Hanzipad.RegisterCharacter( "\u4E4E", "F8h C6e F6g A4c D7fi", [{sound: hu1", eng: "?!?"}] ); // 乎
+Hanzipad.RegisterCharacter( "\u4E4E", "F8h C6e F6g A4c D7fi", [{sound: "hu1", eng: "?!?"}] ); // 乎
 Hanzipad.RegisterCharacter( "\u5B89", "D8e C7f C7c D6gd F4gh A4c", [{sound: "an1", eng: "quiet, calm"}] ); // 安
 Hanzipad.RegisterCharacter( "\u6C41", "B7d A5d A1a C5c F8f", [{sound: "zhi1", eng: "juice, sauce"}] ); // 汁
 Hanzipad.RegisterCharacter( "\u6C42", "C6c D8fi B5e A2b G5h D5e F7d", [{sound: "qiu2", eng: "to beg, to look for"}] ); // 求
