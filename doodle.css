@@ -34,3 +34,12 @@ body
 {
 	padding: 10px;
 }
+
+@media screen and (max-width: 500px)
+{
+	#doodle-header
+	{
+		display: none;
+	}
+}
+
