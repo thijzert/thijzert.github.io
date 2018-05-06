@@ -429,6 +429,8 @@ class Hanzipad
 				return (function( event )
 				{
 					hzp.popStroke();
+					event.preventDefault();
+					return false;
 				});
 			})( this ));
 			this._optionTarget.appendChild(li);
@@ -592,6 +594,8 @@ class Hanzipad
 
 		if ( this._pendown )
 		{
+			e.preventDefault();
+
 			this._ctx.strokeStyle = this.Colours.CurrentStroke;
 			this._ctx.lineWidth = this._size * 0.05;
 			this._ctx.lineCap = "round";
