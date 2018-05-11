@@ -42,3 +42,22 @@
 }
 
 
+
+
+
+.HanziPadMinigame .previous-answer
+{
+	margin: 15px 5px;
+	font-size: 32px;
+	line-height: 28px;
+	font-weight: normal;
+	font-family: serif;
+}
+.HanziPadMinigame .previous-answer .correct      { color: #1FC92B; }
+.HanziPadMinigame .previous-answer .wrong        { color: #C9231F; }
+.HanziPadMinigame .previous-answer .youanswered  { color: #9C9C9C; font-size: 80%; }
+.HanziPadMinigame .current-challenge .current-hint
+{
+	font-weight: normal;
+}
+
