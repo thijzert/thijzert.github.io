@@ -19,7 +19,7 @@
 		{ glyph: "\u6D45", bg: "#eeeeee", chk: "#cccccc", br: "#dddddd", fg: "#aaaaaa", eng: "light, shallow" },
 		{ glyph: "\u6DF1", bg: "#333333", chk: "#3a3a3a", br: "#444444", fg: "#555555", eng: "dark, deep" },
 		{ glyph: "\u7070", bg: "#777777", chk: "#aaaaaa", br: "#bbbbbb", fg: "#444444", eng: "gray" },
-		{ glyph: "\u767D", bg: "#ffffff", chk: "#dddddd", br: "#eeeeee", fg: "#ffffff", eng: "white" },
+		{ glyph: "\u767D", bg: "#ffffff", chk: "#dddddd", br: "#dddddd", fg: "#eeeeee", eng: "white" },
 		{ glyph: "\u7C89", bg: "#FF1493", chk: "#F488C2", br: "#F1BDD9", fg: "#612D49", eng: "pink" },
 		{ glyph: "\u7D2B", bg: "#9400D3", chk: "#630D88", br: "#A74AD0", fg: "#D1ADE2", eng: "purple" },
 		{ glyph: "\u7EA2", bg: "#ED3C3C", chk: "#B41A1A", br: "#902929", fg: "#E87272", eng: "red" },
@@ -103,11 +103,11 @@
 
 			if ( glyph == col.glyph )
 			{
-				apc( hdr_previous, spc("correct","\u2714"), " - ", col.eng, " - ", col.glyph );
+				apc( hdr_previous, spc("correct","\u2714"), col.eng, " - ", col.glyph );
 			}
 			else
 			{
-				apc( hdr_previous, spc("wrong","\u2718"), " - ", col.eng, " - ", col.glyph, " ",
+				apc( hdr_previous, spc("wrong","\u2718"), col.eng, " - ", col.glyph, " ",
 					spc("youanswered", "(you answered: ", glyph, " )") );
 			}
 		}
@@ -120,7 +120,8 @@
 		hzp.Colours.Background = col.bg;
 		hzp.Colours.CurrentStroke = col.fg;
 		hzp.Colours.PreviousStrokes = col.fg;
-		hzp.Colours.ChessSquares = col.chk;
+		//hzp.Colours.ChessSquares = col.chk;
+		hzp.Colours.ChessSquares = col.bg;
 		hzp.Colours.Border = col.br;
 
 		hzp.reset();

@@ -52,7 +52,13 @@ var setup = function()
 	var studiocontainer = document.createElement("DIV");
 	studiocontainer.setAttribute( "class", "studio-container" );
 	if ( location.hash != "#create" )
+	{
 		studiocontainer.style.display = "none";
+	}
+	else
+	{
+		hzp.Colours.ChessSquares = "#fefefe";
+	}
 
 	var bcc = document.createElement("DIV");
 	studiocontainer.appendChild(bcc);

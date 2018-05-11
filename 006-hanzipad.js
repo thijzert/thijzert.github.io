@@ -25,7 +25,7 @@ class Hanzipad
 
 		this.Colours = {
 			Background: "#fff",
-			ChessSquares: "#f5f5f5",
+			ChessSquares: "#fff",
 			Border: "#c8c8c8",
 			BackgroundGlyph: "rgba( 80, 80, 80, 0.3 )",
 			CurrentStroke: "#1e1e1e",
@@ -343,8 +343,12 @@ class Hanzipad
 				}
 			}
 
+			// Align to centre of pixel
+			b += 0.5;
+
 			this._ctx.strokeStyle = this.Colours.Border;
-			this._ctx.lineWidth = this._size * 0.02;
+			this._ctx.lineWidth = this._size * 0.013;
+			this._ctx.lineWidth = this._size * 0.005;
 			this._ctx.lineCap = "round";
 
 			this._ctx.strokeRect( b, b, s, s );
@@ -352,16 +356,28 @@ class Hanzipad
 			this._ctx.beginPath();
 
 			x = 0.0615 * this._size;
-			this._ctx.setLineDash([ x, x ]);
+			//this._ctx.setLineDash([ x, x ]);
 
+			x = 0.5 * this._size;
 			this._ctx.moveTo( b, b );
 			this._ctx.lineTo( b+s, b+s );
 			this._ctx.moveTo( b+s, b );
 			this._ctx.lineTo( b, b+s );
 			this._ctx.stroke();
 
-			this._ctx.setLineDash([]);
+			//this._ctx.setLineDash([]);
 
+
+			this._ctx.lineWidth = this._size * 0.005;
+			this._ctx.beginPath();
+
+			x = 0.5 * this._size;
+			this._ctx.moveTo( b+x, b );
+			this._ctx.lineTo( b+x, b+s );
+			this._ctx.moveTo( b+s, b+x );
+			this._ctx.lineTo( b, b+x );
+
+			this._ctx.stroke();
 
 
 			if ( this.BackgroundGlyph != "" )
@@ -413,6 +429,8 @@ class Hanzipad
 				return (function( event )
 				{
 					hzp.popStroke();
+					event.preventDefault();
+					return false;
 				});
 			})( this ));
 			this._optionTarget.appendChild(li);
@@ -576,6 +594,8 @@ class Hanzipad
 
 		if ( this._pendown )
 		{
+			e.preventDefault();
+
 			this._ctx.strokeStyle = this.Colours.CurrentStroke;
 			this._ctx.lineWidth = this._size * 0.05;
 			this._ctx.lineCap = "round";
