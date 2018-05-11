@@ -20,6 +20,8 @@ class Hanzipad
 		this._lastpos = [ 0.5, 0.5 ];
 		this._currentStroke = [];
 
+		this._queue = [];
+
 
 		this.BackgroundGlyph = "";
 
@@ -174,6 +176,47 @@ class Hanzipad
 			rv[ this._activeIndex % rv.length ].active = true;
 		}
 
+		return rv;
+	}
+
+
+	/**
+	 * Add a character to the output queue
+	 **/
+	enqueueCharacter( character )
+	{
+		this._queue.push( character );
+		this.redraw();
+	}
+
+	/**
+	 * Remove a character from the output queue
+	 **/
+	dequeueCharacter( i )
+	{
+		if ( i >= 0 && i < this._queue.length )
+			this._queue = this._queue.slice( i, 0 );
+
+		this.redraw();
+	}
+
+	/**
+	 * Remove a character from the output queue
+	 **/
+	resetQueue()
+	{
+		this._queue = [];
+		this.redraw();
+	}
+
+	/**
+	 * Get the currently queued output
+	 **/
+	get outputQueue()
+	{
+		var rv = "";
+		for ( var i = 0; i < this._queue.length; i++ )
+			rv += this._queue[i].glyph;
 		return rv;
 	}
 
@@ -434,6 +477,38 @@ class Hanzipad
 				});
 			})( this ));
 			this._optionTarget.appendChild(li);
+
+
+			for ( var i = 0; i < this._queue.length; i++ )
+			{
+				var li = document.createElement("LI");
+				li.classList.add( "queued" );
+				li.dataset["index"] = i;
+				li.dataset["glyph"] = this._queue[i].glyph;
+
+
+				var s = document.createElement("SPAN");
+				s.classList.add( "glyph" );
+				s.textContent = this._queue[i].glyph;
+				li.appendChild( s );
+
+				s = document.createElement("SPAN");
+				s.classList.add( "sound" );
+				if ( this._queue[i].descriptions.length > 0 )
+					s.textContent = this._queue[i].descriptions[0].sound;
+
+				li.appendChild( s );
+
+				li.addEventListener( "click", (function(i,hzp)
+				{
+					return (function( event )
+					{
+						hzp.dequeueCharacter( i );
+					});
+				})( i, this ));
+
+				this._optionTarget.appendChild(li);
+			}
 
 			for ( var i = 0; i < this._options.length; i++ )
 			{

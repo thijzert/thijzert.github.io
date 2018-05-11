@@ -28,6 +28,11 @@
 {
 	background-color: #7B99DD;
 }
+.HanziPad .optionList li.queued
+{
+	background-color: #176A1D;
+	color: #fff;
+}
 .HanziPad .optionList li span
 {
 	display: block;

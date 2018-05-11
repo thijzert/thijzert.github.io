@@ -1,8 +1,10 @@
 
+var hzpmg;
+
 (function()
 {
 	var root = document.getElementById( "doodle-main" );
-	var hzpmg = new HanzipadMinigame( root );
+	hzpmg = new HanzipadMinigame( root );
 
 	hzpmg.words = [
 		{ glyphs: "衣服", sound: "yi1 fu5", eng: "clothes", image: "assets/006b/images/clothes.png" },

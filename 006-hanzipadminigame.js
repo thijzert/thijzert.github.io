@@ -47,7 +47,7 @@ class HanzipadMinigame
 		var that = this;
 		this.hzp.addEventListener( "select", function(event)
 		{
-			that.addChar( event.character.glyph, event );
+			that.addChar( event.character, event );
 		});
 	}
 
@@ -65,6 +65,21 @@ class HanzipadMinigame
 			this.newChallenge();
 		}
 
+		if ( this.currentWord.glyphs.length == 1 )
+		{
+			this.newChallenge( chr.glyph );
+		}
+		else
+		{
+			this.hzp.enqueueCharacter( chr );
+			var sq = this.hzp.outputQueue;
+			this.hzp.reset();
+
+			if ( sq.length == this.currentWord.glyphs.length )
+			{
+				this.newChallenge( sq );
+			}
+		}
 	}
 
 	// Hinting: add a hint character that grows over time
@@ -128,7 +143,8 @@ class HanzipadMinigame
 
 
 
-		var col = this.words[this.current];
+		this.currentWord = this.words[this.current];
+		var col = this.currentWord;
 		if ( glyphs )
 		{
 			this.hdr_previous.innerHTML = "";
@@ -160,6 +176,7 @@ class HanzipadMinigame
 		}
 
 		this.hzp.reset();
+		this.hzp.resetQueue();
 		this.hzp.redraw();
 
 		this.hintStart = 0;
