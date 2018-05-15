@@ -313,46 +313,75 @@ class Hanzipad
 	getStrokeCode( stroke )
 	{
 		var startSquare = null;
-		var direction = null, nextDirection = null, directionCounter = 0;
 		var strokeDirection = "";
 
-		var directionCountMax = stroke.length / 15;
-		if ( directionCountMax < 5 )  directionCountMax = 5;
-		if ( directionCountMax > 12 ) directionCountMax = 12;
-
-		var directionOffset = Math.round( stroke.length / 20 );
-		if ( directionOffset < 2 ) directionOffset = 2;
-		if ( directionOffset > 5 ) directionOffset = 5;
-
-		for ( var j = 0; j < stroke.length; j++ )
+		var stroke_size = 0.0;
+		for ( var i = 1; i < stroke.length; i++ )
 		{
-			var x = stroke[j][0], y = stroke[j][1];
+			var dx = stroke[i][0] - stroke[i-1][0];
+			var dy = stroke[i][1] - stroke[i-1][1];
+			var d = Math.sqrt( dx*dx + dy*dy );
 
-			if ( !startSquare )
+			stroke_size += d;
+
+			var dy = stroke[i][1] - stroke[i-1][1];
+		}
+
+		// Target distance: only when the stroke moves at least this much in any direction will we count it as a change in direction
+		var tgt_d = stroke_size / 8;
+
+		// Minimal distance: if two points are closer than this, skip points until they aren't.
+		var min_d = stroke_size / 16;
+		if ( min_d < 0.05 )  min_d = 0.05;
+
+		// The direction the stroke is moving
+		var current_hdg = "";
+
+		// Total distance: the distance traveled so far in this direction since the last turn
+		// (We give it a bit of bonus material at the start.)
+		var td = tgt_d * 0.5;
+		for ( var i = 0; i < stroke.length; i++ )
+		{
+			var d = 0.0;
+			var d0 = 0.0;
+
+			for ( var j = i+1; j < stroke.length && d < min_d; j++ )
 			{
-				startSquare = this.chessSquare( x, y );
-			}
-
-			if ( j >= directionOffset )
-			{
-				var d = this.clockDirection( stroke[j-directionOffset], stroke[j] );
-
-				if ( d != nextDirection )
+				if ( !startSquare )
 				{
-					directionCounter = 0;
+					startSquare = this.chessSquare( stroke[i][0], stroke[i][1] );
 				}
-				else if ( nextDirection != direction )
+
+				var dx = stroke[i][0] - stroke[j][0];
+				var dy = stroke[i][1] - stroke[j][1];
+				d = Math.sqrt( dx*dx + dy*dy );
+
+				// Save the distance to the very next point for later
+				if ( j == i+1 )
+					d0 = d;
+			}
+			if ( j >= stroke.length )
+				break;
+
+			var hdg = this.clockDirection( stroke[i], stroke[j] );
+			if ( hdg != current_hdg )
+			{
+				if ( current_hdg != "" )
 				{
-					directionCounter++;
-					if ( directionCounter > directionCountMax )
+					if ( td > tgt_d )
 					{
-						direction = d;
-						strokeDirection += d;
-						directionCounter = 0;
+						strokeDirection += current_hdg;
 					}
+
+					td = 0;
 				}
-				nextDirection = d;
 			}
+			current_hdg = hdg;
+			td += d0;
+		}
+		if ( current_hdg != "" && td > tgt_d )
+		{
+			strokeDirection += current_hdg;
 		}
 
 		if ( startSquare != null )
