@@ -868,7 +868,7 @@ class Hanzipad
 		//stroke = stroke.trim().split(/ +/);
 		var jstr = stroke.join("");
 
-		if ( ! stroke.length in Hanzipad._characterDatabase )
+		if ( ! ( stroke.length in Hanzipad._characterDatabase ) )
 			return [];
 
 		var wieners = [];
