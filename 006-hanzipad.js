@@ -328,10 +328,10 @@ class Hanzipad
 		}
 
 		// Target distance: only when the stroke moves at least this much in any direction will we count it as a change in direction
-		var tgt_d = stroke_size / 8;
+		var tgt_d = stroke_size / 12;
 
 		// Minimal distance: if two points are closer than this, skip points until they aren't.
-		var min_d = stroke_size / 16;
+		var min_d = stroke_size / 20;
 		if ( min_d < 0.05 )  min_d = 0.05;
 
 		// The direction the stroke is moving
