@@ -1,4 +1,17 @@
 
+.HanziPad canvas,
+.HanziPad .optionList
+{
+	/*  Prevent selecting text at all cost, at least until this is fixed: */
+	/*  https://gitlab.gnome.org/GNOME/gtk/issues/1080  */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .HanziPad .optionList
 {
 	margin: 0;
