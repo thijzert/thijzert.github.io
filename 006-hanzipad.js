@@ -26,7 +26,7 @@ class Hanzipad
 		this.BackgroundGlyph = "";
 
 		this.Colours = {
-			Background: "#fff",
+			Background: null,
 			ChessSquares: null,
 			Border: "#c8c8c8",
 			BackgroundGlyph: "rgba( 80, 80, 80, 0.3 )",
@@ -405,8 +405,15 @@ class Hanzipad
 				this._ctx.drawImage( this.BackgroundImage, 0, 0, rs, rs );
 			}
 
-			this._ctx.fillStyle = this.Colours.Background;
-			this._ctx.fillRect( 0, 0, rs, rs );
+			if ( this.Colours.Background )
+			{
+				this._ctx.fillStyle = this.Colours.Background;
+				this._ctx.fillRect( 0, 0, rs, rs );
+			}
+			else
+			{
+				this._ctx.clearRect( 0, 0, rs, rs );
+			}
 
 			var b = this._border;
 			var s = this._size;

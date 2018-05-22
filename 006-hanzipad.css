@@ -63,6 +63,20 @@
 
 
 
+.HanziPadMinigame.loading
+{
+	background: repeating-linear-gradient(
+		30deg,
+		#ddd,
+		#ddd 10px,
+		#eee 10px,
+		#eee 20px
+	);
+}
+.HanziPadMinigame.loading .current-challenge
+{
+	color: #999;
+}
 .HanziPadMinigame .previous-answer
 {
 	margin: 15px 5px;

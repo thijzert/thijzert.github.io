@@ -87,6 +87,7 @@ class HanzipadMinigame
 		}
 		else
 		{
+			this.hdr_current.textContent = "loading...";
 			this._rootElement.classList.toggle( "loading", true );
 		}
 	}
@@ -202,7 +203,7 @@ class HanzipadMinigame
 
 		// Reset Hanzipad to defaults
 		this.hzp.BackgroundImage = null;
-		this.hzp.Colours.Background = "#fff";
+		this.hzp.Colours.Background = null;
 		this.hzp.Colours.ChessSquares = null;
 		this.hzp.Colours.CurrentStroke = "#1e1e1e";
 		this.hzp.Colours.PreviousStrokes = "#323232";
