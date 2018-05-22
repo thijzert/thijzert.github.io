@@ -54,7 +54,41 @@ class HanzipadMinigame
 
 	start()
 	{
-		this.newChallenge();
+		var waitingFor = 0;
+
+		for ( var i = 0; i < this.words.length; i++ ) (function(i,x,hzpmg)
+		{
+			if ( x.image )
+			{
+				waitingFor++;
+
+				var img = document.createElement("img");
+				img.src = x.image;
+				img.onload = function()
+				{
+					x._imagePreloaded = img;
+
+					waitingFor--;
+					if ( waitingFor == 0 )
+						hzpmg.newChallenge();
+				};
+				img.onerror = function()
+				{
+					waitingFor--;
+					if ( waitingFor == 0 )
+						hzpmg.newChallenge();
+				};
+			}
+		})( i, this.words[i], this );
+
+		if ( waitingFor == 0 )
+		{
+			this.newChallenge();
+		}
+		else
+		{
+			this._rootElement.classList.toggle( "loading", true );
+		}
 	}
 
 
@@ -115,6 +149,8 @@ class HanzipadMinigame
 
 	newChallenge( glyphs )
 	{
+		this._rootElement.classList.toggle( "loading", false );
+
 		var apc = function( to )
 		{
 			for ( var i = 1; i < arguments.length; i++ )
@@ -143,37 +179,52 @@ class HanzipadMinigame
 
 
 
-		this.currentWord = this.words[this.current];
-		var col = this.currentWord;
-		if ( glyphs )
+		if ( glyphs && this.currentWord )
 		{
 			this.hdr_previous.innerHTML = "";
 
-			if ( glyphs == col.glyphs )
+			if ( glyphs == this.currentWord.glyphs )
 			{
-				apc( this.hdr_previous, spc("correct","\u2714"), col.eng, " - ", col.glyphs );
+				apc( this.hdr_previous, spc("correct","\u2714"), this.currentWord.eng, " - ", this.currentWord.glyphs );
 			}
 			else
 			{
-				apc( this.hdr_previous, spc("wrong","\u2718"), col.eng, " - ", col.glyphs, " ",
+				apc( this.hdr_previous, spc("wrong","\u2718"), this.currentWord.eng, " - ", this.currentWord.glyphs, " ",
 					spc("youanswered", "(you answered: ", glyphs, " )") );
 			}
 		}
 
 		this.current = Math.floor( this.words.length * Math.random() );
-		col = this.words[this.current];
-		this.hdr_current.textContent = col.eng;
-		this.hdr_hint.textContent = col.glyphs;
+		this.currentWord = this.words[this.current];
+		this.hdr_current.textContent = this.currentWord.eng;
+		this.hdr_hint.textContent = this.currentWord.glyphs;
 
-		if ( false )
+
+		// Reset Hanzipad to defaults
+		this.hzp.BackgroundImage = null;
+		this.hzp.Colours.Background = "#fff";
+		this.hzp.Colours.ChessSquares = null;
+		this.hzp.Colours.CurrentStroke = "#1e1e1e";
+		this.hzp.Colours.PreviousStrokes = "#323232";
+		this.hzp.Colours.Border = "#c8c8c8";
+		this.hzp.Colours.BackgroundGlyph = "rgba( 80, 80, 80, 0.3 )";
+
+		if ( this.currentWord._imagePreloaded )
 		{
-			this.hzp.Colours.Background = col.bg;
-			this.hzp.Colours.CurrentStroke = col.fg;
-			this.hzp.Colours.PreviousStrokes = col.fg;
-			//this.hzp.Colours.ChessSquares = col.chk;
-			this.hzp.Colours.ChessSquares = col.bg;
-			this.hzp.Colours.Border = col.br;
+			this.hzp.Colours.Background = "rgba( 255, 255, 255, 0.3 )";
+			this.hzp.BackgroundImage = this.currentWord._imagePreloaded;
+			this.hzp.Colours.Border = "rgba( 30, 30, 30, 0.8 )";
 		}
+		if ( this.currentWord.colours )
+		{
+			this.hzp.Colours.Background = this.currentWord.colours.bg;
+			this.hzp.Colours.CurrentStroke = this.currentWord.colours.fg;
+			this.hzp.Colours.PreviousStrokes = this.currentWord.colours.fg;
+			//this.hzp.Colours.ChessSquares = this.currentWord.colours.chk;
+			this.hzp.Colours.ChessSquares = null;
+			this.hzp.Colours.Border = this.currentWord.colours.br;
+		}
+
 
 		this.hzp.reset();
 		this.hzp.resetQueue();

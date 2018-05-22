@@ -27,7 +27,7 @@ class Hanzipad
 
 		this.Colours = {
 			Background: "#fff",
-			ChessSquares: "#fff",
+			ChessSquares: null,
 			Border: "#c8c8c8",
 			BackgroundGlyph: "rgba( 80, 80, 80, 0.3 )",
 			CurrentStroke: "#1e1e1e",
@@ -398,20 +398,31 @@ class Hanzipad
 	{
 		if ( this._ctx )
 		{
-			this._ctx.fillStyle = this.Colours.Background;
-			this._ctx.fillRect( 0, 0, this._size + 2*this._border, this._size + 2*this._border );
+			// Rectangle size
+			var rs = this._size + 2*this._border;
+			if ( this.BackgroundImage )
+			{
+				this._ctx.drawImage( this.BackgroundImage, 0, 0, rs, rs );
+			}
 
-			this._ctx.fillStyle = this.Colours.ChessSquares;
+			this._ctx.fillStyle = this.Colours.Background;
+			this._ctx.fillRect( 0, 0, rs, rs );
 
 			var b = this._border;
 			var s = this._size;
 			var x = this._size / 8;
-			for ( var i = 0; i < 8; i++ )
+
+			if ( this.Colours.ChessSquares )
 			{
-				for ( var j = 0; j < 8; j++ )
+				this._ctx.fillStyle = this.Colours.ChessSquares;
+
+				for ( var i = 0; i < 8; i++ )
 				{
-					if ( (i+j)%2 == 0 ) continue;
-					this._ctx.fillRect( b + i*x, b + j*x, x, x );
+					for ( var j = 0; j < 8; j++ )
+					{
+						if ( (i+j)%2 == 0 ) continue;
+						this._ctx.fillRect( b + i*x, b + j*x, x, x );
+					}
 				}
 			}
 
