@@ -69,13 +69,13 @@ class HanzipadMinigame
 					x._imagePreloaded = img;
 
 					waitingFor--;
-					if ( waitingFor == 0 )
+					if ( waitingFor == 0 && hzpmg.currentWord == null )
 						hzpmg.newChallenge();
 				};
 				img.onerror = function()
 				{
 					waitingFor--;
-					if ( waitingFor == 0 )
+					if ( waitingFor == 0 && hzpmg.currentWord == null )
 						hzpmg.newChallenge();
 				};
 			}
@@ -89,6 +89,15 @@ class HanzipadMinigame
 		{
 			this.hdr_current.textContent = "loading...";
 			this._rootElement.classList.toggle( "loading", true );
+
+			window.setTimeout( (function(hzmpg)
+			{
+				return (function()
+				{
+					if ( hzpmg.currentWord == null )
+						hzpmg.newChallenge();
+				});
+			})( this ), 3000 );
 		}
 	}
 
