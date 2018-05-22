@@ -20,12 +20,14 @@ class Hanzipad
 		this._lastpos = [ 0.5, 0.5 ];
 		this._currentStroke = [];
 
+		this._queue = [];
+
 
 		this.BackgroundGlyph = "";
 
 		this.Colours = {
-			Background: "#fff",
-			ChessSquares: "#fff",
+			Background: null,
+			ChessSquares: null,
 			Border: "#c8c8c8",
 			BackgroundGlyph: "rgba( 80, 80, 80, 0.3 )",
 			CurrentStroke: "#1e1e1e",
@@ -179,6 +181,47 @@ class Hanzipad
 
 
 	/**
+	 * Add a character to the output queue
+	 **/
+	enqueueCharacter( character )
+	{
+		this._queue.push( character );
+		this.redraw();
+	}
+
+	/**
+	 * Remove a character from the output queue
+	 **/
+	dequeueCharacter( i )
+	{
+		if ( i >= 0 && i < this._queue.length )
+			this._queue = this._queue.slice( i, 0 );
+
+		this.redraw();
+	}
+
+	/**
+	 * Remove a character from the output queue
+	 **/
+	resetQueue()
+	{
+		this._queue = [];
+		this.redraw();
+	}
+
+	/**
+	 * Get the currently queued output
+	 **/
+	get outputQueue()
+	{
+		var rv = "";
+		for ( var i = 0; i < this._queue.length; i++ )
+			rv += this._queue[i].glyph;
+		return rv;
+	}
+
+
+	/**
 	 * Get the chess clock code for the current drawing
 	 **/
 	get glyphCode()
@@ -270,46 +313,75 @@ class Hanzipad
 	getStrokeCode( stroke )
 	{
 		var startSquare = null;
-		var direction = null, nextDirection = null, directionCounter = 0;
 		var strokeDirection = "";
 
-		var directionCountMax = stroke.length / 15;
-		if ( directionCountMax < 5 )  directionCountMax = 5;
-		if ( directionCountMax > 12 ) directionCountMax = 12;
-
-		var directionOffset = Math.round( stroke.length / 20 );
-		if ( directionOffset < 2 ) directionOffset = 2;
-		if ( directionOffset > 5 ) directionOffset = 5;
-
-		for ( var j = 0; j < stroke.length; j++ )
+		var stroke_size = 0.0;
+		for ( var i = 1; i < stroke.length; i++ )
 		{
-			var x = stroke[j][0], y = stroke[j][1];
+			var dx = stroke[i][0] - stroke[i-1][0];
+			var dy = stroke[i][1] - stroke[i-1][1];
+			var d = Math.sqrt( dx*dx + dy*dy );
 
-			if ( !startSquare )
+			stroke_size += d;
+
+			var dy = stroke[i][1] - stroke[i-1][1];
+		}
+
+		// Target distance: only when the stroke moves at least this much in any direction will we count it as a change in direction
+		var tgt_d = stroke_size / 12;
+
+		// Minimal distance: if two points are closer than this, skip points until they aren't.
+		var min_d = stroke_size / 20;
+		if ( min_d < 0.05 )  min_d = 0.05;
+
+		// The direction the stroke is moving
+		var current_hdg = "";
+
+		// Total distance: the distance traveled so far in this direction since the last turn
+		// (We give it a bit of bonus material at the start.)
+		var td = tgt_d * 0.5;
+		for ( var i = 0; i < stroke.length; i++ )
+		{
+			var d = 0.0;
+			var d0 = 0.0;
+
+			for ( var j = i+1; j < stroke.length && d < min_d; j++ )
 			{
-				startSquare = this.chessSquare( x, y );
-			}
-
-			if ( j >= directionOffset )
-			{
-				var d = this.clockDirection( stroke[j-directionOffset], stroke[j] );
-
-				if ( d != nextDirection )
+				if ( !startSquare )
 				{
-					directionCounter = 0;
+					startSquare = this.chessSquare( stroke[i][0], stroke[i][1] );
 				}
-				else if ( nextDirection != direction )
+
+				var dx = stroke[i][0] - stroke[j][0];
+				var dy = stroke[i][1] - stroke[j][1];
+				d = Math.sqrt( dx*dx + dy*dy );
+
+				// Save the distance to the very next point for later
+				if ( j == i+1 )
+					d0 = d;
+			}
+			if ( j >= stroke.length )
+				break;
+
+			var hdg = this.clockDirection( stroke[i], stroke[j] );
+			if ( hdg != current_hdg )
+			{
+				if ( current_hdg != "" )
 				{
-					directionCounter++;
-					if ( directionCounter > directionCountMax )
+					if ( td > tgt_d )
 					{
-						direction = d;
-						strokeDirection += d;
-						directionCounter = 0;
+						strokeDirection += current_hdg;
 					}
+
+					td = 0;
 				}
-				nextDirection = d;
 			}
+			current_hdg = hdg;
+			td += d0;
+		}
+		if ( current_hdg != "" && td > tgt_d )
+		{
+			strokeDirection += current_hdg;
 		}
 
 		if ( startSquare != null )
@@ -326,20 +398,38 @@ class Hanzipad
 	{
 		if ( this._ctx )
 		{
-			this._ctx.fillStyle = this.Colours.Background;
-			this._ctx.fillRect( 0, 0, this._size + 2*this._border, this._size + 2*this._border );
+			// Rectangle size
+			var rs = this._size + 2*this._border;
+			if ( this.BackgroundImage )
+			{
+				this._ctx.drawImage( this.BackgroundImage, 0, 0, rs, rs );
+			}
 
-			this._ctx.fillStyle = this.Colours.ChessSquares;
+			if ( this.Colours.Background )
+			{
+				this._ctx.fillStyle = this.Colours.Background;
+				this._ctx.fillRect( 0, 0, rs, rs );
+			}
+			else
+			{
+				this._ctx.clearRect( 0, 0, rs, rs );
+			}
 
 			var b = this._border;
 			var s = this._size;
 			var x = this._size / 8;
-			for ( var i = 0; i < 8; i++ )
+
+			if ( this.Colours.ChessSquares )
 			{
-				for ( var j = 0; j < 8; j++ )
+				this._ctx.fillStyle = this.Colours.ChessSquares;
+
+				for ( var i = 0; i < 8; i++ )
 				{
-					if ( (i+j)%2 == 0 ) continue;
-					this._ctx.fillRect( b + i*x, b + j*x, x, x );
+					for ( var j = 0; j < 8; j++ )
+					{
+						if ( (i+j)%2 == 0 ) continue;
+						this._ctx.fillRect( b + i*x, b + j*x, x, x );
+					}
 				}
 			}
 
@@ -434,6 +524,38 @@ class Hanzipad
 				});
 			})( this ));
 			this._optionTarget.appendChild(li);
+
+
+			for ( var i = 0; i < this._queue.length; i++ )
+			{
+				var li = document.createElement("LI");
+				li.classList.add( "queued" );
+				li.dataset["index"] = i;
+				li.dataset["glyph"] = this._queue[i].glyph;
+
+
+				var s = document.createElement("SPAN");
+				s.classList.add( "glyph" );
+				s.textContent = this._queue[i].glyph;
+				li.appendChild( s );
+
+				s = document.createElement("SPAN");
+				s.classList.add( "sound" );
+				if ( this._queue[i].descriptions.length > 0 )
+					s.textContent = this._queue[i].descriptions[0].sound;
+
+				li.appendChild( s );
+
+				li.addEventListener( "click", (function(i,hzp)
+				{
+					return (function( event )
+					{
+						hzp.dequeueCharacter( i );
+					});
+				})( i, this ));
+
+				this._optionTarget.appendChild(li);
+			}
 
 			for ( var i = 0; i < this._options.length; i++ )
 			{
@@ -764,7 +886,7 @@ class Hanzipad
 		//stroke = stroke.trim().split(/ +/);
 		var jstr = stroke.join("");
 
-		if ( ! stroke.length in Hanzipad._characterDatabase )
+		if ( ! ( stroke.length in Hanzipad._characterDatabase ) )
 			return [];
 
 		var wieners = [];
