@@ -67,7 +67,7 @@ Hanzipad.RegisterCharacter( "\u88E4", "B7e A6cgh B4f D5g B4e F8e D6c D6fg E5c F6
 Hanzipad.RegisterCharacter( "\u897F", "B7c B5f B5cf D7fg E7fc B1c", [{sound: "xi1", eng: "west"}] ); // 西
 Hanzipad.RegisterCharacter( "\u8FD0", "D7c C5c E5gc F4e B7e A5cf A1bdc", [{sound: "yun4", eng: "to move; to transport"}] ); // 运
 Hanzipad.RegisterCharacter( "\u8FDE", "D6c E7gc C3c F5f B7d A5cf A1bdc", [{sound: "lian2", eng: "to link; to join"}] ); // 连
-Hanzipad.RegisterCharacter( "\u9774", "A7c B7f C7f B5c A4f A4cf A3c A2c C5f F7g H5h G7fcl", [{sound: "xue1", eng: "boots"}] ); // 靴
+Hanzipad.RegisterCharacter( "\u9774", "A7c B7f C7f B5c A4f A4cf A3c A2c C5f F7g E5f H5h G7fcl", [{sound: "xue1", eng: "boots"}] ); // 靴
 Hanzipad.RegisterCharacter( "\u978B", "A7c B7f C7f B6c A4f A5cf A3c A2c B6f E6c F7f D5c E3c F4f D1c", [{sound: "xie2", eng: "shoes"}] ); // 鞋
 Hanzipad.RegisterCharacter( "\u9886", "C7g C7e C5e A4cg B2d D7c F7g E6f E6cf F5fgh G2d", [{sound: "ling3", eng: "neck; collar"}] ); // 领
 
