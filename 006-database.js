@@ -29,6 +29,7 @@ Hanzipad.RegisterCharacter( "\u602A", "A6g C6e B8f D7cg D7d E3c F4f C1c", [{soun
 Hanzipad.RegisterCharacter( "\uFF34", "D6f B7c", [{sound: "ti5", eng: "t"}] ); // Ｔ
 Hanzipad.RegisterCharacter( "\u4E00", "A4c", [{sound: "yi1", eng: "one; a"}] ); // 一
 Hanzipad.RegisterCharacter( "\u4E09", "B7c B4c A1c", [{sound: "san1", eng: "three"}] ); // 三
+Hanzipad.RegisterCharacter( "\u56DB", "B7f B7cf D7fg E7fc B1c", [{sound: "si4", eng: "four"}] ); // 四
 Hanzipad.RegisterCharacter( "\u4E1D", "C7gc D6gb F7gc G6gb A1c", [{sound: "si1", eng: ""}] ); // 丝
 Hanzipad.RegisterCharacter( "\u4ED4", "C7g B6f D7ch F5fi C4c", [{sound: "zai3", eng: "small thing; child"}] ); // 仔
 Hanzipad.RegisterCharacter( "\u4ED6", "C7g B6f C4bfi E7f D7fcl", [{sound: "ta1", eng: "he; him"}] ); // 他
