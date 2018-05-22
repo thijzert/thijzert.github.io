@@ -1,6 +1,5 @@
 
 // Colours:  颜色红蓝黄绿黑粉紫白橙棕灰金浅深
-
 Hanzipad.RegisterCharacter( "\u68D5", "A6c B8f B6g B6e E8 D7f D7cf E5c D4c F4fi E3g G3e", [{sound: "zong1", eng: "brown"}] );
 Hanzipad.RegisterCharacter( "\u6A59", "A6c B8f B6g B6e C7cg D6 G7 H6 F7e E5c D4f D4cf D3c D2 G2 C1c", [{sound: "cheng2", eng: "orange"}] );
 Hanzipad.RegisterCharacter( "\u6D45", "A7d A5d A1a C5b C3b E7fel G3h F7", [{sound: "qian3", eng: "light, shallow"}] );
@@ -26,10 +25,55 @@ Hanzipad.RegisterCharacter( "\u811A", "A7f A7cfi A6c A4c D6c D8f C5c D5gb E3e F7
 Hanzipad.RegisterCharacter( "\u8173", "A7f A7cf A5c A3c D7g E7e E6g E5e D3f D3cf D1c F7cfi F7f", [{sound: "jiao3", eng: "foot, leg"}] ); // 腳
 Hanzipad.RegisterCharacter( "\u602A", "A6g C6e B8f D7cg D7d E3c F4f C1c", [{sound: "guai4", eng: "strange, monster"}] ); // 怪
 
+// Clothing: Ｔ一三丝仔他件内动双喜围外大头套子巾带帽恤戴手拖服条毛牛短穿衣衫衬袜装裙裤西运连靴鞋领
+Hanzipad.RegisterCharacter( "\uFF34", "D6f B7c", [{sound: "ti5", eng: "t"}] ); // Ｔ
+Hanzipad.RegisterCharacter( "\u4E00", "A4c", [{sound: "yi1", eng: "one; a"}] ); // 一
+Hanzipad.RegisterCharacter( "\u4E09", "B7c B4c A1c", [{sound: "san1", eng: "three"}] ); // 三
+Hanzipad.RegisterCharacter( "\u56DB", "B7f B7cf D7fg E7fc B1c", [{sound: "si4", eng: "four"}] ); // 四
+Hanzipad.RegisterCharacter( "\u4E1D", "C7gc D6gb F7gc G6gb A1c", [{sound: "si1", eng: ""}] ); // 丝
+Hanzipad.RegisterCharacter( "\u4ED4", "C7g B6f D7ch F5fi C4c", [{sound: "zai3", eng: "small thing; child"}] ); // 仔
+Hanzipad.RegisterCharacter( "\u4ED6", "C7g B6f C4bfi E7f D7fcl", [{sound: "ta1", eng: "he; him"}] ); // 他
+Hanzipad.RegisterCharacter( "\u4EF6", "C7g B6f D7g D6c C3c F7f", [{sound: "jian4", eng: "item; thing"}] ); // 件
+Hanzipad.RegisterCharacter( "\u5185", "B6f B6cfi E7fg E5e", [{sound: "nei4", eng: "inside; inner"}] ); // 内
+Hanzipad.RegisterCharacter( "\u52A8", "A7c A5c B5gb D3e E6cfi F7fg", [{sound: "dong4", eng: "to use; to act"}] ); // 动
+Hanzipad.RegisterCharacter( "\u53CC", "A7cfg B6e E7cg E7ed", [{sound: "shuang1", eng: "pair"}] ); // 双
+Hanzipad.RegisterCharacter( "\u559C", "C7c E7f C6c C5f C5cf C4c C4e F4g A3c C2f C2cf C1c", [{sound: "xi3", eng: "to like, to love"}] ); // 喜
+Hanzipad.RegisterCharacter( "\u56F4", "B7f B7cf C6c C5c B4cgi D6f B1c", [{sound: "wei2", eng: "to circle; to surround"}] ); // 围
+Hanzipad.RegisterCharacter( "\u5916", "C7g B6cgh B5d F7f F5e", [{sound: "wai4", eng: "outside"}] ); // 外
+Hanzipad.RegisterCharacter( "\u5927", "A5c D7fgh D5ed", [{sound: "da4", eng: "big"}] ); // 大
+Hanzipad.RegisterCharacter( "\u5934", "C7d B5d A3c E7fgh F2d", [{sound: "tou2", eng: "head; chef"}] ); // 头
+Hanzipad.RegisterCharacter( "\u5957", "A7c D7gh E7d C5c C5f D4c D3c A2c C2gc F2de", [{sound: "tao4", eng: "cover; sheath"}] ); // 套
+Hanzipad.RegisterCharacter( "\u5B50", "B7ch D6fi A4c", [{sound: "zi5", eng: "thing"}] ); // 子
+Hanzipad.RegisterCharacter( "\u5DFE", "B6f B6cfi D7f", [{sound: "jin1", eng: "cloth; kerchief"}] ); // 巾
+Hanzipad.RegisterCharacter( "\u5E26", "A7c C7f D7f F7f B5f A5cf C3f C3cfi D4f", [{sound: "dai4", eng: "band; belt"}] ); // 带
+Hanzipad.RegisterCharacter( "\u5E3D", "A5f A5cfi B7f D7f D7cf E6c E5c D4f D4cf D3c E2c D1c", [{sound: "mao4", eng: "hat"}] ); // 帽
+Hanzipad.RegisterCharacter( "\u6064", "A6g B6e B7f F7fg D5f D5cf E5f F5f C2c", [{sound: "xu4", eng: "sympathy"}] ); // 恤
+Hanzipad.RegisterCharacter( "\u6234", "B7c C8f A6c B5f B5cf B4c C5f A3bc A3c B3fe D3f A2c C1h D1d F7fel H5gh G7e", [{sound: "dai4", eng: "to put on; to wear"}] ); // 戴
+Hanzipad.RegisterCharacter( "\u624B", "F8h C5c A3c E7fi", [{sound: "shou3", eng: "hand"}] ); // 手
+Hanzipad.RegisterCharacter( "\u62D6", "A6c B8fi A3b E8g E6c D3bfi F5f D5fcl", [{sound: "tuo1", eng: "to drag"}] ); // 拖
+Hanzipad.RegisterCharacter( "\u670D", "B7fg B7cf B5c B4c E7cfi E7f E4cgh F3ed", [{sound: "fu2", eng: "clothes"}] ); // 服
+Hanzipad.RegisterCharacter( "\u6761", "D7h C7chi C7d A3c E4fi C2h F2d", [{sound: "tiao2", eng: "strip; string"}] ); // 条
+Hanzipad.RegisterCharacter( "\u6BDB", "E7h C5c A3c D6fcl", [{sound: "mao2", eng: "hair; fur"}] ); // 毛
+Hanzipad.RegisterCharacter( "\u725B", "C7g C6c A3c E7f", [{sound: "niu2", eng: "cow; ox; bull"}] ); // 牛
+Hanzipad.RegisterCharacter( "\u77ED", "B7g B6c A4c C6fg B3e D7c E6f E6cf E4c E3e G3g D1c", [{sound: "duan3", eng: "short"}] ); // 短
+Hanzipad.RegisterCharacter( "\u7A7F", "D8e B7f B7cf D6h E6d D4c C4gc F5fi E3h", [{sound: "chuan1", eng: "to wear; to put on"}] ); // 穿
+Hanzipad.RegisterCharacter( "\u8863", "D8e A6c D6gh C4fb G5h D6ed", [{sound: "yi1", eng: "clothes"}] ); // 衣
+Hanzipad.RegisterCharacter( "\u886B", "B8e A6cgh B4f D5g C4e G7h H5h H3h", [{sound: "shan1", eng: "shirt; robe"}] ); // 衫
+Hanzipad.RegisterCharacter( "\u886C", "B7e A6cgh B4f D5g C4e E6c G7fi E4e", [{sound: "chen4", eng: "underwear; lining"}] ); // 衬
+Hanzipad.RegisterCharacter( "\u889C", "B7e A6cgh B4f D5g B4e D6c E4c F7f F4g F4e", [{sound: "wa4", eng: "socks; stockings"}] ); // 袜
+Hanzipad.RegisterCharacter( "\u88C5", "B7d B5b D7f E6c F7f E5c D4e A4c E4hi C2fb G3h E3ed", [{sound: "zhuang1", eng: "dress; clothes"}] ); // 装
+Hanzipad.RegisterCharacter( "\u88D9", "B8e A6cgh B4f C5g B4e E7cf D6c D4c E7fg E3f E3cf E1c", [{sound: "qun2", eng: "skirts"}] ); // 裙
+Hanzipad.RegisterCharacter( "\u88E4", "B7e A6cgh B4f D5g B4e F8e D6c D6fg E5c F6fgc E2c G4f", [{sound: "ku4", eng: "trousers"}] ); // 裤
+Hanzipad.RegisterCharacter( "\u897F", "B7c B5f B5cf D7fg E7fc B1c", [{sound: "xi1", eng: "west"}] ); // 西
+Hanzipad.RegisterCharacter( "\u8FD0", "D7c C5c E5gc F4e B7e A5cf A1bdc", [{sound: "yun4", eng: "to move; to transport"}] ); // 运
+Hanzipad.RegisterCharacter( "\u8FDE", "D6c E7gc C3c F5f B7d A5cf A1bdc", [{sound: "lian2", eng: "to link; to join"}] ); // 连
+Hanzipad.RegisterCharacter( "\u9774", "A7c B7f C7f B5c A4f A4cf A3c A2c C5f F7g E5f H5h G7fcl", [{sound: "xue1", eng: "boots"}] ); // 靴
+Hanzipad.RegisterCharacter( "\u978B", "A7c B7f C7f B6c A4f A5cf A3c A2c B6f E6c F7f D5c E3c F4f D1c", [{sound: "xie2", eng: "shoes"}] ); // 鞋
+Hanzipad.RegisterCharacter( "\u9886", "C7g C7e C5e A4cg B2d D7c F7g E6f E6cf F5fgh G2d", [{sound: "ling3", eng: "neck; collar"}] ); // 领
+
 
 
 // HSK 1 1-25:  子女小勹尔人亻你马妈工乍作羊木样厶冖丶见觉
-
 Hanzipad.RegisterCharacter( "\u4E36", "C6d", [{sound: "dian3", eng: "dot", rad: 1}] );
 Hanzipad.RegisterCharacter( "\u4E4D", "C8g C6c D6f D5c D3c", [{sound: "zha4", eng: "suddenly"}] );
 Hanzipad.RegisterCharacter( "\u4EBA", "D8gh D8ed", [{sound: "ren2", eng: "person"}] );

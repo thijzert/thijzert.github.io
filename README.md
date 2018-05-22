@@ -22,6 +22,7 @@ Paint Chinese characters.
 Also try the following minigame:
 
 * 6a. [Chinese Colours](006a-colours.html)
+* 6a. [Items of Clothing](006b-clothing.html)
 
 ## 7. [Lemniscate](007-lemniscate.html)
 Infinity time remaining.
