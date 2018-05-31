@@ -2,7 +2,7 @@
 var canvas, ctx, hzp;
 var width = 400, height = 400;
 
-var strokeDescription, textBox, studioBox, studioOutput, stu;
+var strokeDescription, textBox, studioBox, soundInput, engInput, studioOutput, stu;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
@@ -68,16 +68,38 @@ var setup = function()
 	studioBox.addEventListener( "change", redraw );
 	bcc.appendChild( studioBox );
 
+
+	bcc = document.createElement("DIV");
+	studiocontainer.appendChild(bcc);
+	var lbl = document.createElement("LABEL");
+	lbl.textContent = " Sound: ";
+	soundInput = document.createElement("INPUT");
+	soundInput.setAttribute( "type", "text" );
+	soundInput.addEventListener( "change", redraw );
+	soundInput.style.width = "45px";
+	lbl.appendChild(soundInput);
+	bcc.appendChild(lbl);
+
+	lbl = document.createElement("LABEL");
+	lbl.textContent = " English: ";
+	engInput = document.createElement("INPUT");
+	engInput.setAttribute( "type", "text" );
+	engInput.addEventListener( "change", redraw );
+	lbl.appendChild(engInput);
+	bcc.appendChild(lbl);
+
+
 	bcc = document.createElement("DIV");
 	studiocontainer.appendChild(bcc);
 	studioOutput = document.createElement("INPUT");
 	studioOutput.setAttribute( "type", "text" );
 	studioOutput.style.width = "100%";
-	studioOutput.style.fontFamily = "Inconsolata, monospace";
+	studioOutput.style.fontFamily = "\"Fira Code\", FiraCode, Inconsolata, monospace";
 	bcc.appendChild( studioOutput );
 
+
 	stu = document.createElement("TEXTAREA");
-	stu.style.fontFamily = "Inconsolata, monospace";
+	stu.style.fontFamily = "\"Fira Code\", FiraCode, Inconsolata, monospace";
 	stu.style.width = "100%";
 	stu.style.height = "40em";
 	studiocontainer.appendChild(stu);
@@ -129,10 +151,19 @@ var setup = function()
 
 var update_studio = function()
 {
-	var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
-	var str = JSON.stringify( hzp.glyphCode.join( " " ) );
-	var cdd = "[{sound: \"\", eng: \"\"}]";
-	studioOutput.value = "Hanzipad.RegisterCharacter( " + pc + ", " + str + ", " + cdd + " ); // " + previewCharacter;
+	var glyphCode = hzp.glyphCode;
+	console.log( glyphCode, previewCharacter );
+	if ( glyphCode.length == 0 && previewCharacter.length == 0 )
+	{
+		studioOutput.value = "";
+	}
+	else
+	{
+		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
+		var str = JSON.stringify( glyphCode.join( " " ) );
+		var cdd = "[{sound: " + JSON.stringify(soundInput.value) + ", eng: " + JSON.stringify(engInput.value) + "}]";
+		studioOutput.value = "Hanzipad.RegisterCharacter( " + pc + ", " + str + ", " + cdd + " ); // " + previewCharacter;
+	}
 };
 
 var redraw = function()
@@ -141,8 +172,8 @@ var redraw = function()
 	if ( studioBox && studioBox.value.length > 0 )
 	{
 		previewCharacter = studioBox.value.substr(0,1);
-		update_studio();
 	}
+	update_studio();
 
 
 	if ( previewCharacter != "" )
@@ -181,7 +212,17 @@ window.addEventListener( "keydown", function(e)
 				studioBox.value = studioBox.value.substr(1);
 				previewCharacter = studioBox.value.substr(0,1);
 
+				engInput.value = "";
+				soundInput.value = "";
 				hzp.reset();
+				redraw();
+
+				let l = studioOutput.value.length;
+				if ( l > 2 )
+				{
+					studioOutput.focus();
+					studioOutput.setSelectionRange( l-1, l );
+				}
 			}
 			else
 			{
