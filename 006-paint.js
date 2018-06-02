@@ -2,7 +2,7 @@
 var canvas, ctx, hzp;
 var width = 400, height = 400;
 
-var strokeDescription, textBox, studioBox, soundInput, engInput, studioOutput, stu;
+var strokeDescription, textBox, studioBox, soundInput, engInput, countInput, countLabel, studioOutput, stu;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
@@ -73,12 +73,25 @@ var setup = function()
 
 	bcc = document.createElement("DIV");
 	studiocontainer.appendChild(bcc);
+
 	var lbl = document.createElement("LABEL");
+	lbl.textContent = " Strokes: ";
+	countInput = document.createElement("INPUT");
+	countInput.setAttribute( "type", "text" );
+	countInput.style.width = "25px";
+	countInput.addEventListener( "keydown", handleEnter );
+	lbl.appendChild(countInput);
+	lbl.appendChild(document.createTextNode(" "));
+	countLabel = document.createElement("SPAN");
+	lbl.appendChild(countLabel);
+	bcc.appendChild(lbl);
+
+	lbl = document.createElement("LABEL");
 	lbl.textContent = " Sound: ";
 	soundInput = document.createElement("INPUT");
 	soundInput.setAttribute( "type", "text" );
 	soundInput.addEventListener( "change", redraw );
-	soundInput.style.width = "45px";
+	soundInput.style.width = "50px";
 	soundInput.addEventListener( "keydown", handleEnter );
 	lbl.appendChild(soundInput);
 	bcc.appendChild(lbl);
@@ -157,13 +170,15 @@ var setup = function()
 var update_studio = function()
 {
 	var glyphCode = hzp.glyphCode;
-	console.log( glyphCode, previewCharacter );
+
 	if ( glyphCode.length == 0 && previewCharacter.length == 0 )
 	{
 		studioOutput.value = "";
 	}
 	else
 	{
+		countLabel.textContent = "(" + glyphCode.length + ")";
+
 		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
 		var str = JSON.stringify( glyphCode.join( " " ) );
 		var cdd = "[{sound: " + JSON.stringify(soundInput.value) + ", eng: " + JSON.stringify(engInput.value) + "}]";
@@ -205,11 +220,18 @@ var handleEnter = function(e)
 	{
 		if ( previewCharacter != "" )
 		{
+			if ( countInput.value != "" )
+			{
+				if ( countInput.value != hzp.glyphCode.length )
+					return false;
+			}
+
 			stu.value += studioOutput.value + "\n";
 
 			studioBox.value = studioBox.value.substr(1);
 			previewCharacter = studioBox.value.substr(0,1);
 
+			countInput.value = "";
 			engInput.value = "";
 			soundInput.value = "";
 			hzp.reset();
