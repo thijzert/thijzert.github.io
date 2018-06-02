@@ -373,7 +373,7 @@ Hanzipad.RegisterCharacter( "\u5403", "A6f A6cf B3c E8lg E6c E5chcl", [{sound: "
 Hanzipad.RegisterCharacter( "\u559D", "A7f A7cf A3c D7lf D7cf E6c D5c E5g D4cfi F3h F3e D3lf", [{sound: "he1", eng: "to drink"}] ); // 喝
 Hanzipad.RegisterCharacter( "\u5757", "A6c B8f A2b D6cf D4c E8fg F3e", [{sound: "kuai4", eng: "lump"}] ); // 块
 Hanzipad.RegisterCharacter( "\u592C", "B7cf B4c E8fg E4e", [{sound: "guai4", eng: "decisive"}] ); // 夬
-Hanzipad.RegisterCharacter( "\u5BB6", "D8 B7f B7cf C6c E6h D5 C5efi D4h E3h G5h E5e", [{sound: "jia1", eng: "home, family"}] ); // 家
+Hanzipad.RegisterCharacter( "\u5BB6", "D8 B7f B7cf C6c E6h C5efi D4h E3h G5h E5e", [{sound: "jia1", eng: "home, family"}] ); // 家
 Hanzipad.RegisterCharacter( "\u5DF4", "B7cf E7f C4c B7fcl", [{sound: "ba1", eng: "to look forward to"}] ); // 巴
 Hanzipad.RegisterCharacter( "\u60F3", "A6lc C8lf C6g C6e E7f E7cf E6c E5c E3c B3g C3fcl D3e G3e", [{sound: "xiang3", eng: "to think"}] ); // 想
 Hanzipad.RegisterCharacter( "\u6535", "D8g C6c G6g C5d", [{sound: "pu1", eng: "knock", "rad": 1}] ); // 攵
@@ -455,7 +455,7 @@ Hanzipad.RegisterCharacter( "\u8DB3", "C7f C7cf D5c E5f E3c C4g C3ec", [{sound: 
 Hanzipad.RegisterCharacter( "\u601D", "B7lf B7cf C6c E7f C4c B3g C3fcl D4d G3e", [{sound: "si1", eng: "to think, to ponder"}] ); // 思
 Hanzipad.RegisterCharacter( "\u8DD1", "A7f A7cf B6c B5f C4c A4f A1b E8g E7cfi E5cf E3c E5fcl", [{sound: "pao3", eng: "to run, to flee"}] ); // 跑
 Hanzipad.RegisterCharacter( "\u4E08", "B6c E7fh B5ed", [{sound: "zhang4", eng: "gentleman, husband"}] ); // 丈
-Hanzipad.RegisterCharacter( "\u8DEF", "A7f A7cf B5c D5 C5f C4c A4f A1b E8g E7ch E6d E3f E3cf E1c", [{sound: "lu4", eng: "road, path"}] ); // 路
+Hanzipad.RegisterCharacter( "\u8DEF", "A7f A7cf B5c C5f C4c A4f A1b E8g E7ch E6d E3f E3cf E1c", [{sound: "lu4", eng: "road, path"}] ); // 路
 Hanzipad.RegisterCharacter( "\u8DF3", "A7f A7cf A5 B5f B4c A4f A1b E8fg D7e D3b F8fcl H7g G4d", [{sound: "tiao4", eng: "to jump, to hop"}] ); // 跳
 Hanzipad.RegisterCharacter( "\u4E24", "C7c B5f B5cfi C7fg C4e F7fg F4e", [{sound: "liang3", eng: "both, two"}] ); // 两
 Hanzipad.RegisterCharacter( "\u606F", "E8g C7f C7cf C6c C5c C4c B3g C3fcl D3d G3e", [{sound: "xi1", eng: "rest, end"}] ); // 息
