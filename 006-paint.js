@@ -2,7 +2,7 @@
 var canvas, ctx, hzp;
 var width = 400, height = 400;
 
-var strokeDescription, textBox, studioBox, soundInput, engInput, studioOutput, stu;
+var strokeDescription, textBox, studioBox, soundInput, engInput, countInput, countLabel, studioOutput, stu;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
@@ -45,6 +45,7 @@ var setup = function()
 
 	textBox = document.createElement("INPUT");
 	textBox.setAttribute( "type", "text" );
+	textBox.style.width = "100%";
 	textcontainer.appendChild( textBox );
 	document.getElementById("summary").appendChild(textcontainer);
 
@@ -65,18 +66,33 @@ var setup = function()
 	bcc.innerHTML = "Create new: ";
 	studioBox = document.createElement("INPUT");
 	studioBox.setAttribute( "type", "text" );
+	studioBox.style.width = "100%";
 	studioBox.addEventListener( "change", redraw );
 	bcc.appendChild( studioBox );
 
 
 	bcc = document.createElement("DIV");
 	studiocontainer.appendChild(bcc);
+
 	var lbl = document.createElement("LABEL");
+	lbl.textContent = " Strokes: ";
+	countInput = document.createElement("INPUT");
+	countInput.setAttribute( "type", "text" );
+	countInput.style.width = "25px";
+	countInput.addEventListener( "keydown", handleEnter );
+	lbl.appendChild(countInput);
+	lbl.appendChild(document.createTextNode(" "));
+	countLabel = document.createElement("SPAN");
+	lbl.appendChild(countLabel);
+	bcc.appendChild(lbl);
+
+	lbl = document.createElement("LABEL");
 	lbl.textContent = " Sound: ";
 	soundInput = document.createElement("INPUT");
 	soundInput.setAttribute( "type", "text" );
 	soundInput.addEventListener( "change", redraw );
-	soundInput.style.width = "45px";
+	soundInput.style.width = "50px";
+	soundInput.addEventListener( "keydown", handleEnter );
 	lbl.appendChild(soundInput);
 	bcc.appendChild(lbl);
 
@@ -85,6 +101,7 @@ var setup = function()
 	engInput = document.createElement("INPUT");
 	engInput.setAttribute( "type", "text" );
 	engInput.addEventListener( "change", redraw );
+	engInput.addEventListener( "keydown", handleEnter );
 	lbl.appendChild(engInput);
 	bcc.appendChild(lbl);
 
@@ -95,6 +112,7 @@ var setup = function()
 	studioOutput.setAttribute( "type", "text" );
 	studioOutput.style.width = "100%";
 	studioOutput.style.fontFamily = "\"Fira Code\", FiraCode, Inconsolata, monospace";
+	studioOutput.addEventListener( "keydown", handleEnter );
 	bcc.appendChild( studioOutput );
 
 
@@ -152,13 +170,15 @@ var setup = function()
 var update_studio = function()
 {
 	var glyphCode = hzp.glyphCode;
-	console.log( glyphCode, previewCharacter );
+
 	if ( glyphCode.length == 0 && previewCharacter.length == 0 )
 	{
 		studioOutput.value = "";
 	}
 	else
 	{
+		countLabel.textContent = "(" + glyphCode.length + ")";
+
 		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
 		var str = JSON.stringify( glyphCode.join( " " ) );
 		var cdd = "[{sound: " + JSON.stringify(soundInput.value) + ", eng: " + JSON.stringify(engInput.value) + "}]";
@@ -191,6 +211,50 @@ var strikeThat = function()
 };
 
 
+var handleEnter = function(e)
+{
+	if ( e.defaultPrevented )
+		return;
+
+	if ( e.key == "Enter" )
+	{
+		if ( previewCharacter != "" )
+		{
+			if ( countInput.value != "" )
+			{
+				if ( countInput.value != hzp.glyphCode.length )
+					return false;
+			}
+
+			stu.value += studioOutput.value + "\n";
+
+			studioBox.value = studioBox.value.substr(1);
+			previewCharacter = studioBox.value.substr(0,1);
+
+			countInput.value = "";
+			engInput.value = "";
+			soundInput.value = "";
+			hzp.reset();
+			redraw();
+
+			let l = studioOutput.value.length;
+			if ( l > 2 )
+			{
+				studioOutput.focus();
+				studioOutput.setSelectionRange( l-1, l );
+			}
+		}
+		else
+		{
+			hzp.accept();
+		}
+
+		return false;
+	}
+
+	return true;
+};
+
 window.addEventListener( "keydown", function(e)
 {
 	if ( e.target != document.body )
@@ -205,30 +269,7 @@ window.addEventListener( "keydown", function(e)
 			strikeThat();
 			break;
 		case "Enter":
-			if ( previewCharacter != "" )
-			{
-				stu.value += studioOutput.value + "\n";
-
-				studioBox.value = studioBox.value.substr(1);
-				previewCharacter = studioBox.value.substr(0,1);
-
-				engInput.value = "";
-				soundInput.value = "";
-				hzp.reset();
-				redraw();
-
-				let l = studioOutput.value.length;
-				if ( l > 2 )
-				{
-					studioOutput.focus();
-					studioOutput.setSelectionRange( l-1, l );
-				}
-			}
-			else
-			{
-				hzp.accept();
-			}
-			break;
+			return handleEnter(e);
 		case "ArrowLeft":
 		case "ArrowUp":
 			hzp.activeIndex--;
