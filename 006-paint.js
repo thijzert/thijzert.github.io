@@ -3,6 +3,7 @@ var canvas, ctx, hzp;
 var width = 400, height = 400;
 
 var strokeDescription, textBox, studioBox, soundInput, engInput, countInput, countLabel, studioOutput, stu;
+var unihandBase, unihandInput, unihandStatus;
 
 var penpos, lastpos, pendown;
 var strokes, currentStroke;
@@ -23,6 +24,8 @@ var setup = function()
 
 
 	previewCharacter = "";
+
+	unihandBase = localStorage.getItem( "unihand-base-URI" );
 
 
 	strokeDescription = document.createElement("PRE");
@@ -61,9 +64,10 @@ var setup = function()
 		hzp.Colours.ChessSquares = "#fefefe";
 	}
 
+	studiocontainer.innerHTML = "<h3>Create new</h3>";
+
 	var bcc = document.createElement("DIV");
 	studiocontainer.appendChild(bcc);
-	bcc.innerHTML = "Create new: ";
 	studioBox = document.createElement("INPUT");
 	studioBox.setAttribute( "type", "text" );
 	studioBox.style.width = "100%";
@@ -72,9 +76,29 @@ var setup = function()
 
 
 	bcc = document.createElement("DIV");
+	bcc.id = "unihan-status";
+	studiocontainer.appendChild(bcc);
+	var lbl = document.createElement("LABEL");
+	lbl.textContent = "Base URL to UNIHANd instance: ";
+	unihandInput = document.createElement("INPUT");
+	unihandInput.setAttribute( "type", "text" );
+	unihandInput.value = unihandBase || "";
+	unihandInput.addEventListener( "change", unihandChanged );
+	lbl.appendChild(unihandInput);
+	bcc.appendChild(lbl);
+	unihandStatus = document.createElement("SPAN");
+	bcc.appendChild(document.createTextNode(" "));
+	bcc.appendChild(unihandStatus);
+
+	if ( unihandBase )
+		unihandChanged.apply( unihandInput );
+
+
+	bcc = document.createElement("DIV");
+	bcc.style.clear = "both";
 	studiocontainer.appendChild(bcc);
 
-	var lbl = document.createElement("LABEL");
+	lbl = document.createElement("LABEL");
 	lbl.textContent = " Strokes: ";
 	countInput = document.createElement("INPUT");
 	countInput.setAttribute( "type", "text" );
@@ -179,11 +203,87 @@ var update_studio = function()
 	{
 		countLabel.textContent = "(" + glyphCode.length + ")";
 
-		var pc = "\"\\u" + previewCharacter.charCodeAt(0).toString(16).toUpperCase() + "\"";
+		var code = previewCharacter.charCodeAt(0);
+		unihandFill( code );
+
+		var pc = "\"\\u" + code.toString(16).toUpperCase() + "\"";
 		var str = JSON.stringify( glyphCode.join( " " ) );
 		var cdd = "[{sound: " + JSON.stringify(soundInput.value) + ", eng: " + JSON.stringify(engInput.value) + "}]";
 		studioOutput.value = "Hanzipad.RegisterCharacter( " + pc + ", " + str + ", " + cdd + " ); // " + previewCharacter;
 	}
+};
+
+
+var unihandFill = (function()
+{
+	var lastSent = 0;
+
+	return (function( codepoint )
+	{
+		if ( !unihandBase )  return;
+		if ( lastSent == codepoint )  return;
+		lastSent = codepoint;
+
+		cphex = codepoint.toString(16).toUpperCase();
+		fetch(unihandBase + "/char/" + cphex).then(async function(response)
+		{
+			if ( lastSent != codepoint )  return;
+			if ( !response.ok )  return;
+
+			ch = await response.json();
+			if ( ch.Unicode != codepoint )
+			{
+				console.log( codepoint, ch );
+				return;
+			}
+
+			countInput.value = ( ch.Strokes || "" );
+			soundInput.value = ( ch.Pinyin || "" );
+			engInput.value = ( ch.English || "" );
+			update_studio();
+		});
+	});
+})();
+
+var unihandChanged = function()
+{
+	var newURI = this.value;
+	if ( !newURI )  return;
+
+	fetch(newURI + "/status").then(async function(response)
+	{
+		unihandStatus.textContent = "";
+		unihandStatus.setAttribute( "class", "error" );
+
+		if ( !response.ok )
+		{
+			unihandStatus.textContent = response.statusText;
+			return;
+		}
+
+		var bj = {};
+		try
+		{
+			bj = await response.json();
+		}
+		catch ( r )
+		{
+			console.log( r );
+			unihandStatus.textContent = r.message;
+			return;
+		}
+
+		if ( !bj.CharactersLoaded )
+		{
+			unihandStatus.textContent = "Invalid status response";
+		}
+
+		unihandBase = newURI;
+		unihandStatus.setAttribute( "class", "ok" );
+		unihandStatus.textContent = "\u2713";
+
+		localStorage.setItem( "unihand-base-URI", newURI );
+	});
 };
 
 var redraw = function()
