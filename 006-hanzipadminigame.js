@@ -206,6 +206,9 @@ class HanzipadMinigame
 
 		this.current = Math.floor( this.words.length * Math.random() );
 		this.currentWord = this.words[this.current];
+		if ( typeof(this.currentWord) == "function" )
+			this.currentWord = this.currentWord();
+
 		this.hdr_current.textContent = this.currentWord.eng;
 		this.hdr_hint.textContent = this.currentWord.glyphs;
 
