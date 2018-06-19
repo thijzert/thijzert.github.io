@@ -83,6 +83,7 @@ var hzpmg;
 		{en: "an orange", zh: "橙子"},
 		{en: "a dog", zh: "狗"},
 		{en: "a job", zh: "工作"},
+		{en: "a son", zh: "一个儿子"},
 	]);
 	const city = () => pick([
 		{en: "Shanghai", zh: "上海"},
@@ -91,6 +92,32 @@ var hzpmg;
 		{en: "The Hague", zh: "海牙"},
 		{en: "London", zh: "伦敦"},
 	]);
+	const phrase = (subj) => {
+		let phr = pick([
+			{o: 0, n: 0, ens: "likes it", enp: "like it", zh: "喜欢"},
+			{o: 0, n: 1, ens: "doesn't like it", enp: "don't like it", zh: "喜欢"},
+			// We need better objects for these two. (Now we have stuff like "Wang Ping doesn't like a job either.")
+			//{o: 1, n: 0, ens: "likes", enp: "like", zh: "喜欢"},
+			//{o: 1, n: 1, ens: "doesn't like", enp: "don't like", zh: "喜欢"},
+			{o: 1, n: 0, ens: "has", enp: "have", zh: "有"},
+			{o: 1, n: 1, ens: "doesn't have", enp: "don't have", zh: "没有"},
+		]);
+
+		rv = { n: phr.n, zh: phr.zh };
+		if ( subj.s )
+			rv.en = phr.ens;
+		else
+			rv.en = phr.enp;
+
+		if ( phr.o )
+		{
+			let o = obj();
+			rv.en += " " + o.en;
+			rv.zh += o.zh;
+		}
+
+		return rv;
+	}
 
 
 	hzpmg.words.push((() =>
@@ -181,6 +208,28 @@ var hzpmg;
 	})());
 
 
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let s = subj();
+			let phr = phrase(s);
+
+			if ( phr.n )
+				return {
+					eng: `${capitalise(s.en)} ${phr.en} either`,
+					glyphs: `${s.zh}也${phr.zh}`
+				};
+			else
+				return {
+					eng: `${capitalise(s.en)} also ${phr.en}`,
+					glyphs: `${s.zh}也${phr.zh}`
+				};
+		};
+		rv.label = "ye3 with verb phrases";
+		return rv;
+	})());
+
+
 	/*
 	hzpmg.words.push((() =>
 	{
@@ -204,7 +253,8 @@ var hzpmg;
 			if ( typeof(w) != "function" )  return;
 
 			let db = document.getElementById( "debug-generator" );
-			let h1 = document.getElementsByTagName( "H1", db )[0];
+			let h1 = db.getElementsByTagName( "H2" )[0];
+			console.log(h1)
 			h1.textContent = w.label;
 
 			for ( var j = 0; j < 50; j++ )
