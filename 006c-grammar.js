@@ -8,6 +8,8 @@ var hzpmg;
 
 	hzpmg.words = [];
 
+	const capitalise = (str) => str.substr(0,1).toUpperCase() + str.substr(1);
+
 	const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 	const name = () => pick([
 		{s: 1, en: "Zhang Wei", zh: "张伟", male: 1},
@@ -80,6 +82,14 @@ var hzpmg;
 	const obj = () => pick([
 		{en: "an orange", zh: "橙子"},
 		{en: "a dog", zh: "狗"},
+		{en: "a job", zh: "工作"},
+	]);
+	const city = () => pick([
+		{en: "Shanghai", zh: "上海"},
+		{en: "Beijing", zh: "北京"},
+		{en: "Rotterdam", zh: "鹿特丹"},
+		{en: "The Hague", zh: "海牙"},
+		{en: "London", zh: "伦敦"},
 	]);
 
 
@@ -96,6 +106,39 @@ var hzpmg;
 	})());
 
 
+	hzpmg.words.push((() =>
+	{
+		let gens = [
+			(s) => {
+				let o = obj()
+				return {eng: `${capitalise(s.en)} all have ${o.en}`, glyphs: `${s.zh}都有${o.zh}`}
+			},
+			(s) => {
+				let o = obj()
+				return {eng: `Do ${s.en} all have ${o.en}?`, glyphs: `${s.zh}都有${o.zh}吗`}
+			},
+			(s) => {
+				let c = city()
+				return {eng: `Do ${s.en} all live in ${c.en}?`, glyphs: `${s.zh}都住在${c.zh}吗`}
+			},
+			(s) => {
+				let c = city()
+				return {eng: `${capitalise(s.en)} are all in ${c.en}`, glyphs: `${s.zh}都在${c.zh}`}
+			},
+		];
+		let rv = () => {
+			let subj = pick([
+				{s: 0, en: "they", zh: "他们"},
+				{s: 0, en: "you", zh: "你们"},
+			]);
+			let f = pick(gens);
+			return f( subj );
+		};
+		rv.label = "The 'all' adverb 'dou1'";
+		return rv;
+	})());
+
+
 	/*
 	hzpmg.words.push((() =>
 	{
@@ -104,9 +147,35 @@ var hzpmg;
 		rv.label = "";
 		return rv;
 	})());
+
+
 	*/
 
 	hzpmg.start();
+
+	if ( location.hash && location.hash.substr(0,7) == "#debug-" )
+	{
+		let i = parseInt( location.hash.substr(7), 10 );
+		if ( i < hzpmg.words.length )
+		{
+			let w = hzpmg.words[i];
+			if ( typeof(w) != "function" )  return;
+
+			let db = document.getElementById( "debug-generator" );
+			let h1 = document.getElementsByTagName( "H1", db )[0];
+			h1.textContent = w.label;
+
+			for ( var j = 0; j < 50; j++ )
+			{
+				let p = document.createElement("P");
+				let ch = w();
+
+				p.textContent = ch.eng + " - " + ch.glyphs;
+				db.appendChild(p);
+			}
+		}
+	}
+
 
 })();
 
