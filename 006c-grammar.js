@@ -92,13 +92,21 @@ var hzpmg;
 		{en: "The Hague", zh: "海牙"},
 		{en: "London", zh: "伦敦"},
 	]);
+	// Adjectives to describe a person
+	const padj = () => pick([
+		{en: "tall", zh: "高"},
+		{en: "fat", zh: "胖"},
+		{en: "handsome", zh: "帅"},
+		{en: "pretty", zh: "漂亮"},
+		{en: "angry", zh: "生气"},
+	]);
 	const phrase = (subj) => {
 		let phr = pick([
 			{o: 0, n: 0, ens: "likes it", enp: "like it", zh: "喜欢"},
-			{o: 0, n: 1, ens: "doesn't like it", enp: "don't like it", zh: "喜欢"},
+			{o: 0, n: 1, ens: "doesn't like it", enp: "don't like it", zh: "不喜欢"},
 			// We need better objects for these two. (Now we have stuff like "Wang Ping doesn't like a job either.")
 			//{o: 1, n: 0, ens: "likes", enp: "like", zh: "喜欢"},
-			//{o: 1, n: 1, ens: "doesn't like", enp: "don't like", zh: "喜欢"},
+			//{o: 1, n: 1, ens: "doesn't like", enp: "don't like", zh: "不喜欢"},
 			{o: 1, n: 0, ens: "has", enp: "have", zh: "有"},
 			{o: 1, n: 1, ens: "doesn't have", enp: "don't have", zh: "没有"},
 		]);
@@ -226,6 +234,52 @@ var hzpmg;
 				};
 		};
 		rv.label = "ye3 with verb phrases";
+		return rv;
+	})());
+
+
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let s = subj()
+			let pa = padj()
+
+			if ( s.s )
+			{
+				return { eng: `${capitalise(s.en)}'s also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
+			}
+			else if ( s.en == "I" )
+			{
+				return { eng: `I'm also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
+			}
+			else
+			{
+				return { eng: `${capitalise(s.en)}'re also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
+			}
+		};
+		rv.label = "ye3 with adjective phrases";
+		return rv;
+	})());
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let s = subj()
+			let pa = padj()
+
+			if ( s.s )
+			{
+				return { eng: `${capitalise(s.en)}'s not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
+			}
+			else if ( s.en == "I" )
+			{
+				return { eng: `I'm not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
+			}
+			else
+			{
+				return { eng: `${capitalise(s.en)}'re not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
+			}
+		};
+		rv.label = "ye3 with adjective phrases";
 		return rv;
 	})());
 
