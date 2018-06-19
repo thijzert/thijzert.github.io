@@ -92,6 +92,14 @@ var hzpmg;
 		{en: "The Hague", zh: "海牙"},
 		{en: "London", zh: "伦敦"},
 	]);
+	const x_is = (s) => {
+		if ( s.s || typeof(s.s) == "undefined" )
+			return `${capitalise(s.en)}'s`;
+		else if ( s.en == "I" )
+			return "I'm";
+		else
+			return `${capitalise(s.en)}'re`;
+	}
 	// Adjectives to describe a person
 	const padj = () => pick([
 		{en: "tall", zh: "高"},
@@ -244,18 +252,7 @@ var hzpmg;
 			let s = subj()
 			let pa = padj()
 
-			if ( s.s )
-			{
-				return { eng: `${capitalise(s.en)}'s also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
-			}
-			else if ( s.en == "I" )
-			{
-				return { eng: `I'm also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
-			}
-			else
-			{
-				return { eng: `${capitalise(s.en)}'re also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
-			}
+			return { eng: `${x_is(s)} also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
 		};
 		rv.label = "ye3 with adjective phrases";
 		return rv;
@@ -266,18 +263,7 @@ var hzpmg;
 			let s = subj()
 			let pa = padj()
 
-			if ( s.s )
-			{
-				return { eng: `${capitalise(s.en)}'s not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
-			}
-			else if ( s.en == "I" )
-			{
-				return { eng: `I'm not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
-			}
-			else
-			{
-				return { eng: `${capitalise(s.en)}'re not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
-			}
+			return { eng: `${x_is(s)} not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
 		};
 		rv.label = "ye3 with adjective phrases";
 		return rv;
