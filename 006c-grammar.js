@@ -71,6 +71,8 @@ var hzpmg;
 			{s: 0, en: "I", zh: "我"},
 			{s: 0, en: "you", zh: "你"},
 			{s: 0, en: "we", zh: "我们"},
+			{s: 1, pn: 1, en: "his girlfriend", zh: "他女朋友"},
+			{s: 1, pn: 1, en: "his mother", zh: "他妈妈"},
 			name,
 			name,
 			name,
@@ -79,11 +81,37 @@ var hzpmg;
 			rv = rv();
 		return rv;
 	};
+	const subj2a = () => {
+		let s1 = subj()
+		while ( s1.s == 0 )
+			s1 = subj();
+		let s2 = subj()
+		while ( s2.s == 0 || s2.zh == s1.zh )
+			s2 = subj();
+
+		if ( s1.pn == 1 )
+		{
+			let t = s1;
+			s1 = s2;
+			s2 = t;
+		}
+
+		return [ s1, s2 ];
+	};
+	const subj2 = () => {
+		let s = subj2a();
+		return {
+			s: 0,
+			pn: s[0].pn,
+			en: `${s[0].en} and ${s[1].en}`,
+			zh: `${s[0].zh}和${s[1].zh}`
+		};
+	};
 	const obj = () => pick([
 		{en: "an orange", zh: "橙子"},
 		{en: "a dog", zh: "狗"},
 		{en: "a job", zh: "工作"},
-		{en: "a son", zh: "一个儿子"},
+		{en: "a bicycle", zh: "自行车"},
 	]);
 	const city = () => pick([
 		{en: "Shanghai", zh: "上海"},
@@ -97,8 +125,10 @@ var hzpmg;
 			return `${capitalise(s.en)}'s`;
 		else if ( s.en == "I" )
 			return "I'm";
-		else
+		else if ( s.en == "you" || s.en == "we" || s.en == "they" )
 			return `${capitalise(s.en)}'re`;
+		else
+			return `${capitalise(s.en)} are`;
 	}
 	// Adjectives to describe a person
 	const padj = () => pick([
@@ -119,7 +149,8 @@ var hzpmg;
 			{o: 1, n: 1, ens: "doesn't have", enp: "don't have", zh: "没有"},
 		]);
 
-		rv = { n: phr.n, zh: phr.zh };
+		let rv = { n: phr.n, zh: phr.zh };
+
 		if ( subj.s )
 			rv.en = phr.ens;
 		else
@@ -151,24 +182,6 @@ var hzpmg;
 
 	hzpmg.words.push((() =>
 	{
-		let subj2 = () => {
-			let s1 = subj()
-			while ( s1.s == 0 )
-				s1 = subj();
-			let s2 = subj()
-			while ( s2.s == 0 )
-				s2 = subj();
-
-			if ( s1.pn == 1 )
-			{
-				let t = s1;
-				s1 = s2;
-				s2 = t;
-			}
-
-			return [ s1, s2 ];
-		};
-
 		let gens = [
 			(s) => {
 				let o = obj()
@@ -187,7 +200,7 @@ var hzpmg;
 				return {eng: `${capitalise(s.en)} are all in ${c.en}`, glyphs: `${s.zh}都在${c.zh}`}
 			},
 			(_s) => {
-				let s = subj2();
+				let s = subj2a();
 				let o = obj();
 
 				return {
@@ -196,7 +209,7 @@ var hzpmg;
 				};
 			},
 			(_s) => {
-				let s = subj2();
+				let s = subj2a();
 				let o = obj();
 
 				return {
@@ -256,6 +269,47 @@ var hzpmg;
 	})());
 
 
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			if ( Math.random() < 0.5 )
+			{
+				let s = subj2()
+				if ( Math.random() < 0.5 )
+				{
+					let pa = padj();
+
+					if ( Math.random() < 0.5 )
+						return { eng: `${x_is(s)} ${pa.en}`, glyphs: `${s.zh}很${pa.zh}` };
+					else
+						return { eng: `${x_is(s)} not ${pa.en}`, glyphs: `${s.zh}不${pa.zh}` };
+				}
+				else
+				{
+					let phr = phrase(s);
+					return {
+						eng: `${capitalise(s.en)} ${phr.en}`,
+						glyphs: `${s.zh}${phr.zh}`
+					};
+				}
+			}
+
+			let s = subj();
+			let doo = s.s ? "has" : "have";
+			let o1 = obj();
+			let o2 = obj();
+			while ( o2.zh == o1.zh ) o2 = obj();
+
+			return {
+				eng: `${capitalise(s.en)} ${doo} ${o1.en} and ${o2.en}`,
+				zh: `${s.zh}有${o1.zh}和${o2.zh}`,
+			};
+		};
+		rv.label = "combining nouns with 'he2'";
+		return rv;
+	})());
+
+
 	/*
 	hzpmg.words.push((() =>
 	{
@@ -280,7 +334,6 @@ var hzpmg;
 
 			let db = document.getElementById( "debug-generator" );
 			let h1 = db.getElementsByTagName( "H2" )[0];
-			console.log(h1)
 			h1.textContent = w.label;
 
 			for ( var j = 0; j < 50; j++ )
