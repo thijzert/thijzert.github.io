@@ -151,39 +151,6 @@ var hzpmg;
 
 	hzpmg.words.push((() =>
 	{
-		let gens = [
-			(s) => {
-				let o = obj()
-				return {eng: `${capitalise(s.en)} all have ${o.en}`, glyphs: `${s.zh}都有${o.zh}`}
-			},
-			(s) => {
-				let o = obj()
-				return {eng: `Do ${s.en} all have ${o.en}?`, glyphs: `${s.zh}都有${o.zh}吗`}
-			},
-			(s) => {
-				let c = city()
-				return {eng: `Do ${s.en} all live in ${c.en}?`, glyphs: `${s.zh}都住在${c.zh}吗`}
-			},
-			(s) => {
-				let c = city()
-				return {eng: `${capitalise(s.en)} are all in ${c.en}`, glyphs: `${s.zh}都在${c.zh}`}
-			},
-		];
-		let rv = () => {
-			let subj = pick([
-				{s: 0, en: "they", zh: "他们"},
-				{s: 0, en: "you", zh: "你们"},
-			]);
-			let f = pick(gens);
-			return f( subj );
-		};
-		rv.label = "The 'all' adverb 'dou1'";
-		return rv;
-	})());
-
-
-	hzpmg.words.push((() =>
-	{
 		let subj2 = () => {
 			let s1 = subj()
 			while ( s1.s == 0 )
@@ -201,24 +168,51 @@ var hzpmg;
 
 			return [ s1, s2 ];
 		};
-		let gens = [
-			() => {
-				let s = subj2();
-				let o = obj()
 
-				if ( Math.random() < 0.5 )
-					return {
-						eng: `Both ${s[0].en} and ${s[1].en} have ${o.en}`,
-						glyphs: `${s[0].zh}和${s[1].zh}都有${o.zh}`
-					}
-				else
-					return {
-						eng: `Neither ${s[0].en} nor ${s[1].en} has ${o.en}`,
-						glyphs: `${s[0].zh}和${s[1].zh}都没有${o.zh}`
-					}
+		let gens = [
+			(s) => {
+				let o = obj()
+				return {eng: `${capitalise(s.en)} all have ${o.en}`, glyphs: `${s.zh}都有${o.zh}`}
+			},
+			(s) => {
+				let o = obj()
+				return {eng: `Do ${s.en} all have ${o.en}?`, glyphs: `${s.zh}都有${o.zh}吗`}
+			},
+			(s) => {
+				let c = city()
+				return {eng: `Do ${s.en} all live in ${c.en}?`, glyphs: `${s.zh}都住在${c.zh}吗`}
+			},
+			(s) => {
+				let c = city()
+				return {eng: `${capitalise(s.en)} are all in ${c.en}`, glyphs: `${s.zh}都在${c.zh}`}
+			},
+			(_s) => {
+				let s = subj2();
+				let o = obj();
+
+				return {
+					eng: `Both ${s[0].en} and ${s[1].en} have ${o.en}`,
+					glyphs: `${s[0].zh}和${s[1].zh}都有${o.zh}`
+				};
+			},
+			(_s) => {
+				let s = subj2();
+				let o = obj();
+
+				return {
+					eng: `Neither ${s[0].en} nor ${s[1].en} has ${o.en}`,
+					glyphs: `${s[0].zh}和${s[1].zh}都没有${o.zh}`
+				};
 			},
 		];
-		let rv = () => pick(gens)();
+		let rv = () => {
+			let subj = pick([
+				{s: 0, en: "they", zh: "他们"},
+				{s: 0, en: "you", zh: "你们"},
+			]);
+			let f = pick(gens);
+			return f( subj );
+		};
 		rv.label = "The 'all' adverb 'dou1'";
 		return rv;
 	})());
@@ -252,18 +246,10 @@ var hzpmg;
 			let s = subj()
 			let pa = padj()
 
-			return { eng: `${x_is(s)} also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
-		};
-		rv.label = "ye3 with adjective phrases";
-		return rv;
-	})());
-	hzpmg.words.push((() =>
-	{
-		let rv = () => {
-			let s = subj()
-			let pa = padj()
-
-			return { eng: `${x_is(s)} not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
+			if ( Math.random() < 0.5 )
+				return { eng: `${x_is(s)} also ${pa.en}`, glyphs: `${s.zh}也很${pa.zh}` };
+			else
+				return { eng: `${x_is(s)} not ${pa.en} either`, glyphs: `${s.zh}也不${pa.zh}` };
 		};
 		rv.label = "ye3 with adjective phrases";
 		return rv;
