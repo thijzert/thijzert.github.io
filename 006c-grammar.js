@@ -113,6 +113,20 @@ var hzpmg;
 		{en: "a job", zh: "工作"},
 		{en: "a bicycle", zh: "自行车"},
 	]);
+	const food = () => pick([
+		{en: "Chinese food", zh: "中国菜"},
+		{en: "dumplings", zh: "饺子"},
+		{en: "bread", zh: "面包"},
+		{en: "noodles", zh: "面条"},
+		{en: "pork", zh: "猪肉"},
+	]);
+	const drink = () => pick([
+		{en: "water", zh: "水"},
+		{en: "tea", zh: "茶"},
+		{en: "coffee", zh: "咖啡"},
+		{en: "alcohol", zh: "酒"},
+		{en: "beer", zh: "啤酒"},
+	]);
 	const city = () => pick([
 		{en: "Shanghai", zh: "上海"},
 		{en: "Beijing", zh: "北京"},
@@ -140,11 +154,10 @@ var hzpmg;
 	]);
 	const phrase = (subj) => {
 		let phr = pick([
-			{o: 0, n: 0, ens: "likes it", enp: "like it", zh: "喜欢"},
-			{o: 0, n: 1, ens: "doesn't like it", enp: "don't like it", zh: "不喜欢"},
-			// We need better objects for these two. (Now we have stuff like "Wang Ping doesn't like a job either.")
-			//{o: 1, n: 0, ens: "likes", enp: "like", zh: "喜欢"},
-			//{o: 1, n: 1, ens: "doesn't like", enp: "don't like", zh: "不喜欢"},
+			{n: 0, ens: "likes it", enp: "like it", zh: "喜欢"},
+			{n: 1, ens: "doesn't like it", enp: "don't like it", zh: "不喜欢"},
+			{fo: 1, n: 0, ens: "likes", enp: "like", zh: "喜欢"},
+			{fo: 1, n: 1, ens: "doesn't like", enp: "don't like", zh: "不喜欢"},
 			{o: 1, n: 0, ens: "has", enp: "have", zh: "有"},
 			{o: 1, n: 1, ens: "doesn't have", enp: "don't have", zh: "没有"},
 		]);
@@ -159,6 +172,12 @@ var hzpmg;
 		if ( phr.o )
 		{
 			let o = obj();
+			rv.en += " " + o.en;
+			rv.zh += o.zh;
+		}
+		else if ( phr.fo )
+		{
+			let o = pick([ food, drink ])();
 			rv.en += " " + o.en;
 			rv.zh += o.zh;
 		}
@@ -302,7 +321,7 @@ var hzpmg;
 
 			return {
 				eng: `${capitalise(s.en)} ${doo} ${o1.en} and ${o2.en}`,
-				zh: `${s.zh}有${o1.zh}和${o2.zh}`,
+				glyphs: `${s.zh}有${o1.zh}和${o2.zh}`,
 			};
 		};
 		rv.label = "combining nouns with 'he2'";
