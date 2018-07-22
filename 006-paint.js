@@ -2,7 +2,7 @@
 var canvas, ctx, hzp;
 var width = 400, height = 400;
 
-var strokeDescription, textBox, studioBox, soundInput, engInput, countInput, countLabel, studioOutput, stu;
+var strokeDescription, textBox, lastPicked, lastDefinition, studioBox, soundInput, engInput, countInput, countLabel, studioOutput, stu;
 var unihandBase, unihandInput, unihandStatus;
 
 var penpos, lastpos, pendown;
@@ -39,8 +39,23 @@ var setup = function()
 
 	var cb = document.createElement("DIV");
 	cb.style.clear = "both";
-	cb.style.marginBottom = "1em";
+	cb.style.marginBottom = "0.5em";
 	document.getElementById("summary").appendChild(cb);
+
+
+	var lpcontainer = document.createElement("DIV")
+	lpcontainer.classList.add("last-picked")
+	lastPicked = document.createElement("DIV")
+	lastPicked.classList.add("character")
+	lpcontainer.appendChild(lastPicked);
+	lastDefinition = document.createElement("SPAN")
+	lpcontainer.appendChild(lastDefinition);
+	cb = document.createElement("DIV");
+	cb.style.marginBottom = "0.5em";
+	cb.style.clear = "both";
+	lpcontainer.appendChild(cb);
+	document.getElementById("summary").appendChild(lpcontainer);
+
 
 
 	var textcontainer = document.createElement("DIV");
@@ -184,6 +199,31 @@ var setup = function()
 	{
 		console.log( "Accepted character ", event.character.glyph, " with score ", event.score );
 		textBox.value += event.character.glyph;
+
+		if ( event.character.descriptions )
+		{
+			lastPicked.textContent = event.character.glyph;
+
+			lastDefinition.innerHTML = "";
+			for ( var i = 0; i < event.character.descriptions.length; i++ )
+			{
+				var c = document.createElement("I");
+				c.textContent = event.character.descriptions[i].sound;
+				lastDefinition.appendChild(c);
+
+				lastDefinition.appendChild(document.createTextNode(" - "));
+
+				c = document.createElement("SPAN");
+				c.textContent = event.character.descriptions[i].eng;
+				lastDefinition.appendChild(c);
+
+				lastDefinition.appendChild(document.createElement("BR"));
+			}
+		}
+		else
+		{
+			lastPicked.innerHTML = "";
+		}
 	});
 
 

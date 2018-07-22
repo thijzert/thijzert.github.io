@@ -6,10 +6,26 @@
 		<link rel="stylesheet" href="doodle.css" />
 		<title>Paint</title>
 		<style>
+			#canvasContainer
+			{
+				text-align: center;
+			}
 			#canvas
 			{
-				width: 100%;
+				width: 80%;
+				display: inline-block;
 			}
+
+			.last-picked
+			{
+			}
+			.last-picked .character
+			{
+				float: left;
+				font-size: 35px;
+				margin-right: 5px;
+			}
+
 			#unihan-status
 			{
 				float: right;
@@ -37,6 +53,7 @@
 					grid-column: 1;
 					grid-row: 1;
 					width: 100%;
+					display: block;
 				}
 				#summary
 				{
@@ -58,7 +75,9 @@
 			<h1>Paint</h1>
 		</header>
 		<main id="doodle-main" class="HanziPad">
-			<canvas id="canvas"></canvas>
+			<div id="canvasContainer">
+				<canvas id="canvas"></canvas>
+			</div>
 			<div id="summary"></div>
 			<div id="controls">
 				<p><tt id="clock-code"></tt></p>
