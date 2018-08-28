@@ -217,6 +217,47 @@ var hzpmg;
 		return rv;
 	}
 	// }}}
+	// number(min,max), n2zh(n) {{{
+	let number = (min,max) => {
+		let n = min + Math.floor((1+max-min) * Math.random())
+		return { n: n, en: n, zh: n2zh(n) };
+	};
+	let n2zh = (n) => {
+		let num = [ "", "一", "二", "三", "四", "五", "六", "七", "八", "九" ];
+		let sfx = [ "", "十", "百", "千" ];
+		let rv = "";
+
+		if ( n >= 100000000 )
+		{
+			rv += n2zh(Math.floor(n/100000000)) + "亿";
+			n = n % 100000000
+		}
+		if ( n >= 10000 )
+		{
+			rv += n2zh(Math.floor(n/10000)) + "万";
+			n = n % 10000
+		}
+		if ( n == 0 )
+		{
+			if ( rv == "" )  return "零";
+			return rv;
+		}
+
+		let tail = "";
+		let i = 0;
+		while ( n > 0 )
+		{
+			if ( n % 10 > 0 )
+			{
+				tail = num[n%10] + sfx[i] + tail;
+			}
+			n = Math.floor(n/10);
+			i++;
+		}
+
+		return rv + tail;
+	};
+	// }}}
 
 	// }}}
 	// Games {{{
@@ -423,6 +464,20 @@ var hzpmg;
 			return f();
 		};
 		rv.label = "Offering choices with \"haishi\"";
+		return rv;
+	})());
+	// }}}
+
+
+	// Age with "sui" {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let s = subj();
+			let n = number(11,75);
+			return {eng: `${x_is(s)} ${n.n} years old.`, glyphs: `${s.zh}${n.zh}岁`}
+		};
+		rv.label = "Age with \"sui\"";
 		return rv;
 	})());
 	// }}}
