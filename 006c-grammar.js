@@ -8,9 +8,11 @@ var hzpmg;
 
 	hzpmg.words = [];
 
+	// Convenience functions {{{
 	const capitalise = (str) => str.substr(0,1).toUpperCase() + str.substr(1);
 
 	const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+	// const name = () => pick([names]) {{{
 	const name = () => pick([
 		{s: 1, pn: 1, en: "Zhang Wei", zh: "张伟", male: 1},
 		{s: 1, pn: 1, en: "Wang Wei", zh: "王伟", male: 1},
@@ -63,6 +65,8 @@ var hzpmg;
 		{s: 1, pn: 1, en: "Li Guiying", zh: "李桂英", male: 0},
 		{s: 1, pn: 1, en: "Liu Fang", zh: "刘芳", male: 0},
 	]);
+	// }}}
+	// const subj = () => pick([sentence subjects]) {{{
 	const subj = () => {
 		let rv = pick([
 			{s: 0, en: "they", zh: "他们"},
@@ -81,6 +85,8 @@ var hzpmg;
 			rv = rv();
 		return rv;
 	};
+	// }}}
+	// const subj2a = () => [ subj(), subj() ] {{{
 	const subj2a = () => {
 		let s1 = subj()
 		while ( s1.s == 0 )
@@ -98,6 +104,8 @@ var hzpmg;
 
 		return [ s1, s2 ];
 	};
+	// }}}
+	// const subj2 = () => `${subj1} and ${subj2}` {{{
 	const subj2 = () => {
 		let s = subj2a();
 		return {
@@ -107,6 +115,8 @@ var hzpmg;
 			zh: `${s[0].zh}和${s[1].zh}`
 		};
 	};
+	// }}}
+	// obj(), food(), drink(), city() {{{
 	const obj = () => pick([
 		{en: "an orange", zh: "橙子"},
 		{en: "a dog", zh: "狗"},
@@ -134,6 +144,8 @@ var hzpmg;
 		{en: "The Hague", zh: "海牙"},
 		{en: "London", zh: "伦敦"},
 	]);
+	// }}}
+	// const x_is = (x) => `${x} is` {{{
 	const x_is = (s) => {
 		if ( s.s || typeof(s.s) == "undefined" )
 			return `${capitalise(s.en)}'s`;
@@ -144,6 +156,8 @@ var hzpmg;
 		else
 			return `${capitalise(s.en)} are`;
 	}
+	// }}}
+	// const padj = () => pick([adj]) {{{
 	// Adjectives to describe a person
 	const padj = () => pick([
 		{en: "tall", zh: "高"},
@@ -152,6 +166,8 @@ var hzpmg;
 		{en: "pretty", zh: "漂亮"},
 		{en: "angry", zh: "生气"},
 	]);
+	// }}}
+	// const phrase = (subj) => `${subj} does something` {{{
 	const phrase = (subj) => {
 		let phr = pick([
 			{n: 0, ens: "likes it", enp: "like it", zh: "喜欢"},
@@ -184,8 +200,13 @@ var hzpmg;
 
 		return rv;
 	}
+	// }}}
+
+	// }}}
+	// Games {{{
 
 
+	// Negation of you3 with mei2 {{{
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
@@ -197,8 +218,10 @@ var hzpmg;
 		rv.label = "Negation of you3 with mei2";
 		return rv;
 	})());
+	// }}}
 
 
+	// The 'all' adverb 'dou1' {{{
 	hzpmg.words.push((() =>
 	{
 		let gens = [
@@ -248,8 +271,10 @@ var hzpmg;
 		rv.label = "The 'all' adverb 'dou1'";
 		return rv;
 	})());
+	// }}}
 
 
+	// ye3 with verb phrases {{{
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
@@ -270,8 +295,10 @@ var hzpmg;
 		rv.label = "ye3 with verb phrases";
 		return rv;
 	})());
+	// }}}
 
 
+	// ye3 with adjective phrases {{{
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
@@ -286,8 +313,10 @@ var hzpmg;
 		rv.label = "ye3 with adjective phrases";
 		return rv;
 	})());
+	// }}}
 
 
+	// combining nouns with 'he2' {{{
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
@@ -327,19 +356,24 @@ var hzpmg;
 		rv.label = "combining nouns with 'he2'";
 		return rv;
 	})());
+	// }}}
 
 
 	/*
+	// ++ {{{
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
 		};
-		rv.label = "";
+		rv.label = "++";
 		return rv;
 	})());
+	// }}}
 
 
 	*/
+
+	// }}}
 
 	hzpmg.start();
 
