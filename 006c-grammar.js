@@ -249,7 +249,10 @@ var hzpmg;
 		{
 			if ( n % 10 > 0 )
 			{
-				tail = num[n%10] + sfx[i] + tail;
+				if ( n < 10 && n%10 == 1 )
+					tail = sfx[i] + tail;
+				else
+					tail = num[n%10] + sfx[i] + tail;
 			}
 			n = Math.floor(n/10);
 			i++;
@@ -483,11 +486,42 @@ var hzpmg;
 	// }}}
 
 
+	// Measure word 'ge' {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let n = number(1,20);
+			if ( n.n == 2 ) n.zh = "两";
+			let obj = pick([
+				{zh: "人", en: "people", en1: "person"},
+				{zh: "朋友", en: "friends", en1: "friend"},
+				{zh: "手机", en: "mobile phones", en1: "mobile phone"},
+				{zh: "星期", en: "weeks", en1: "week"},
+				{zh: "月", en: "months", en1: "month"},
+			]);
+
+			rv = {eng: `${n.n} ${obj.en}`, glyphs: `${n.zh}个${obj.zh}`};
+			if ( n.n == 1 )
+				rv.eng = `one ${obj.en1}`;
+
+			return rv;
+		};
+		rv.label = "Measure word 'ge'";
+		return rv;
+	})());
+	// }}}
+
+
+
 	/*
+
 	// ++ {{{
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
+			let foo = pick([{en: "foo", zh: "夫"}]);
+			let bar = pick([{en: "bar", zh: "吧"}]);
+			return {eng: `${foo.en} does ${bar.en}`, glyphs: `${foo.zh}${bar.zh}`};
 		};
 		rv.label = "++";
 		return rv;
