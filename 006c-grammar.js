@@ -11,7 +11,23 @@ var hzpmg;
 	// Convenience functions {{{
 	const capitalise = (str) => str.substr(0,1).toUpperCase() + str.substr(1);
 
+	// pick(arr), pick2(arr), get2(fn) {{{
 	const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+	const pick2 = (arr) => {
+		let p1 = pick(arr);
+		let p2 = pick(arr);
+		while ( p1.zh == p2.zh )
+			p2 = pick(arr);
+		return [ p1, p2 ];
+	}
+	const get2 = (fn) => {
+		let p1 = fn();
+		let p2 = fn();
+		while ( p1.zh == p2.zh )
+			p2 = fn();
+		return [ p1, p2 ];
+	}
+	// }}}
 	// const name = () => pick([names]) {{{
 	const name = () => pick([
 		{s: 1, pn: 1, en: "Zhang Wei", zh: "张伟", male: 1},
@@ -354,6 +370,59 @@ var hzpmg;
 			};
 		};
 		rv.label = "combining nouns with 'he2'";
+		return rv;
+	})());
+	// }}}
+
+
+	// Offering choices with "haishi" {{{
+	hzpmg.words.push((() =>
+	{
+		let gens = [
+			() => {
+				let s = subj()
+				while ( s.en == "I" )
+					s = subj();
+
+				let foodgroup = pick([{fn:food,zh:"吃"},{fn:drink,zh:"喝"}]);
+				let p = get2(foodgroup.fn);
+
+				let doo = s.s ? "Does" : "Do";
+				let want = pick([
+					{en: `${doo} ${s.en} want`, zh: `${s.zh}要`},
+					{en: `Would ${s.en} like`, zh: `${s.zh}想`},
+					{en: `${doo} ${s.en} like`, zh: `${s.zh}喜欢`},
+				]);
+
+				return {
+					eng: `${want.en} ${p[0].en} or ${p[1].en}?`,
+					glyphs: `${want.zh}${foodgroup.zh}${p[0].zh}还是${p[1].zh}`
+				};
+			},
+			() => {
+				let s = subj()
+				while ( s.en == "I" )
+					s = subj();
+
+				let p = get2(city);
+
+				let doo = s.s ? "Does" : "Do";
+				let want = pick([
+					{en: `${doo} ${s.en}`, zh: `${s.zh}`},
+					{en: `Would ${s.en} like to`, zh: `${s.zh}想`},
+				]);
+
+				return {
+					eng: `${want.en} live in ${p[0].en} or ${p[1].en}?`,
+					glyphs: `${want.zh}住在${p[0].zh}还是${p[1].zh}`
+				};
+			},
+		];
+		let rv = () => {
+			let f = pick(gens);
+			return f();
+		};
+		rv.label = "Offering choices with \"haishi\"";
 		return rv;
 	})());
 	// }}}
