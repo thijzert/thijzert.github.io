@@ -19,9 +19,10 @@ class HanzipadMinigame
 		this.hdr_current = document.createElement("SPAN");
 		hcurrent.appendChild( this.hdr_current );
 
-		this.hdr_hint = document.createElement("SPAN");
+		this.hdr_hint = document.createElement("DIV");
 		this.hdr_hint.classList.add("current-hint");
-		hcurrent.appendChild( this.hdr_hint );
+		this._rootElement.appendChild( this.hdr_hint );
+		this.hdr_hints = [];
 
 
 		var hpc = document.createElement("DIV");
@@ -123,7 +124,30 @@ class HanzipadMinigame
 			{
 				this.newChallenge( sq );
 			}
+
+			this.resetHints();
 		}
+	}
+
+	resetHints()
+	{
+		var ql = this.hzp.outputQueue.length;
+
+		for ( let i = 0; i < this.hdr_hints.length; i++ )
+		{
+			this.hdr_hints[i].style.color = "transparent";
+
+			if ( i < ql )
+				this.hdr_hints[i].setAttribute("class","past");
+			else if ( i == ql )
+				this.hdr_hints[i].setAttribute("class","present");
+			else
+				this.hdr_hints[i].setAttribute("class","future");
+		}
+
+		this.hintStart = 0;
+		var that = this;
+		requestAnimationFrame( function(t) { that.growHint(t); } );
 	}
 
 	// Hinting: add a hint character that grows over time
@@ -134,22 +158,30 @@ class HanzipadMinigame
 
 		var t = 0.00012 * ( _now - this.hintStart );
 		var s = t*t - 0.2;
+		var sq = this.hzp.outputQueue.length;
+
+		if ( this.hdr_hints.length <= sq )
+		{
+			var that = this;
+			requestAnimationFrame( function(t) { that.growHint(t); } );
+			return;
+		}
 
 		if ( s > 1 )
 		{
-			this.hdr_hint.style.display = "inline";
-			this.hdr_hint.style.fontSize = "100%";
+			this.hdr_hints[sq].style.color = null;
+			this.hdr_hints[sq].style.fontSize = "100%";
 		}
 		else
 		{
 			if ( s < 0 )
 			{
-				this.hdr_hint.style.display = "none";
+				this.hdr_hints[sq].style.color = "transparent";
 			}
 			else
 			{
-				this.hdr_hint.style.display = "inline";
-				this.hdr_hint.style.fontSize = (100*s) + "%";
+				this.hdr_hints[sq].style.color = null;
+				this.hdr_hints[sq].style.fontSize = (100*s) + "%";
 			}
 
 			var that = this;
@@ -210,7 +242,18 @@ class HanzipadMinigame
 			this.currentWord = this.currentWord();
 
 		this.hdr_current.textContent = this.currentWord.eng;
-		this.hdr_hint.textContent = this.currentWord.glyphs;
+		this.hdr_hint.innerHTML = "";
+
+		this.hdr_hints = [];
+
+		for ( var i = 0; i < this.currentWord.glyphs.length; i++ )
+		{
+			let s = document.createElement("SPAN");
+			s.style.color = "transparent";
+			s.textContent = this.currentWord.glyphs.substr(i,1);
+			this.hdr_hints.push(s);
+			this.hdr_hint.appendChild(s);
+		}
 
 
 		// Reset Hanzipad to defaults
@@ -243,9 +286,7 @@ class HanzipadMinigame
 		this.hzp.resetQueue();
 		this.hzp.redraw();
 
-		this.hintStart = 0;
-		var that = this;
-		requestAnimationFrame( function(t) { that.growHint(t); } );
+		this.resetHints();
 	};
 }
 

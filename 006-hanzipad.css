@@ -88,8 +88,25 @@
 .HanziPadMinigame .previous-answer .correct      { color: #1FC92B; }
 .HanziPadMinigame .previous-answer .wrong        { color: #C9231F; }
 .HanziPadMinigame .previous-answer .youanswered  { color: #9C9C9C; font-size: 80%; }
-.HanziPadMinigame .current-challenge .current-hint
+.HanziPadMinigame .current-challenge
+{
+	margin-bottom: 0;
+}
+.HanziPadMinigame .current-hint
 {
 	font-weight: normal;
+	font-size: 32px;
+	margin-bottom: -1em;
 }
+.HanziPadMinigame .current-hint span
+{
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	vertical-align: middle;
+	text-align: center;
+}
+.HanziPadMinigame .current-hint .past    { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='40'><circle cx='16' cy='20' r='7' fill='%2387D831'/></svg>"); }
+.HanziPadMinigame .current-hint .present { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='40'><circle cx='16' cy='20' r='7' fill='%23FFFDB3'/></svg>"); }
+.HanziPadMinigame .current-hint .future  { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='40'><circle cx='16' cy='20' r='7' fill='%23C2CDB4'/></svg>"); }
 
