@@ -10,7 +10,9 @@ if ( empty($title) )
 
 $title = ucfirst($title);
 $name = str_replace(" ", "-", strtolower($title));
-$nr = count(glob("*-*.html")) + 1;
+$nr = 1;
+while ( count(glob(sprintf("%03d-*.html",$nr))) )
+	$nr++;
 $id = sprintf("%03d", $nr);
 
 
