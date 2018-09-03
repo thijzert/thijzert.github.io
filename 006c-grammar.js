@@ -249,11 +249,16 @@ var hzpmg;
 		{
 			if ( n % 10 > 0 )
 			{
-				if ( n < 10 && n%10 == 1 )
+				if ( n < 10 && n%10 == 1 && i == 1 )
 					tail = sfx[i] + tail;
 				else
 					tail = num[n%10] + sfx[i] + tail;
 			}
+			else if ( n > 10 )
+			{
+				tail = "零" + tail
+			}
+
 			n = Math.floor(n/10);
 			i++;
 		}
@@ -477,7 +482,7 @@ var hzpmg;
 	{
 		let rv = () => {
 			let s = subj();
-			let n = number(11,75);
+			let n = number(11,175);
 			return {eng: `${x_is(s)} ${n.n} years old.`, glyphs: `${s.zh}${n.zh}岁`}
 		};
 		rv.label = "Age with \"sui\"";
