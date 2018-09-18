@@ -2,8 +2,6 @@
 
 
 true \
-	&& git checkout public 2>/dev/null \
-	&& git push upstream public:master \
-	&& git push origin public:public \
 	&& git checkout master \
+	&& git push upstream master:master \
 	&& git push origin master:master
