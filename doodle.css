@@ -42,4 +42,11 @@ body
 		display: none;
 	}
 }
+@media print
+{
+	#doodle-header
+	{
+		display: none;
+	}
+}
 

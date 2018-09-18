@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="doodle.css" />
+		<title>PocketMod</title>
+	</head>
+	<body>
+		<header id="doodle-header">
+			<a href="."><strong>&#x2190;</strong> all doodles</a>
+			<h1>PocketMod</h1>
+		</header>
+		<link rel="stylesheet" href="008-pocketmod.css" />
+		<style>
+			@media print
+			{
+				.noprint
+				{
+					display: none;
+				}
+			}
+		</style>
+		<main id="doodle-main">
+			<div class="pm-page">
+				<h2>1 Hello, world</h2>
+				<p>Placeat dolorum autem rerum. Et consequatur in aut alias sit vitae. Non velit ipsam laborum quidem exercitationem ratione aut.</p>
+			</div>
+			<div class="pm-doublepage">
+				<h2>2/3 Praesent tellus</h2>
+				<p>Ut ut ultrices enim, gravida laoreet velit. Sed ullamcorper erat eget dui feugiat congue. Phasellus consequat mauris eget enim lobortis condimentum. Etiam lacinia tellus et viverra lacinia. Etiam eu lobortis justo, id mollis erat. Praesent dictum consequat felis, nec vulputate nisi lacinia a. Proin nisl dui, ultrices sit amet dui vitae, iaculis tincidunt tellus. Praesent id aliquam ex.</p>
+				<p>Aliquam ac imperdiet ipsum, et imperdiet elit. Curabitur luctus felis ut elit porttitor laoreet. Quisque ac mi tincidunt, malesuada nulla eget, accumsan velit. Sed dui neque, dignissim quis ullamcorper consequat, tristique non odio. Pellentesque lacinia, neque rhoncus suscipit mollis, nibh neque mattis orci, eu congue neque mi eu dui. Suspendisse potenti. Sed congue augue id sapien vehicula consequat.</p>
+			</div>
+			<div class="pm-page">
+				<h2>4 Donec in arcu</h2>
+				<p>Vestibulum libero ligula, consequat et sapien non, suscipit pretium nulla. Donec ac nibh arcu. Duis porta tortor dolor, ac vestibulum quam tincidunt id. Fusce a aliquet lorem, convallis semper tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+			</div>
+			<div class="pm-page">
+				<h2>5 Pellentesque aliquet</h2>
+				<p>Donec placerat ligula ligula, quis feugiat arcu efficitur eu. Donec quis elementum orci. Donec dolor neque, aliquam ut blandit tincidunt, ultrices non diam. Suspendisse aliquet aliquet arcu, id scelerisque ipsum. Sed porttitor tellus ante, pellentesque viverra ante finibus a. Integer hendrerit tristique pulvinar. Ut vehicula quam enim.</p>
+			</div>
+			<div class="pm-doublepage">
+				<h2>6/7 Nam iaculis, quam vel posuere</h2>
+				<p>Vivamus molestie ultrices odio, eu pellentesque felis porta sed. Integer ut justo eget quam euismod consequat vel mollis urna. Sed auctor dignissim purus, non semper diam maximus facilisis. Nulla tellus ante, ullamcorper id lorem vel, posuere consectetur neque. Ut id ante nisi. Aliquam ultricies sapien arcu, in scelerisque nulla tristique nec. Nunc dictum rutrum elit nec iaculis. Sed sollicitudin erat non ultrices ultricies. Phasellus feugiat urna vel accumsan vestibulum. Etiam non urna sodales, tempus dui at, efficitur velit. Etiam hendrerit porttitor ligula, id auctor elit imperdiet eu. Mauris at metus tempus, sagittis mi vel, ultrices enim. Donec in dolor vestibulum dolor vehicula consectetur. Quisque non ex erat.</p>
+			</div>
+			<div class="pm-page">
+				<h2>8 Morbi quis sem</h2>
+				<p>Donec et mi vel nibh rhoncus tempus. Quisque sollicitudin lectus sit amet fringilla posuere. In eros ipsum, volutpat ut est ac, lobortis pellentesque velit. Vivamus dui leo, luctus sed turpis a, ultrices consequat diam. Nulla blandit enim sed porttitor lacinia. Maecenas a enim vel velit dictum convallis.</p>
+			</div>
+		</main>
+		<script src="008-pocketmod.js"></script>
+		<script>
+			var pm = new PocketMod();
+			pm.apply( document.getElementById("doodle-main") );
+		</script>
+	</body>
+</html>

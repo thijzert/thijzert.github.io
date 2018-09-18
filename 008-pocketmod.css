@@ -1,0 +1,113 @@
+
+@media print
+{
+	.pocketmod
+	{
+		page-break-before: always;
+		page-break-after: always;
+
+		width: 100vw;
+		height: 100vh;
+
+		position: fixed;
+	}
+
+	.pocketmod > .pm-page-1,
+	.pocketmod > .pm-page-2,
+	.pocketmod > .pm-page-3,
+	.pocketmod > .pm-page-4,
+	.pocketmod > .pm-page-5,
+	.pocketmod > .pm-page-6,
+	.pocketmod > .pm-page-7,
+	.pocketmod > .pm-page-8,
+	.pocketmod > .pm-page-23,
+	.pocketmod > .pm-page-45,
+	.pocketmod > .pm-page-67,
+	.pocketmod > .pm-page-81
+	{
+		box-sizing: border-box;
+		height: 50vw;
+
+		position: absolute;
+		vertical-align: top;
+
+		/*border: 1px solid #ccc;*/
+		padding: 1em;
+
+		transform-origin: top left;
+		left: 50vw;
+	}
+
+	.pocketmod > .pm-page-1,
+	.pocketmod > .pm-page-2,
+	.pocketmod > .pm-page-3,
+	.pocketmod > .pm-page-4,
+	.pocketmod > .pm-page-5,
+	.pocketmod > .pm-page-6,
+	.pocketmod > .pm-page-7,
+	.pocketmod > .pm-page-8
+	{
+		width: 25vh;
+	}
+	.pocketmod > .pm-page-23,
+	.pocketmod > .pm-page-45,
+	.pocketmod > .pm-page-67,
+	.pocketmod > .pm-page-81
+	{
+		width: 50vh;
+	}
+
+	.pocketmod > .pm-page-4,
+	.pocketmod > .pm-page-5,
+	.pocketmod > .pm-page-6,
+	.pocketmod > .pm-page-7,
+	.pocketmod > .pm-page-45,
+	.pocketmod > .pm-page-67
+	{
+		transform: rotate(270deg);
+	}
+	.pocketmod > .pm-page-1,
+	.pocketmod > .pm-page-2,
+	.pocketmod > .pm-page-3,
+	.pocketmod > .pm-page-8,
+	.pocketmod > .pm-page-23,
+	.pocketmod > .pm-page-81
+	{
+		transform: rotate(90deg);
+	}
+
+	.pocketmod > .pm-page-8,  .pocketmod > .pm-page-81
+	{
+		top: 0;
+	}
+	.pocketmod > .pm-page-1
+	{
+		top: 25vh;
+	}
+	.pocketmod > .pm-page-2,  .pocketmod > .pm-page-23
+	{
+		top: 50vh;
+	}
+	.pocketmod > .pm-page-3
+	{
+		top: 75vh;
+	}
+
+	.pocketmod > .pm-page-4,  .pocketmod > .pm-page-45
+	{
+		top: 100vh;
+	}
+	.pocketmod > .pm-page-5
+	{
+		top: 75vh;
+	}
+	.pocketmod > .pm-page-6,  .pocketmod > .pm-page-67
+	{
+		top: 50vh;
+	}
+	.pocketmod > .pm-page-7
+	{
+		top: 25vh;
+	}
+}
+

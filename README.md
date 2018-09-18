@@ -26,3 +26,6 @@ Also try the following minigame:
 
 ## 7. [Lemniscate](007-lemniscate.html)
 Infinity time remaining.
+
+## 8. [PocketMod generator](008-pocketmod.html)
+Print a PocketMod version of an HTML page.
