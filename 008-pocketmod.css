@@ -1,15 +1,19 @@
 
 @media print
 {
+	@page
+	{
+		margin: 0;
+	}
+
 	.pocketmod
 	{
-		page-break-before: always;
-		page-break-after: always;
+		page-break-inside: avoid;
 
 		width: 100vw;
 		height: 100vh;
 
-		position: fixed;
+		position: relative;
 	}
 
 	.pocketmod > .pm-page-1,
