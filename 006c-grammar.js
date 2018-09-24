@@ -517,6 +517,90 @@ var hzpmg;
 	// }}}
 
 
+	// Dates {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let d = new Date()
+			d = new Date( d.getTime() + (Math.random() - 0.8)*(25*366*86400*1000) );
+
+			let y = d.getFullYear();
+			let year = "";
+			for ( let i = 0; i < 4; i++ )
+			{
+				year = year.concat( n2zh("".concat(y).substr(i,1)) );
+			}
+
+			return {
+				eng: d.toLocaleDateString("en-GB", {month:"long",day:"numeric",year:"numeric"}),
+				glyphs: `${year}年${n2zh(d.getMonth()+1)}月${n2zh(d.getDate())}日`
+			};
+		};
+		rv.label = "Dates";
+		return rv;
+	})());
+	// }}}
+
+
+	// Times {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			// Round to nearest n minute interval
+			let n = pick([30,30,30,30,30,15,15,15,5,5,5,5,1,1])*60*1000;
+			let d = new Date()
+			d = d.getTime() + Math.random()*Math.random()*(Math.random()-0.5)*(86400*1000);
+			d = Math.round(d/n)*n;
+			d = new Date(d);
+
+			// 上午下午点钟半分刻差两
+
+			let h = d.getHours();
+			let m = d.getMinutes();
+			let zh = "";
+
+			if ( h == 12 && m == 0 )
+				zh += "中午";
+			else if ( h < 12 )
+				zh += "上午";
+			else
+				zh += "下午";
+
+			if ( m == 58 )
+				zh += "差两分";
+			else if ( m > 45 )
+				zh += "差" + n2zh(60-m) + "分";
+
+			if ( (h%12) == 2 )
+				zh += "两点";
+			else if ( (h%12) == 0 )
+				zh += "十二点";
+			else
+				zh += n2zh(h%12)+"点";
+
+			if ( m == 0 )
+				zh += "钟";
+			else if ( m == 15 )
+				zh += "一刻";
+			else if ( m == 30 )
+				zh += "半";
+			else if ( m == 45 )
+				zh += "三刻";
+			else if ( m < 10 )
+				zh += "零" + n2zh(m) + "分";
+			else if ( m < 45 )
+				zh += n2zh(m) + "分";
+
+			return {
+				eng: d.toLocaleTimeString("en-GB").substr(0,5),
+				glyphs: zh
+			};
+		};
+		rv.label = "Dates";
+		return rv;
+	})());
+	// }}}
+
 
 	/*
 
@@ -560,6 +644,8 @@ var hzpmg;
 				p.textContent = ch.eng + " - " + ch.glyphs;
 				db.appendChild(p);
 			}
+
+			db.scrollIntoView();
 		}
 	}
 
