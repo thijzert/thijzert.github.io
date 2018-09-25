@@ -92,7 +92,8 @@ var hzpmg;
             {en: "you",  zh: "你"},
          ]);
          let o = pick([
-				{s: 1, en: "house",      zh: "家"},
+				//{s: 1, en: "house",      zh: "家"},
+				//{s: 1, en: "company",    zh: "公司"},
 				{s: 1, en: "brother",    zh: "哥哥"},
 				{s: 1, en: "sister",     zh: "妹妹"},
 				{s: 1, en: "mum",        zh: "妈妈"},
@@ -243,14 +244,28 @@ var hzpmg;
 	// }}}
 	// const phrase = (subj) => `${subj} does something` {{{
 	const phrase = (subj) => {
+      const speaks = () => {
+         let lang = pick([
+            {en: "Chinese", zh: "中文"},
+         ]);
+
+         if ( Math.random() < 0.5 )
+            return { ens: `can't speak ${lang.en}`, enp: `can't speak ${lang.en}`, zh: `会说${lang.zh}` };
+         else
+            return { ens: `speaks ${lang.en}`, enp: `speak ${lang.en}`, zh: `会说${lang.zh}` };
+      };
 		let phr = pick([
-			{n: 0, ens: "likes it", enp: "like it", zh: "喜欢"},
 			{n: 1, ens: "doesn't like it", enp: "don't like it", zh: "不喜欢"},
 			{fo: 1, n: 0, ens: "likes", enp: "like", zh: "喜欢"},
 			{fo: 1, n: 1, ens: "doesn't like", enp: "don't like", zh: "不喜欢"},
 			{o: 1, n: 0, ens: "has", enp: "have", zh: "有"},
 			{o: 1, n: 1, ens: "doesn't have", enp: "don't have", zh: "没有"},
+         speaks,
+         speaks,
 		]);
+
+		if ( typeof(phr) == "function" )
+         phr = phr();
 
 		let rv = { n: phr.n, zh: phr.zh };
 
@@ -669,6 +684,24 @@ var hzpmg;
 			return {eng: `${x_their(foo)} ${bar.en}`, glyphs: `${foo.zh}的${bar.zh}`};
 		};
 		rv.label = "Expressing posession with 'de'";
+		return rv;
+	})());
+	// }}}
+
+
+	// Followup questions with 'ne' {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+         let ss = subj2a();
+         let p = phrase(ss[0]);
+
+         return {
+            eng: `${capitalise(ss[0].en)} ${p.en}. What about ${ss[1].en}?`,
+            glyphs: `${ss[0].zh}${p.zh}。${ss[1].zh}呢`
+         };
+		};
+		rv.label = "Followup questions with 'ne'";
 		return rv;
 	})());
 	// }}}
