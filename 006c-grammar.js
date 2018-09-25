@@ -626,8 +626,6 @@ var hzpmg;
 			d = Math.round(d/n)*n;
 			d = new Date(d);
 
-			// 上午下午点钟半分刻差两
-
 			let h = d.getHours();
 			let m = d.getMinutes();
 			let zh = "";
@@ -693,13 +691,13 @@ var hzpmg;
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
-         let ss = subj2a();
-         let p = phrase(ss[0]);
+			let ss = subj2a();
+			let p = phrase(ss[0]);
 
-         return {
-            eng: `${capitalise(ss[0].en)} ${p.en}. What about ${ss[1].en}?`,
-            glyphs: `${ss[0].zh}${p.zh}。${ss[1].zh}呢`
-         };
+			return {
+				eng: `${capitalise(ss[0].en)} ${p.en}. What about ${ss[1].en}?`,
+				glyphs: `${ss[0].zh}${p.zh}。${ss[1].zh}呢`
+			};
 		};
 		rv.label = "Followup questions with 'ne'";
 		return rv;
@@ -711,35 +709,78 @@ var hzpmg;
 	hzpmg.words.push((() =>
 	{
 		let rv = () => {
-         let sug = pick([
-            {en: "go", zh: "走", subs: [0]},
-            {en: "take a break", zh: "休息一下", subs: [0,1]},
-            () => {
-               let f = food();
-               return {en: `have some ${f.en}`, zh: `吃${f.zh}`, subs: [0,1]};
-            },
-            () => {
-               let f = drink();
-               return {en: `have some ${f.en}`, zh: `喝${f.zh}`, subs: [0,1]};
-            },
-            () => {
-               let c = city();
-               return {en: `go to ${c.en}`, zh: `去${c.zh}`, subs: [0,1]};
-            },
-         ]);
-         let sub = [
-            {en: "let's ", zh: "我们"},
-            {en: "", zh: ""},
-         ];
+			let sug = pick([
+				{en: "go", zh: "走", subs: [0]},
+				{en: "take a break", zh: "休息一下", subs: [0,1]},
+				() => {
+					let f = food();
+					return {en: `have some ${f.en}`, zh: `吃${f.zh}`, subs: [0,1]};
+				},
+				() => {
+					let f = drink();
+					return {en: `have some ${f.en}`, zh: `喝${f.zh}`, subs: [0,1]};
+				},
+				() => {
+					let c = city();
+					return {en: `go to ${c.en}`, zh: `去${c.zh}`, subs: [0,1]};
+				},
+			]);
+			let sub = [
+				{en: "let's ", zh: "我们"},
+				{en: "", zh: ""},
+			];
 
-         if ( typeof(sug) == "function" )
-            sug = sug();
+			if ( typeof(sug) == "function" )
+				sug = sug();
 
-         sub = sub[pick(sug.subs)];
+			sub = sub[pick(sug.subs)];
 
 			return {eng: capitalise(`${sub.en}${sug.en}`), glyphs: `${sub.zh}${sug.zh}吧`};
 		};
 		rv.label = "Suggestions with 'ba'";
+		return rv;
+	})());
+	// }}}
+
+
+	// Expressing existence in a place with 'zai' {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let place = pick([
+				city,
+				//country,
+				{en: "at the office", zh: "公司"},
+				{en: "at school", zh: "学校"},
+				{en: "at home", zh: "家"},
+				{en: "at a bar", zh: "酒吧"},
+			]);
+			if ( typeof(place) == "function" )
+			{
+				place = place();
+				place.en = "in " + place.en;
+			}
+
+			let s = subj();
+
+			let is = "";
+			let ma = {en:"",zh:""};
+			if ( s.en != "I" && Math.random() < 0.2 )
+			{
+				ma = {en:"?",zh:"吗"};
+				if ( s.s || typeof(s.s) == "undefined" )
+					is = `Is ${s.en}`
+				else
+					is = `Are ${s.en}`;
+			}
+			else
+			{
+				is = x_is(s);
+			}
+
+			return {eng: `${is} ${place.en}${ma.en}`, glyphs: `${s.zh}在${place.zh}${ma.zh}`};
+		};
+		rv.label = "Expressing existence in a place with 'zai'";
 		return rv;
 	})());
 	// }}}
@@ -789,6 +830,7 @@ var hzpmg;
 			}
 
 			db.scrollIntoView();
+			window.setTimeout(function() { db.scrollIntoView(); }, 20);
 		}
 	}
 
