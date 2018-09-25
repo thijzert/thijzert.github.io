@@ -133,12 +133,24 @@ var hzpmg;
 	};
 	// }}}
 	// obj(), food(), drink(), city() {{{
-	const obj = () => pick([
-		{en: "an orange", zh: "橙子"},
-		{en: "a dog", zh: "狗"},
-		{en: "a job", zh: "工作"},
-		{en: "a bicycle", zh: "自行车"},
-	]);
+	const obj = (part) => {
+		let rv = pick([
+			{enb: "orange",       enp: "an orange",      zh: "橙子"},
+			{enb: "dog",          enp: "a dog",          zh: "狗"},
+			{enb: "job",          enp: "a job",          zh: "工作"},
+			{enb: "bicycle",      enp: "a bicycle",      zh: "自行车"},
+			{enb: "teacher",      enp: "a teacher",      zh: "老师"},
+			{enb: "mobile phone", enp: "a mobile phone", zh: "手机"},
+			{enb: "money",        enp: "money",          zh: "钱"},
+			{enb: "car",          enp: "a car",          zh: "车"},
+			{enb: "boss",         enp: "a boss",         zh: "老板"},
+		]);
+
+      if ( part )
+         return {en: rv.enp, zh: rv.zh};
+      else
+         return {en: rv.enb, zh: rv.zh};
+	}
 	const food = () => pick([
 		{en: "Chinese food", zh: "中国菜"},
 		{en: "dumplings", zh: "饺子"},
@@ -173,6 +185,28 @@ var hzpmg;
 			return `${capitalise(s.en)} are`;
 	}
 	// }}}
+	// const x_their = (x) => `${x}'s` {{{
+	const x_their = (s) => {
+		if ( s.en == "I" )
+			return "my";
+		else if ( s.en == "you" )
+			return "your";
+		else if ( s.en == "he" )
+			return "his";
+		else if ( s.en == "she" )
+			return "her";
+		else if ( s.en == "it" )
+			return "its";
+		else if ( s.en == "we" )
+			return "our";
+		else if ( s.en == "they" )
+			return "their";
+		else if ( s.en.substr(s.en.length - 2).toLowerCase() == "s" )
+			return `${s.en}'`;
+		else
+			return `${s.en}'s`;
+	}
+	// }}}
 	// const padj = () => pick([adj]) {{{
 	// Adjectives to describe a person
 	const padj = () => pick([
@@ -203,7 +237,7 @@ var hzpmg;
 
 		if ( phr.o )
 		{
-			let o = obj();
+			let o = obj(1);
 			rv.en += " " + o.en;
 			rv.zh += o.zh;
 		}
@@ -276,7 +310,7 @@ var hzpmg;
 	{
 		let rv = () => {
 			let s = subj()
-			let o = obj()
+			let o = obj(1)
 			let doo = s.s ? "does" : "do";
 			return {eng: `${s.en} ${doo}n't have ${o.en}`, glyphs: `${s.zh}没有${o.zh}`}
 		};
@@ -291,11 +325,11 @@ var hzpmg;
 	{
 		let gens = [
 			(s) => {
-				let o = obj()
+				let o = obj(1)
 				return {eng: `${capitalise(s.en)} all have ${o.en}`, glyphs: `${s.zh}都有${o.zh}`}
 			},
 			(s) => {
-				let o = obj()
+				let o = obj(1)
 				return {eng: `Do ${s.en} all have ${o.en}?`, glyphs: `${s.zh}都有${o.zh}吗`}
 			},
 			(s) => {
@@ -308,7 +342,7 @@ var hzpmg;
 			},
 			(_s) => {
 				let s = subj2a();
-				let o = obj();
+				let o = obj(1);
 
 				return {
 					eng: `Both ${s[0].en} and ${s[1].en} have ${o.en}`,
@@ -317,7 +351,7 @@ var hzpmg;
 			},
 			(_s) => {
 				let s = subj2a();
-				let o = obj();
+				let o = obj(1);
 
 				return {
 					eng: `Neither ${s[0].en} nor ${s[1].en} has ${o.en}`,
@@ -409,9 +443,9 @@ var hzpmg;
 
 			let s = subj();
 			let doo = s.s ? "has" : "have";
-			let o1 = obj();
-			let o2 = obj();
-			while ( o2.zh == o1.zh ) o2 = obj();
+			let o1 = obj(1);
+			let o2 = obj(1);
+			while ( o2.zh == o1.zh ) o2 = obj(1);
 
 			return {
 				eng: `${capitalise(s.en)} ${doo} ${o1.en} and ${o2.en}`,
@@ -597,6 +631,20 @@ var hzpmg;
 			};
 		};
 		rv.label = "Dates";
+		return rv;
+	})());
+	// }}}
+
+
+	// Expressing posession with 'de' {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+			let foo = subj();
+			let bar = obj(0);
+			return {eng: `${x_their(foo)} ${bar.en}`, glyphs: `${foo.zh}的${bar.zh}`};
+		};
+		rv.label = "Expressing posession with 'de'";
 		return rv;
 	})());
 	// }}}
