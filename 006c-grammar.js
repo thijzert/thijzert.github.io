@@ -707,6 +707,44 @@ var hzpmg;
 	// }}}
 
 
+	// Suggestions with 'ba' {{{
+	hzpmg.words.push((() =>
+	{
+		let rv = () => {
+         let sug = pick([
+            {en: "go", zh: "走", subs: [0]},
+            {en: "take a break", zh: "休息一下", subs: [0,1]},
+            () => {
+               let f = food();
+               return {en: `have some ${f.en}`, zh: `吃${f.zh}`, subs: [0,1]};
+            },
+            () => {
+               let f = drink();
+               return {en: `have some ${f.en}`, zh: `喝${f.zh}`, subs: [0,1]};
+            },
+            () => {
+               let c = city();
+               return {en: `go to ${c.en}`, zh: `去${c.zh}`, subs: [0,1]};
+            },
+         ]);
+         let sub = [
+            {en: "let's ", zh: "我们"},
+            {en: "", zh: ""},
+         ];
+
+         if ( typeof(sug) == "function" )
+            sug = sug();
+
+         sub = sub[pick(sug.subs)];
+
+			return {eng: capitalise(`${sub.en}${sug.en}`), glyphs: `${sub.zh}${sug.zh}吧`};
+		};
+		rv.label = "Suggestions with 'ba'";
+		return rv;
+	})());
+	// }}}
+
+
 	/*
 
 	// ++ {{{

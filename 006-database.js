@@ -116,6 +116,7 @@ Hanzipad.RegisterCharacter( "\u5FC3", "B5g C6fcl C8d G5e", [{sound: "xin1", eng:
 Hanzipad.RegisterCharacter( "\u600E", "C8g C7c D7f D6c D4c B3g C3fcl D3d G3e", [{sound: "zen3", eng: "what? why? how?"}] );
 Hanzipad.RegisterCharacter( "\u624B", "G8h B5c A3c E7fi", [{sound: "shou3", eng: "hand"}] );
 Hanzipad.RegisterCharacter( "\u738B", "A7c B4c A1c D7f", [{sound: "wang2", eng: "king, ruler; royal; surname"}] );
+Hanzipad.RegisterCharacter( "\u738B", "A7c B4c D7f A1c", [{sound: "wang2", eng: "king, ruler; royal; surname"}] );
 Hanzipad.RegisterCharacter( "\u7530", "A7f A7cf B4c D7f A1c", [{sound: "tian2", eng: "field, arable land, cultivated"}] );
 Hanzipad.RegisterCharacter( "\u76EE", "B7f B7cf B5c B3c B1c", [{sound: "mu4", eng: "eye; look, see; division, topic"}] );
 Hanzipad.RegisterCharacter( "\u7761", "A7f A7cf B6 B4 A2c G8h D6c C4c D6f G6f F7f D3c C1c", [{sound: "shui4", eng: "sleep, doze"}] );
