@@ -84,6 +84,28 @@ var hzpmg;
 	// }}}
 	// const subj = () => pick([sentence subjects]) {{{
 	const subj = () => {
+      const mywhatnow = () => {
+         let s = pick([
+            {en: "he",   zh: "他"},
+            {en: "she",  zh: "她"},
+            {en: "I",    zh: "我"},
+            {en: "you",  zh: "你"},
+         ]);
+         let o = pick([
+				{s: 1, en: "house",      zh: "家"},
+				{s: 1, en: "brother",    zh: "哥哥"},
+				{s: 1, en: "sister",     zh: "妹妹"},
+				{s: 1, en: "mum",        zh: "妈妈"},
+				{s: 1, en: "dad",        zh: "爸爸"},
+				{s: 1, en: "girlfriend", zh: "女朋友"},
+				{s: 1, en: "boyfriend",  zh: "男朋友"},
+				{s: 1, en: "son",        zh: "儿子"},
+				{s: 1, en: "daughter",   zh: "女儿"},
+         ]);
+
+         return {s: o.s, pn: 1, en: `${x_their(s)} ${o.en}`, zh: `${s.zh}${o.zh}`};
+      };
+
 		let rv = pick([
 			{s: 0, en: "they", zh: "他们"},
 			{s: 1, en: "he", zh: "他"},
@@ -91,8 +113,10 @@ var hzpmg;
 			{s: 0, en: "I", zh: "我"},
 			{s: 0, en: "you", zh: "你"},
 			{s: 0, en: "we", zh: "我们"},
-			{s: 1, pn: 1, en: "his girlfriend", zh: "他女朋友"},
-			{s: 1, pn: 1, en: "his mother", zh: "他妈妈"},
+         mywhatnow,
+         mywhatnow,
+         mywhatnow,
+         mywhatnow,
 			name,
 			name,
 			name,
