@@ -71,6 +71,24 @@ Hanzipad.RegisterCharacter( "\u9774", "A7c B7f C7f B5c A4f A4cf A3c A2c C5f F7g 
 Hanzipad.RegisterCharacter( "\u978B", "A7c B7f C7f B6c A4f A5cf A3c A2c B6f E6c F7f D5c E3c F4f D1c", [{sound: "xie2", eng: "shoes, footwear in general"}] ); // 鞋
 Hanzipad.RegisterCharacter( "\u9886", "C7g C7e C5e A4cg B2d D7c F7g E6f E6cf F5fgh G2d", [{sound: "ling3", eng: "neck; collar; lead, guide"}] ); // 领
 
+// Grammar games
+Hanzipad.RegisterCharacter( "\u4E39", "B7fg B7cf A4c C6d", [{sound: "dan1", eng: "cinnabar (native HgS); vermilion (artificial HgS used as pigment)"}] ); // 丹
+Hanzipad.RegisterCharacter( "\u4F26", "C7gh B5f F8gh F7d G4h D5fcl", [{sound: "lun2", eng: "normal human relationships"}] ); // 伦
+Hanzipad.RegisterCharacter( "\u5170", "C7de F8g B6c B4c A1c", [{sound: "lan2", eng: "orchid; elegant, graceful"}] ); // 兰
+Hanzipad.RegisterCharacter( "\u5218", "C7e A6c D5g B5de F6f G7fi", [{sound: "liu2", eng: "surname; kill, destroy"}] ); // 刘
+Hanzipad.RegisterCharacter( "\u5A1C", "B8fd C6fg A6c C7cf D5c C3c D7fg F7cgefi F7f", [{sound: "na4", eng: "elegant, graceful, delicate"}] ); // 娜
+Hanzipad.RegisterCharacter( "\u5A1F", "B7gfd C6fg A6c E7f E7cf E6c D5f D5cfi E3c E2c", [{sound: "juan1", eng: "beautiful, graceful"}] ); // 娟
+Hanzipad.RegisterCharacter( "\u6566", "C8e A7c B6f B6cf B5c A4ch C3fi A2c F8g E6c G6fgh E6fed", [{sound: "dun1", eng: "esteem; honest, candid, sincere"}] ); // 敦
+Hanzipad.RegisterCharacter( "\u6770", "A6c D8f D6gh D6d B2g C2e E2e G2e", [{sound: "jie2", eng: "hero; heroic, outstanding"}] ); // 杰
+Hanzipad.RegisterCharacter( "\u6842", "A6c B8f B6g B6e E6c F8f D5c E3c F4f D1c", [{sound: "gui4", eng: "cassia or cinnamon"}] ); // 桂
+Hanzipad.RegisterCharacter( "\u6D9B", "B7d A5d A1a D7c D6c C5c E8fg E3c G4fi E2e", [{sound: "tao1", eng: "large waves"}] ); // 涛
+Hanzipad.RegisterCharacter( "\u6E7E", "B8d A5d A1a E8e C7c E7fgh F7fh D6g G6e C4cf D3c D3fcfi", [{sound: "wan1", eng: "bay, cove, inlet, bend of stream"}] ); // 湾
+Hanzipad.RegisterCharacter( "\u78CA", "B7c D7h C6f C6c C5c A4c C4gh B3f B3cf B1c E4c F4gh F2f F3cf E1c", [{sound: "lei3", eng: "pile of rocks or stones; great"}] ); // 磊
+Hanzipad.RegisterCharacter( "\u82B3", "A7c C8f F8f D6e A5c D3cfgi D5fgh", [{sound: "fang1", eng: "fragrant; virtuous; beautiful"}] ); // 芳
+Hanzipad.RegisterCharacter( "\u8377", "A7c C8f F8f C6gh B5gf D5c D4f D4cf D2c G5fi", [{sound: "he2", eng: "lotus, water lily, holland"}] ); // 荷
+Hanzipad.RegisterCharacter( "\u971E", "B7c A6f A6cf D7f C6d C5d F6d F5d B4cf B3c B4f B2c B1c E4cf E3c E2chi E2dc", [{sound: "xia2", eng: "rosy clouds"}] ); // 霞
+Hanzipad.RegisterCharacter( "\u9E7F", "E8e B7c B7fg B6cf D6f F6f B4c C3c C3fb G3h F3fcl", [{sound: "lu4", eng: "deer; surname; KangXi radical 198"}] ); // 鹿
+
 
 
 // HSK 1 1-25:  子女小勹尔人亻你马妈工乍作羊木样厶冖丶见觉
@@ -116,6 +134,7 @@ Hanzipad.RegisterCharacter( "\u5FC3", "B5g C6fcl C8d G5e", [{sound: "xin1", eng:
 Hanzipad.RegisterCharacter( "\u600E", "C8g C7c D7f D6c D4c B3g C3fcl D3d G3e", [{sound: "zen3", eng: "what? why? how?"}] );
 Hanzipad.RegisterCharacter( "\u624B", "G8h B5c A3c E7fi", [{sound: "shou3", eng: "hand"}] );
 Hanzipad.RegisterCharacter( "\u738B", "A7c B4c A1c D7f", [{sound: "wang2", eng: "king, ruler; royal; surname"}] );
+Hanzipad.RegisterCharacter( "\u738B", "A7c B4c D7f A1c", [{sound: "wang2", eng: "king, ruler; royal; surname"}] );
 Hanzipad.RegisterCharacter( "\u7530", "A7f A7cf B4c D7f A1c", [{sound: "tian2", eng: "field, arable land, cultivated"}] );
 Hanzipad.RegisterCharacter( "\u76EE", "B7f B7cf B5c B3c B1c", [{sound: "mu4", eng: "eye; look, see; division, topic"}] );
 Hanzipad.RegisterCharacter( "\u7761", "A7f A7cf B6 B4 A2c G8h D6c C4c D6f G6f F7f D3c C1c", [{sound: "shui4", eng: "sleep, doze"}] );
