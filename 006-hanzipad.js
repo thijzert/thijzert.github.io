@@ -400,19 +400,16 @@ class Hanzipad
 		{
 			// Rectangle size
 			var rs = this._size + 2*this._border;
+			this._ctx.clearRect( 0, 0, rs, rs );
+
 			if ( this.BackgroundImage )
 			{
-				this._ctx.drawImage( this.BackgroundImage, 0, 0, rs, rs );
+				this._ctx.drawImage( this.BackgroundImage, this._border, this._border, this._size, this._size );
 			}
-
 			if ( this.Colours.Background )
 			{
 				this._ctx.fillStyle = this.Colours.Background;
-				this._ctx.fillRect( 0, 0, rs, rs );
-			}
-			else
-			{
-				this._ctx.clearRect( 0, 0, rs, rs );
+				this._ctx.fillRect( this._border, this._border, this._size, this._size );
 			}
 
 			var b = this._border;
