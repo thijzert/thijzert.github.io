@@ -90,6 +90,14 @@ Hanzipad.RegisterCharacter( "\u971E", "B7c A6f A6cf D7f C6d C5d F6d F5d B4cf B3c
 Hanzipad.RegisterCharacter( "\u9E7F", "E8e B7c B7fg B6cf D6f F6f B4c C3c C3fb G3h F3fcl", [{sound: "lu4", eng: "deer; surname; KangXi radical 198"}] ); // 鹿
 
 
+// Tech: 串跨屏栈端
+Hanzipad.RegisterCharacter( "\u4E32", "C7f C7cf C5c B4ef B4cf B2c D8f", [{sound: "chuan4", eng: "string; relatives; conspire"}] ); // 串
+Hanzipad.RegisterCharacter( "\u8DE8", "B7f B7cf B5c C5f B4c B4f A1b D7c F8fgh F6ed E5c D4c F4gcfi", [{sound: "kua4", eng: "straddle, bestride, ride; carry"}] ); // 跨
+Hanzipad.RegisterCharacter( "\u5C4F", "B7c B6c B7fg D5e G5g C4c C3c D4fgh F4f", [{sound: "ping2", eng: "folding screen, shield"}] ); // 屏
+Hanzipad.RegisterCharacter( "\u6808", "A6c C8f B5g C5e D6c D4c E7fedl H4h F7e", [{sound: "zhan4", eng: "warehouse; tavern, inn"}] ); // 栈
+Hanzipad.RegisterCharacter( "\u7AEF", "B7f A6c A5e C5g A2b F8f D7fc H7f D5c F5g D3f D3cfi F3f G3f", [{sound: "duan1", eng: "end, extreme; head; beginning"}] ); // 端
+
+
 
 // HSK 1 1-25:  子女小勹尔人亻你马妈工乍作羊木样厶冖丶见觉
 Hanzipad.RegisterCharacter( "\u4E36", "C6d", [{sound: "zhu3", eng: "dot", rad: 1},{sound: "dian3", eng: "dot", rad: 1}] );
