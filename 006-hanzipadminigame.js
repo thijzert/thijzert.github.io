@@ -19,9 +19,13 @@ class HanzipadMinigame
 		this.hdr_current = document.createElement("SPAN");
 		hcurrent.appendChild( this.hdr_current );
 
+		var padctr = document.createElement("DIV");
+		padctr.classList.add("padcontainer");
+		this._rootElement.appendChild( padctr );
+
 		this.hdr_hint = document.createElement("DIV");
 		this.hdr_hint.classList.add("current-hint");
-		this._rootElement.appendChild( this.hdr_hint );
+		padctr.appendChild( this.hdr_hint );
 		this.hdr_hints = [];
 
 
@@ -31,7 +35,7 @@ class HanzipadMinigame
 		hpc.appendChild( hpcv );
 		var hpul = document.createElement("UL");
 		hpc.appendChild( hpul );
-		this._rootElement.appendChild(hpc);
+		padctr.appendChild(hpc);
 
 		this.hzp = new Hanzipad();
 		this.hzp.canvas = hpcv;
@@ -39,6 +43,7 @@ class HanzipadMinigame
 
 		this.hzp.size = 220;
 		this.hzp.border = 30;
+		this.hdr_hint.style.width = ( this.hzp.size + 2*this.hzp.border ) + "px";
 
 
 		this.hintStart = 0;
