@@ -19,6 +19,19 @@ class HanzipadMinigame
 		this.hdr_current = document.createElement("SPAN");
 		hcurrent.appendChild( this.hdr_current );
 
+		this.audio_player = document.createElement("AUDIO");
+		this.audio_player.controls = false;
+		this.audio_player.autoplay = false;
+		this.audio_player.loop = false;
+		this.audio_player.preload = "auto";
+		this._rootElement.appendChild( this.audio_player );
+		this.backup_player = document.createElement("AUDIO");
+		this.backup_player.controls = false;
+		this.backup_player.autoplay = false;
+		this.backup_player.loop = false;
+		this.backup_player.preload = "auto";
+		this._rootElement.appendChild( this.backup_player );
+
 		var padctr = document.createElement("DIV");
 		padctr.classList.add("padcontainer");
 		this._rootElement.appendChild( padctr );
@@ -229,6 +242,20 @@ class HanzipadMinigame
 		if ( glyphs && this.currentWord )
 		{
 			this.hdr_previous.innerHTML = "";
+			if ( this.audio_player.src )
+			{
+				this.audio_player.play();
+				let b = this.audio_player;
+				this.audio_player = this.backup_player;
+				this.backup_player = b;
+
+				if ( this.audio_player.src )
+				{
+					this.audio_player.pause()
+					this.audio_player.fastSeek(0)
+					this.audio_player.src = null;
+				}
+			}
 
 			if ( glyphs == this.currentWord.glyphs )
 			{
@@ -284,6 +311,11 @@ class HanzipadMinigame
 			//this.hzp.Colours.ChessSquares = this.currentWord.colours.chk;
 			this.hzp.Colours.ChessSquares = null;
 			this.hzp.Colours.Border = this.currentWord.colours.br;
+		}
+		if ( this.currentWord.audio )
+		{
+			this.audio_player.src = this.currentWord.audio;
+			this.audio_player.load();
 		}
 
 
