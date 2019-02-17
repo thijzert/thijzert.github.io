@@ -40,7 +40,7 @@ var hzpmg;
 		{ glyphs: "数据库", sound: "shu4 jv4 ku4", eng: "database" },
 		{ glyphs: "中间件", sound: "zhong1 jian1 jian4", eng: "middleware" },
 		{ glyphs: "软件", sound: "ruan3 jian4", eng: "software" },
-		{ glyphs: "软件", sound: "ying4 jian4", eng: "hardware" },
+		{ glyphs: "硬件", sound: "ying4 jian4", eng: "hardware" },
 		{ glyphs: "版本", sound: "ban3 ben3", eng: "version" },
 		{ glyphs: "安装", sound: "an1 zhuang1", eng: "to install" },
 		{ glyphs: "启动服务", sound: "qi3 dong4 fu2 wu4", eng: "to start a service" },
