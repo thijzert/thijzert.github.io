@@ -9,10 +9,6 @@ class HanzipadMinigame
 		this._rootElement = rootElement;
 		this._rootElement.classList.add("HanziPadMinigame");
 
-		this.hdr_previous = document.createElement("H2");
-		this.hdr_previous.classList.add("previous-answer");
-		this._rootElement.appendChild(this.hdr_previous);
-
 		var hcurrent = document.createElement("H1")
 		hcurrent.classList.add("current-challenge");
 		this._rootElement.appendChild(hcurrent);
@@ -57,6 +53,11 @@ class HanzipadMinigame
 		this.hzp.size = 220;
 		this.hzp.border = 30;
 		this.hdr_hint.style.width = ( this.hzp.size + 2*this.hzp.border ) + "px";
+
+
+		this.hdr_previous = document.createElement("H2");
+		this.hdr_previous.classList.add("previous-answer");
+		this._rootElement.appendChild(this.hdr_previous);
 
 
 		this.hintStart = 0;
