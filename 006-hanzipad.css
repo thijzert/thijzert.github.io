@@ -94,16 +94,14 @@
 }
 .HanziPadMinigame .padcontainer
 {
-	position: relative;
 }
 .HanziPadMinigame .current-hint
 {
 	font-weight: normal;
 	font-size: 32px;
 	line-height: 40px;
-	position: absolute;
-	top: -10px;
 	text-align: center;
+	margin-bottom: -1em;
 }
 .HanziPadMinigame .current-hint span
 {
