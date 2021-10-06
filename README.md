@@ -19,12 +19,13 @@ Another arcade classic.  #MeToo
 ## 6. [Handwriting](006-paint.html)
 Paint Chinese characters.
 
-Also try the following minigame:
+Also try the following minigames:
 
 * 6a. [Chinese Colours](006a-colours.html)
 * 6b. [Items of Clothing](006b-clothing.html)
 * 6c. [Grammar Trainer](006c-grammar.html)
 * 6d. [Tech terms](006d-tech.html)
+* 6e. [Emotions](006e-emotions.html)
 
 ## 7. [Lemniscate](007-lemniscate.html)
 Infinity time remaining.
